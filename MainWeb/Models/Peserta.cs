@@ -5,6 +5,7 @@
         public int Id { get; set; }
 
         public string Nama { get; set; }=string.Empty;
+        public string Email{ get; set; }=string.Empty;
 
         public Gender JenisKelamin { get; set; }
 
@@ -20,7 +21,7 @@
         public Pekerjaan PekerjaanPasangan { get; set; }
 
         public string Alamat { get; set; } = string.Empty;
-        public ICollection<Pelayanan> Pelayanan { get; set; }
+        public ICollection<Pelayanan>? Pelayanan { get; set; }
         public string? DeviceToken { get; set; }
         public string? UserId { get; set; } 
 

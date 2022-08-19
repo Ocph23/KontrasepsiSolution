@@ -41,7 +41,7 @@
 
     async Task Add()
     {
-        var result =  await DialogService.OpenAsync<DialogAddPetugas>($"Tambah Alat Kontrasepsi",
+        var result =  await DialogService.OpenAsync<DialogAddPetugas>($"Tambah Petugas",
                 new Dictionary<string, object>() { { "ID", 0} },
                 new DialogOptions() { Width = "500px", Height = "600px", Resizable = true, Draggable = true });
 

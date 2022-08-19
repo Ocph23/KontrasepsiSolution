@@ -1,5 +1,5 @@
 a {
-    color: #c9cbcd !important;
+    color: white !important;
     text-decoration: underline;
 }
 
@@ -11,6 +11,9 @@ a {
 
 main {
     flex: 1;
+    background-image:url("images/bg.webp");
+    height:100vh;
+    background-size:cover;
 
 }
 
@@ -19,8 +22,6 @@ main {
 }
 
 .top-row {
-    background-color: rgb(58 71 77);
-    border-bottom: 1px solid #d6d5d5;
     justify-content: flex-end;
     height: 3.5rem;
     display: flex;
