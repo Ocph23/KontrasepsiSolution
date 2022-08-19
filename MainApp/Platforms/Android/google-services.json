@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "617693292038",
+    "project_id": "kontrasepsikb1",
+    "storage_bucket": "kontrasepsikb1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:617693292038:android:93d5407ffbf94d069bc587",
+        "android_client_info": {
+          "package_name": "com.ocph23.kontrasepsikb"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "617693292038-2oda31jkqn0ggc7fd5g2jrdfqcut51fj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSo0qnms6yq-zZ8Za8KCPtD8UoPOMFPLA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "617693292038-2oda31jkqn0ggc7fd5g2jrdfqcut51fj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

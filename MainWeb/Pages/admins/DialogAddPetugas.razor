@@ -1,0 +1,158 @@
+﻿
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Identity.UI.Services
+@using Microsoft.AspNetCore.WebUtilities
+@using Microsoft.EntityFrameworkCore
+@using System.Text
+@using System.Text.Encodings.Web
+
+@inject Radzen.DialogService dialogService
+@inject ApplicationDbContext dbcontext
+@inject NotificationService NotificationService
+@inject UserManager<IdentityUser> _userManager
+@inject NavigationManager navManager
+@inject IEmailSender _emailSender
+
+<RadzenTemplateForm Data="@model" Submit="@(async (Petugas args) =>  { await Submit(args); })">
+    <div class="row">
+        <div class="col-md-12 align-items-center d-flex">
+            <RadzenLabel Text="Nama " />
+        </div>
+        <div class="col">
+            <RadzenTextBox @bind-Value="model.Nama" style="width: 100%;" Name="nama" />
+            <RadzenLengthValidator Component="nama" Min="3"
+                                   Text="tidak boleh kosong" Popup=@popup
+                                   Style="position:initial" />
+        </div>
+
+         <div class="col-md-12 align-items-center d-flex inputLabel">
+            <RadzenLabel Text="Email" />
+        </div>
+        <div class="col">
+            <RadzenTextBox @bind-Value="model.Email" style="width: 100%;" Name="Email" />
+            <RadzenRequiredValidator Component="Email" Text="Email is required" Popup=@popup Style="position: initial" />
+            <RadzenEmailValidator Component="Email" Text="Provide a valid email address" Popup=@popup Style="position: initial" />
+        </div>
+
+        <div class="col-md-12 align-items-center d-flex inputLabel">
+            <RadzenLabel Text="Jabatan" />
+        </div>
+         <div class="col">
+            <RadzenTextBox @bind-Value="model.Jabatan" style="width: 100%;" Name="jabatan" />
+            <RadzenLengthValidator Component="jabatan" Min="3"
+                                   Text="tidak boleh kosong" Popup=@popup
+                                   Style="position:initial" />
+        </div>
+
+        <div class="col-md-12 align-items-center d-flex inputLabel">
+            <RadzenLabel Text="Telepon" />
+        </div>
+         <div class="col">
+            <RadzenTextBox @bind-Value="model.Telepon" style="width: 100%;" Name="telepon" />
+            <RadzenLengthValidator Component="telepon" Min="3"
+                                   Text="tidak boleh kosong" Popup=@popup
+                                   Style="position:initial" />
+        </div>
+
+        <div class="col-md-12 align-items-center d-flex inputLabel">
+            <RadzenLabel Text="Alamat" />
+        </div>
+        <div class="col-md-12">
+            <RadzenTextArea @bind-Value="model.Alamat" style="width: 100%; height:75px" Name="alamat" />
+            <RadzenLengthValidator Component="alamat" Min="3"
+                                   Text="tidak boleh kosong" Popup=@popup
+                                   Style="position: initial" />
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 text-right" style="display:flex; justify-content:right; margin-top:20px">
+            <RadzenButton Click="@((args) => dialogService.Close(false))" ButtonStyle="ButtonStyle.Secondary"
+                          Text="Cancel" Style="width: 100px" Class="mr-1" />
+            <RadzenButton ButtonType="ButtonType.Submit" Text="OK" Style="width: 100px" />
+        </div>
+    </div>
+</RadzenTemplateForm>
+
+@code {
+    [Parameter] public int ID { get; set; }
+
+    [Parameter] public Petugas model { get; set; }
+
+    bool popup;
+
+    protected override void OnInitialized()
+    {
+        if (ID <= 0)
+            model = new();
+        else
+        {
+            model = dbcontext.Petugas.FirstOrDefault(x => x.Id == ID);
+        }
+    }
+
+    async Task Submit(Petugas entity)
+    {
+
+        var trans = await dbcontext.Database.BeginTransactionAsync();
+        try
+        {
+            //Create User Here
+
+            if (entity.Id <= 0)
+            {
+                var password = Helper.CreateRandomPassword();
+                var user = new IdentityUser(entity.Email) { Email = entity.Email };
+
+                var createResult = await _userManager.CreateAsync(user, password);
+
+                if (!createResult.Succeeded)
+                {
+                    throw new SystemException(createResult.Errors.FirstOrDefault().Description);
+                }
+
+                await _userManager.AddToRoleAsync(user, "Petugas");
+                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                var callbackUrl = $"{navManager.BaseUri}/Identity/Account/confirmemail?userid={user.Id}&code={code}";
+                model.UserId = user.Id;
+                //save File
+
+                dbcontext.Petugas.Add(model);
+                await dbcontext.SaveChangesAsync();
+                await _emailSender.SendEmailAsync(entity.Email, "Confirm your email",
+                   $"<p>Your UserName : {user.Email} </p>" +
+                   $"<p>Your Password : {password} </p>" +
+                   $"<p>Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+            }
+            else
+            {
+                await dbcontext.SaveChangesAsync();
+            }
+
+            await trans.CommitAsync();
+
+            NotificationService.Notify(new NotificationMessage
+                {
+                    Severity = NotificationSeverity.Info,
+                    Summary = "Info ",
+                    Detail = "Data Tersimpan !",
+                    Duration = 3500
+                });
+            dialogService.Close(model);
+        }
+        catch (Exception ex)
+        {
+            await trans.RollbackAsync();
+            NotificationService.Notify(new NotificationMessage
+                {
+                    Severity = NotificationSeverity.Error,
+                    Summary = "Error ",
+                    Detail = ex.Message,
+                    Duration = 3500
+                });
+        }
+    }
+}

@@ -1,0 +1,100 @@
+﻿@page "/dialogcard/{ID}"
+
+@using Microsoft.EntityFrameworkCore
+
+@inject Radzen.DialogService dialogService
+@inject ApplicationDbContext dbContext
+@inject NotificationService NotificationService
+
+  <RadzenTemplateForm Data="@model" Submit="@(async (AlatKontrasepsi args) =>  { await Submit(args); })">
+      <div class="row">
+                        <div class="col-md-12 align-items-center d-flex">
+                            <RadzenLabel Text="Nama "   />
+                        </div>
+                        <div class="col">
+                            <RadzenTextBox @bind-Value="model.Nama" style="width: 100%;" Name="nama"  />
+                            <RadzenLengthValidator Component="nama" Min="3" 
+                            Text="tidak boleh kosong" Popup=false 
+                            Style="position:initial" />
+                        </div>
+
+                                      <div class="col-md-12 align-items-center d-flex">
+                            <RadzenLabel Text="Keterangan" />
+                        </div>
+                        <div class="col-md-12">
+                            <RadzenTextArea @bind-Value="model.Keterangan"  style="width: 100%; height:150px" Name="keterangan" />
+                         <RadzenLengthValidator Component="keterangan" Min="3" 
+                            Text="tidak boleh kosong" Popup=false 
+                            Style="position: initial" />
+                        
+                        </div>
+      </div>
+
+
+<div class="row">
+    <div class="col-md-12 text-right" style="display:flex; justify-content:right; margin-top:20px">
+        <RadzenButton Click="@((args) => dialogService.Close(false))" ButtonStyle="ButtonStyle.Secondary" 
+            Text="Cancel" Style="width: 100px" Class="mr-1" />
+        <RadzenButton ButtonType="ButtonType.Submit" Text="OK" Style="width: 100px" />
+    </div>
+</div>
+  </RadzenTemplateForm>
+
+@code {
+    [Parameter] public int ID { get; set; }
+
+    [Parameter] public AlatKontrasepsi model { get; set; } 
+
+    protected override void OnInitialized()
+    {
+        if (ID <= 0)
+            model = new();
+        else
+        {
+            model = dbContext.AlatKontrasepsi.FirstOrDefault(x => x.Id == ID);
+        }
+    }
+
+    Task Submit(AlatKontrasepsi data)
+    {
+        try
+        {
+            if (model.Id <= 0)
+            {
+                dbContext.AlatKontrasepsi.Add(model);
+                dbContext.SaveChanges();
+                NotificationService.Notify(new NotificationMessage
+                {
+                    Severity = NotificationSeverity.Info,
+                    Summary = "Info ",
+                    Detail = "Data Tersimpan !",
+                    Duration = 3500
+                });
+            }else{
+                dbContext.SaveChanges();
+                NotificationService.Notify(new NotificationMessage
+                {
+                    Severity = NotificationSeverity.Info,
+                    Summary = "Info ",
+                    Detail = "Data Tersimpan !",
+                    Duration = 3500
+                });
+            }
+
+            dialogService.Close(model);
+        }
+        catch (Exception ex)
+        {
+             NotificationService.Notify(new NotificationMessage
+                {
+                    Severity = NotificationSeverity.Error,
+                    Summary = "Error ",
+                    Detail = ex.Message,
+                    Duration = 3500
+                });
+        }
+
+        return Task.CompletedTask;
+    }
+
+}
