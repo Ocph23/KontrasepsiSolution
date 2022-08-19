@@ -12,7 +12,7 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.WebHost.UseUrls("http://localhost:5022");
+//builder.WebHost.UseUrls("http://localhost:5022");
 var host = builder.Configuration["DBHOST"] ?? "localhost";
 var connectionConfig = builder.Configuration.GetConnectionString("DefaultConnection");
 var connectionString = string.Format(connectionConfig, host);

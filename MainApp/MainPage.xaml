@@ -4,32 +4,7 @@
              Shell.NavBarIsVisible="False"
              x:Class="MainApp.MainPage">
 
-    <VerticalStackLayout 
-            Spacing="15" 
-            Padding="50" 
-            VerticalOptions="Center">
-
-        <Image
-                Source="bkkbntext.png"
-                SemanticProperties.Description="Cute dot net bot waving hi to you!"
-                HeightRequest="100" VerticalOptions="Center"
-                HorizontalOptions="Center" />
-
-        <StackLayout >
-            <Label Text="Aplikasi Pendaftaran " FontSize="20" HorizontalOptions="Center"></Label>
-            <Label Text="Pemasangan Alat Kontrasepsi" FontSize="20" HorizontalOptions="Center"></Label>
-
-        </StackLayout>
-        <Label Text="Login" FontSize="40" Margin="0,30"></Label>
-        <Label Text="User Name"></Label>
-        <Frame Padding="10,2" BackgroundColor="WhiteSmoke"  >
-                <Entry />
-        </Frame>
-        <Label Text="Password"></Label>
-        <Frame Padding="10,2" BackgroundColor="WhiteSmoke"  >
-            <Entry IsPassword="True" />
-        </Frame>
-        <Button Text="Login" HeightRequest="45"></Button>
-        <Button BackgroundColor="BlueViolet" Text="Register" HeightRequest="45"></Button>    
-    </VerticalStackLayout>
+    <Grid>
+        
+    </Grid>
 </ContentPage>

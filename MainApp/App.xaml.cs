@@ -1,4 +1,6 @@
-﻿using Plugin.FirebasePushNotification;
+﻿using MainApp.Pages;
+using MainApp.Services;
+using Plugin.FirebasePushNotification;
 
 namespace MainApp
 {
@@ -10,7 +12,21 @@ namespace MainApp
         public App()
         {
             InitializeComponent();
-            MainPage = new AppShell();
+
+            DependencyService.Register<AccountService>();
+
+
+            var loginUser = Preferences.Get("userName", null);
+
+            if (string.IsNullOrEmpty(loginUser))
+            {
+                MainPage = new LoginPage();
+            }
+            else
+            {
+                MainPage = new AppShell();
+            }
+
             CrossFirebasePushNotification.Current.OnTokenRefresh+= (s, p) => {
                 FcmToken = p.Token;
                 Preferences.Set("FcmToken", FcmToken);

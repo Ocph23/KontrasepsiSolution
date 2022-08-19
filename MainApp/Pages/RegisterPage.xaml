@@ -2,10 +2,89 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MainApp.Pages.RegisterPage"
+              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              Title="RegisterPage">
-    <StackLayout>
-        <Label Text="Welcome to .NET MAUI!"
-                VerticalOptions="Center" 
+
+    <ScrollView>
+        <VerticalStackLayout 
+            Spacing="15" 
+            Padding="50,0" 
+            VerticalOptions="Center">
+            <Label Text="Register" FontSize="20" Margin="0,30"></Label>
+            <Label Text="{Binding ErrorMessage}" IsVisible="{Binding IsVisibleError}" TextColor="OrangeRed"/>
+            <Label Text="Nama"></Label>
+            <Frame Style="{StaticResource inputFrame}"  >
+                <Entry Text="{Binding Model.Nama}" />
+            </Frame>
+
+            <Label Text="Email"></Label>
+            <Frame Style="{StaticResource inputFrame}"  >
+                <Entry Text="{Binding Model.Email}" >
+                    <Entry.Behaviors>
+                        <toolkit:EmailValidationBehavior IsValid="{Binding IsValidEmail}" 
+                                                         InvalidStyle="{StaticResource InvalidEntryStyle}" ValidStyle="{StaticResource ValidEntryStyle}" Flags="ValidateOnValueChanged" />
+                    </Entry.Behaviors>
+                </Entry>
+            </Frame>
+
+            <Label Text="Jenis Kelamin"></Label>
+            <Frame Style="{StaticResource inputFrame}"  >
+                <Picker Title="Pilih Jenis Kelamin" ItemsSource="{Binding DataGender}" SelectedItem="{Binding Model.JenisKelamin}">
+                </Picker>
+            </Frame>
+
+            <Label Text="Pendidikan"></Label>
+            <Frame Style="{StaticResource inputFrame}"  >
+                <Picker ItemsSource="{Binding DataPendidikan}"  ItemDisplayBinding="{Binding Text}" 
+                        SelectedItem="{Binding PendidikanSelected, Mode=TwoWay}"></Picker>
+            </Frame>
+
+            <Label Text="Pekerjaan"></Label>
+            <Frame Style="{StaticResource inputFrame}"  >
+                <Picker ItemsSource="{Binding DataPekerjaan}"  ItemDisplayBinding="{Binding Text}" 
+                        SelectedItem="{Binding PekerjaanSelected, Mode=TwoWay}"></Picker>
+            </Frame>
+
+            <Label Text="Tempat Lahir"></Label>
+            <Frame Style="{StaticResource inputFrame}"  >
+                <Entry Text="{Binding Model.TempatLahir}" />
+            </Frame>
+
+            <Label Text="Tanggal Lahir"></Label>
+            <Frame Style="{StaticResource inputFrame}"  >
+                <DatePicker Date="{Binding Model.TanggalLahir}" />
+            </Frame>
+
+            <Label Text="Nama Pasangan"></Label>
+            <Frame Style="{StaticResource inputFrame}"  >
+                <Entry Text="{Binding Model.NamaPasangan}"></Entry>
+            </Frame>
+
+            <Label Text="Pendidikan Pasangan"></Label>
+            <Frame Style="{StaticResource inputFrame}"  >
+                <Picker ItemsSource="{Binding DataPendidikan}"  ItemDisplayBinding="{Binding Text}" 
+                        SelectedItem="{Binding PendidikanPasanganSelected, Mode=TwoWay}"></Picker>
+            </Frame>
+
+            <Label Text="Pekerjaan Pasangan"></Label>
+            <Frame Style="{StaticResource inputFrame}"  >
+                <Picker ItemsSource="{Binding DataPekerjaan}"  ItemDisplayBinding="{Binding Text}" 
+                        SelectedItem="{Binding PekerjaanPasanganSelected, Mode=TwoWay}"></Picker>
+            </Frame>
+
+            <Label Text="Alamat S"></Label>
+            <Frame Margin="0" Padding="10,2"  >
+                <Editor  HeightRequest="100" Text="{Binding Model.Alamat}"></Editor>
+            </Frame>
+
+            <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
+            <Button Text="Register" HeightRequest="45" Command="{Binding RegisterCommand}"></Button>
+
+            <Image
+                Source="bkkbntext.png" Margin="40"
+                SemanticProperties.Description="Logo BKKBN!"
+                HeightRequest="30" VerticalOptions="Center"
                 HorizontalOptions="Center" />
-    </StackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>
