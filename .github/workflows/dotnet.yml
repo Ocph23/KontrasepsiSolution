@@ -18,13 +18,13 @@ jobs:
       with:
         dotnet-version: 6.0.x
     - name: Restore Dependencies
-      run: dotnet restore "KontrasepsiSolution/MainWeb/MainWeb.csproj"
+      run: dotnet restore "MainWeb/MainWeb.csproj"
 
     - name: Build app
-      run: dotnet build "KontrasepsiSolution/MainWeb/MainWeb.csproj" -c Release --no-restore
+      run: dotnet build "MainWeb/MainWeb.csproj" -c Release --no-restore
 
     - name: Publish App
-      run: dotnet publish "KontrasepsiSolution/MainWeb/MainWeb.csproj" -c Release -o ./kontrasepsikb
+      run: dotnet publish "MainWeb/MainWeb.csproj" -c Release -o ./kontrasepsikb
 
 
 
