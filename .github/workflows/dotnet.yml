@@ -1,0 +1,58 @@
+name: .NET
+
+on:
+  push:
+    branches: [ web ]
+  pull_request:
+    branches: [ web ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+    - name: Restore Dependencies
+      run: dotnet restore "KontrasepsiSolution/MainWeb/MainWeb.csproj"
+
+    - name: Build app
+      run: dotnet build "KontrasepsiSolution/MainWeb/MainWeb.csproj" -c Release --no-restore
+
+    - name: Publish App
+      run: dotnet publish "KontrasepsiSolution/MainWeb/MainWeb.csproj" -c Release -o ./kontrasepsikb
+
+
+
+    - name: Copy To VPS
+      uses: appleboy/scp-action@master
+      env:
+          HOST: ${{ secrets.HOST }}
+          USERNAME: ${{ secrets.USERNAME }}
+          PORT: ${{ secrets.PORT }}
+          KEY: ${{ secrets.SSHKEY }}
+      with:
+          source: "./kontrasepsikb"
+          target: "/var/www"
+          
+    - name: cmod
+      uses: appleboy/ssh-action@master
+      with:
+          host: ${{ secrets.HOST }}
+          USERNAME: ${{ secrets.USERNAME }}
+          PORT: ${{ secrets.PORT }}
+          KEY: ${{ secrets.SSHKEY }}
+          script: chmod -R 777 /var/www/kontrasepsikb    
+
+    - name: Run Kestrel Service
+      uses: appleboy/ssh-action@master
+      with:
+          host: ${{ secrets.HOST }}
+          USERNAME: ${{ secrets.USERNAME }}
+          PORT: ${{ secrets.PORT }}
+          KEY: ${{ secrets.SSHKEY }}
+          script: systemctl restart kestrel-kontrasepsikb.service
