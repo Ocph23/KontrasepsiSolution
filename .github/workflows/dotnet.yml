@@ -1,4 +1,4 @@
-name: .NET
+name: WEB APP
 
 on:
   push:
