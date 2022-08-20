@@ -23,8 +23,6 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => options.Sign
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddTokenProvider<DataProtectorTokenProvider<IdentityUser>>(TokenOptions.DefaultProvider)
     .AddDefaultUI();
-
-
 builder.Services.AddAuthentication(options =>
 {
     //options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
