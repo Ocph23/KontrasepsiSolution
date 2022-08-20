@@ -1,4 +1,7 @@
-﻿namespace MainApp
+﻿using CommunityToolkit.Mvvm.Input;
+using MainApp.Pages;
+
+namespace MainApp
 {
     public partial class MainPage : ContentPage
     {
@@ -7,18 +10,25 @@
         public MainPage()
         {
             InitializeComponent();
+            this.BindingContext = new MainPageViewModel();
         }
 
-        private void OnCounterClicked(object sender, EventArgs e)
+    }
+
+    internal partial class MainPageViewModel:ViewModelBase
+    {
+        public MainPageViewModel()
         {
-            count++;
-
-            //if (count == 1)
-            //    CounterBtn.Text = $"Clicked {count} time";
-            //else
-            //    CounterBtn.Text = $"Clicked {count} times";
-
-            //SemanticScreenReader.Announce(CounterBtn.Text);
         }
+
+
+        [RelayCommand]
+        Task Profile()
+        {
+            Shell.Current.Navigation.PushAsync(new ProfilePage());
+            return Task.CompletedTask;
+        }
+
+
     }
 }

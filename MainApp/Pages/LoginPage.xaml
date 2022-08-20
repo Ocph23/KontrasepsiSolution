@@ -23,13 +23,13 @@
             VerticalOptions="Start">
 
         <Label Text="Login" FontSize="40" Margin="0,10"></Label>
-        <Label Text="User Name"></Label>
+        <Label Text="User Name" ></Label>
         <Frame Style="{StaticResource inputFrame}" Padding="10,2" BackgroundColor="WhiteSmoke"  >
-            <Entry />
+                <Entry Text="{Binding Model.UserName}" />
         </Frame>
         <Label Text="Password"></Label>
         <Frame Style="{StaticResource inputFrame}" Padding="10,2" BackgroundColor="WhiteSmoke"  >
-            <Entry IsPassword="True" />
+                <Entry IsPassword="True" Text="{Binding Model.Password}" />
         </Frame>
         <Button Text="Login" HeightRequest="45" Command="{Binding LoginCommand}"></Button>
         <Button BackgroundColor="BlueViolet" Command="{Binding RegisterCommand}" Text="Register" HeightRequest="45"></Button>

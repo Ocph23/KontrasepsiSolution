@@ -21,7 +21,7 @@ public partial class LoginPageViewModel :ViewModelBase
     public UserLogin Model { get; set; } = new UserLogin();
     public LoginPageViewModel()
     {
-        
+        Model.Password = "Rl8)=1@E^";
     }
 
     [RelayCommand]
@@ -32,7 +32,7 @@ public partial class LoginPageViewModel :ViewModelBase
            var success = await  Account.LoginAsync(Model);
            if(success)
             {
-                Application.Current.MainPage = new MainPage();
+                Application.Current.MainPage = new AppShell();
                 return;
             }
 

@@ -4,7 +4,79 @@
              Shell.NavBarIsVisible="False"
              x:Class="MainApp.MainPage">
 
-    <Grid>
+    <Grid RowDefinitions="auto,*, auto">
+                    <Image Opacity="0.8" Grid.RowSpan="3" HeightRequest="150" 
+                           Aspect="Center" Source="Resources/Images/card1.png"></Image>
+        <StackLayout Padding="20" >
+            <Label Text="DATA PELAYANAN" FontAttributes="Bold" FontSize="20"></Label>
+            <ImageButton WidthRequest="35" HorizontalOptions="End"
+                         HeightRequest="35" Margin="10,0"
+                         Command="{Binding ProfileCommand}" Opacity="0.8"
+                         Source="Resources/Images/plus.png"></ImageButton>
+        </StackLayout>
+        <StackLayout Grid.Row="1" IsVisible="{Binding NotFoundData}" >
+            <Label Text="Silahkan Mengajukan Layanan"
+                   FontSize="18" VerticalOptions="CenterAndExpand"
+                   TextColor="IndianRed" HorizontalOptions="Center"></Label>
+        </StackLayout>
         
+            <CollectionView ItemsSource="{Binding Layanans}" Grid.Row="1" >
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Padding="20"  >
+                            <Frame Padding="0" Opacity="0.8" >
+                                <Frame.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                        <GradientStop Color="#5adff9" Offset="1.0" />
+                                        <GradientStop Color="#c6f1f7" Offset="0.0" />
+                                    </LinearGradientBrush>
+                                </Frame.Background>
+                                <Grid Margin="0" >
+                                    <StackLayout Padding="20" Spacing="5">
+                                        <StackLayout Margin="5">
+                                            <Label Text="Nomor" FontSize="Small"></Label>
+                                            <Label FontSize="Subtitle" Text="2525252325"></Label>
+                                        </StackLayout>
+                                        <StackLayout Margin="5">
+                                            <Label Text="Tanggal Pelayanan" FontSize="Small"></Label>
+                                            <Label FontSize="Subtitle" Text="25 Januari 2022"></Label>
+                                        </StackLayout>
+
+                                        <StackLayout Margin="5">
+                                            <Label Text="Alat Kontrasepsi Pilihan" FontSize="Small"></Label>
+                                            <Label FontSize="Subtitle" Text="Suntik"></Label>
+                                        </StackLayout>
+                                        <StackLayout Margin="5">
+                                            <Label Text="Penanggung Jawab" FontSize="Small"></Label>
+                                            <Label FontSize="Subtitle" Text="dr. Andi Sunartu"></Label>
+                                        </StackLayout>
+                                        <StackLayout Margin="5">
+                                            <Label Text="Tanggal Kunjungan Berikut" FontSize="Small"></Label>
+                                            <Label FontSize="Subtitle" Text="30 Maret 2022"></Label>
+                                        </StackLayout>
+                                        <Button BackgroundColor="Orange" HorizontalOptions="End" Text="Detail"></Button>
+                                    </StackLayout>
+                                </Grid>
+                            </Frame>
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        <StackLayout Grid.Row="2" BackgroundColor="Silver">
+            <HorizontalStackLayout HorizontalOptions="CenterAndExpand">
+                <ImageButton  WidthRequest="35" 
+                         HeightRequest="35" Margin="10"
+                         Command="{Binding ProfileCommand}"
+                         Source="Resources/Images/kindpng.png"></ImageButton>
+                <ImageButton WidthRequest="35" 
+                         HeightRequest="35" Margin="10"
+                         Command="{Binding ProfileCommand}"
+                         Source="Resources/Images/syringe.png"></ImageButton>
+                <ImageButton WidthRequest="35" 
+                         HeightRequest="35" Margin="10"
+                         Command="{Binding ProfileCommand}"
+                         Source="Resources/Images/logout.png"></ImageButton>
+            </HorizontalStackLayout>
+        </StackLayout>
     </Grid>
 </ContentPage>

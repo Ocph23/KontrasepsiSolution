@@ -37,6 +37,9 @@
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
+		<MauiImage Update="Resources\Images\bkkbntext.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</MauiImage>
 		<MauiImage Update="Resources\Images\dotnet_bot.svg" BaseSize="168,208" />
 
 		<!-- Custom Fonts -->
@@ -48,9 +51,15 @@
 
 	<ItemGroup>
 	  <None Remove="Platforms\Android\google-services.json" />
+	  <None Remove="Resources\Images\arrow.png" />
 	  <None Remove="Resources\Images\bkkbntext.png" />
 	  <None Remove="Resources\Images\bkknlogo.png" />
 	  <None Remove="Resources\Images\bkknsplash.png" />
+	  <None Remove="Resources\Images\card1.png" />
+	  <None Remove="Resources\Images\kindpng.png" />
+	  <None Remove="Resources\Images\logout.png" />
+	  <None Remove="Resources\Images\plus.png" />
+	  <None Remove="Resources\Images\syringe.png" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -82,6 +91,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="Pages\AlatKontrasepsiPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Pages\LoginPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

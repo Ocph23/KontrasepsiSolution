@@ -46,7 +46,8 @@ namespace MainWeb.Controllers
           {
               return NotFound();
           }
-            var peserta = await _context.Peserta.FindAsync(id);
+            Peserta? peserta = await _context.Peserta.Include(x => x.Pelayanan)
+                .ThenInclude(x=>x.AlatKontrasepsiPilihan).FirstOrDefaultAsync(x=>x.Id==id);
 
             if (peserta == null)
             {

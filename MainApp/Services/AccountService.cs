@@ -1,4 +1,5 @@
 ﻿using MainApp.Models;
+using MainApp.Pages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,9 +55,9 @@ namespace MainApp.Services
                 var stringData = await response.Content.ReadAsStringAsync();
                 if (response.IsSuccessStatusCode)
                 {
-                    var result = JsonSerializer.Deserialize<AuthenticateResponse>(stringData);
+                    var result = JsonSerializer.Deserialize<AuthenticateResponse>(stringData, Helper.JsonOptions);
                     var role = result.Roles.FirstOrDefault();
-                    if(role== null || ! role.Contains("pasien"))
+                    if(role== null || ! role.ToLower().Equals("pasien"))
                     {
                         throw new SystemException("Maaf anda bukan peserta/pasien");
                     }
@@ -102,6 +103,18 @@ namespace MainApp.Services
             {
                 throw new SystemException(ex.Message);
             }
+        }
+
+
+        internal Task Logout()
+        {
+            Preferences.Set("token", null);
+            Preferences.Set("userName", null);
+            Preferences.Set("account", null);
+            Preferences.Set("peserta", null);
+            Application.Current.MainPage = new LoginPage();
+            return Task.CompletedTask;
+
         }
     }
 }
