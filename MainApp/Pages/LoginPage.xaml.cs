@@ -25,15 +25,22 @@ public partial class LoginPageViewModel :ViewModelBase
     }
 
     [RelayCommand]
-	public Task Login()
+	public async Task Login()
     {
         try
         {
-           var result =  Account.LoginAsync(Model);
+           var success = await  Account.LoginAsync(Model);
+           if(success)
+            {
+                Application.Current.MainPage = new MainPage();
+                return;
+            }
+
+            throw new SystemException("Maaf Anda Tidak Memiliki Akses !");
         }
         catch (Exception ex)
         {
-            Application.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
+           await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
         }
     }
 

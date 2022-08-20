@@ -27,7 +27,7 @@ namespace MainApp.Services
                 {
                     var result = JsonSerializer.Deserialize<Peserta>(stringData, Helper.JsonOptions);
                     Preferences.Set("peserta", stringData);
-                    Preferences.Set("user", result.Email);
+                    Preferences.Set("userName", model.Email);
                     await Application.Current.MainPage.DisplayAlert("Info", "Registrasi Berhasil !, Silahkan Periksan Email Anda !", "OK");
                     return result;
                 }
@@ -51,17 +51,52 @@ namespace MainApp.Services
             {
                 using var rest = new RestService();
                 var response = await rest.PostAsync("/api/account/login", rest.GenerateHttpContent(model));
+                var stringData = await response.Content.ReadAsStringAsync();
                 if (response.IsSuccessStatusCode)
                 {
-                    var stringData = await response.Content.ReadAsStringAsync();
-                    var result = JsonSerializer.Deserialize<Peserta>(stringData);
-                    Preferences.Set("peserta", stringData);
-                    Preferences.Set("user", result.Email);
-                    await Shell.Current.DisplayAlert("Info", "Registrasi Berhasil !, Silahkan Periksan Email Anda !", "OK");
+                    var result = JsonSerializer.Deserialize<AuthenticateResponse>(stringData);
+                    var role = result.Roles.FirstOrDefault();
+                    if(role== null || ! role.Contains("pasien"))
+                    {
+                        throw new SystemException("Maaf anda bukan peserta/pasien");
+                    }
+
+                    Preferences.Set("account", stringData);
+                    Preferences.Set("token", result.Token);
+                    var pesertaString = Preferences.Get("userName", null);
+                    if (pesertaString == null || pesertaString.ToLower() != result.UserName )
+                    {
+                        Preferences.Set("userName", result.UserName);
+                        GetProfile();
+                    }
                     return true;
                 }
 
-                throw new SystemException("Registrasi Tidak Berhasil !, Coba Ulangi Lagi !");
+                var errorMessage = JsonSerializer.Deserialize<ErrorMessage>(stringData, Helper.JsonOptions);
+                throw new SystemException($"{errorMessage.Status} - {errorMessage.Title} - {errorMessage?.Detail}");
+            }
+            catch (Exception ex)
+            {
+                throw new SystemException(ex.Message);
+            }
+        }
+
+        internal async Task<Peserta> GetProfile()
+        {
+            try
+            {
+                using var rest = new RestService();
+                var response = await rest.GetAsync("/api/account/profile");
+                var stringData = await response.Content.ReadAsStringAsync();
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = JsonSerializer.Deserialize<Peserta>(stringData);
+                    Preferences.Set("peserta", stringData);
+                    return result;
+                }
+
+                var errorMessage = JsonSerializer.Deserialize<ErrorMessage>(stringData, Helper.JsonOptions);
+                throw new SystemException($"{errorMessage.Status} - {errorMessage.Title} - {errorMessage?.Detail}");
             }
             catch (Exception ex)
             {

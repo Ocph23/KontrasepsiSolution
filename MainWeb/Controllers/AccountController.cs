@@ -1,5 +1,7 @@
 ﻿using MainWeb.Data;
 using MainWeb.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -39,6 +41,8 @@ namespace MainWeb.Controllers
             }
         }
 
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet("profile")]
         public async Task<IActionResult> Profile()
         {
@@ -46,7 +50,6 @@ namespace MainWeb.Controllers
             {
                 var userName = User.Identity.Name;
                 var user = await _userManager.FindByNameAsync(userName);
-
                 if (user != null)
                 {
                     return Ok(_dbcontext.Peserta.SingleOrDefault(x => x.UserId == user.Id));
