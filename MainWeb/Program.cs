@@ -11,7 +11,6 @@ using Radzen;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
-
 builder.WebHost.UseUrls("http://localhost:5022");
 var host = builder.Configuration["DBHOST"] ?? "localhost";
 var connectionConfig = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -57,9 +56,6 @@ builder.Services.AddControllers().AddJsonOptions(options =>
     // options.JsonSerializerOptions.Converters.Add(new DateOnlyJsonConverter());
     // options.JsonSerializerOptions.Converters.Add(new TimeOnlyJsonConverter());
 });
-
-
-
 
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
