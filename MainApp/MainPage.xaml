@@ -11,7 +11,7 @@
             <Label Text="DATA PELAYANAN" FontAttributes="Bold" FontSize="20"></Label>
             <ImageButton WidthRequest="35" HorizontalOptions="End"
                          HeightRequest="35" Margin="10,0"
-                         Command="{Binding ProfileCommand}" Opacity="0.8"
+                         Command="{Binding AddPelayananCommand}" Opacity="0.8"
                          Source="Resources/Images/plus.png"></ImageButton>
         </StackLayout>
         <StackLayout Grid.Row="1" IsVisible="{Binding NotFoundData}" >

@@ -1,4 +1,5 @@
-﻿using MainApp.Pages;
+﻿using MainApp.Models;
+using MainApp.Pages;
 using MainApp.Services;
 using Plugin.FirebasePushNotification;
 
@@ -14,6 +15,7 @@ namespace MainApp
             InitializeComponent();
 
             DependencyService.Register<AccountService>();
+            DependencyService.Register<AlatKontrasepsiService>();
 
 
             var loginUser = Preferences.Get("userName", null);

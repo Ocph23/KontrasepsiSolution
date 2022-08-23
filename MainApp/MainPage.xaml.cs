@@ -30,5 +30,13 @@ namespace MainApp
         }
 
 
+        [RelayCommand]
+        Task AddPelayanan()
+        {
+            Shell.Current.Navigation.PushAsync(new AddPelayananPage());
+            return Task.CompletedTask;
+        }
+
+
     }
 }

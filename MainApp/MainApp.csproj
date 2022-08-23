@@ -91,6 +91,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="Pages\AddPelayananPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Pages\AlatKontrasepsiPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

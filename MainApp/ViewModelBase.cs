@@ -11,6 +11,7 @@ namespace MainApp
     public class ViewModelBase  :ObservableObject
     {
         public AccountService Account => DependencyService.Get<AccountService>();
+        public AlatKontrasepsiService AlatKotrasepsi => DependencyService.Get<AlatKontrasepsiService>();
         
         private string title;
 
