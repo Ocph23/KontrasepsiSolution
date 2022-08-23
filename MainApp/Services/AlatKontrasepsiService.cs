@@ -12,23 +12,27 @@ namespace MainApp.Services
 {
     public class AlatKontrasepsiService
     {
+        static List<AlatKontrasepsi> list;
+
         public AlatKontrasepsiService()
         {
 
         }
 
-        internal async Task<AlatKontrasepsi> Get()
+        internal async Task<List<AlatKontrasepsi>> Get()
         {
             try
             {
+                if (list != null)
+                    return list;
+
                 using var rest = new RestService();
-                var response = await rest.GetAsync("/api/alatkontrasepsi");
+                var response = await rest.GetAsync("/api/AlatKontrasepsis");
                 var stringData = await response.Content.ReadAsStringAsync();
                 if (response.IsSuccessStatusCode)
                 {
-                    var result = JsonSerializer.Deserialize<AlatKontrasepsi>(stringData, Helper.JsonOptions);
-                    await Application.Current.MainPage.DisplayAlert("Info", "Registrasi Berhasil !, Silahkan Periksan Email Anda !", "OK");
-                    return result;
+                    list = JsonSerializer.Deserialize<List<AlatKontrasepsi>>(stringData, Helper.JsonOptions);
+                    return list;
                 }
                 else
                 {

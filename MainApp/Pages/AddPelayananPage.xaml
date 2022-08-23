@@ -10,23 +10,23 @@
         <HorizontalStackLayout Padding="20" >
             <ImageButton WidthRequest="20" HorizontalOptions="End"
                          HeightRequest="20" Margin="10,0"
-                         Command="{Binding Model.BackCommand}" Opacity="0.8"
+                         Command="{Binding BackCommand}" Opacity="0.8"
                          Source="Resources/Images/arrow.png"></ImageButton>
             <Label Text="Pengajuan Layanan" FontAttributes="Bold" FontSize="20"></Label>
         </HorizontalStackLayout>
         <ScrollView Grid.Row="1">
             <VerticalStackLayout Grid.Row="1" Padding="30" Spacing="15" >
-                <Grid BackgroundColor="Orange"  Padding="5">
+                <Grid  Padding="5">
                     <Label VerticalOptions="Center" Text="Terakhir Haid" ></Label>
                     <DatePicker Background="White" VerticalOptions="Center" Format="dd/MM/yyyy" HorizontalOptions="EndAndExpand" Date="{Binding Model.TerakhirHaid}"/>
                 </Grid>
 
-                <Grid BackgroundColor="Orange"  Padding="5">
+                <Grid  Padding="5">
                     <Label VerticalOptions="Center" Text="Hamil" ></Label>
                     <CheckBox VerticalOptions="Center" HorizontalOptions="EndAndExpand" IsChecked="{Binding Model.Hamil}"/>
                 </Grid>
 
-                <Grid BackgroundColor="Orange"  Padding="5">
+                <Grid  Padding="5">
                     <Label VerticalOptions="Center" Text="Menyusui" ></Label>
                     <CheckBox VerticalOptions="Center" HorizontalOptions="EndAndExpand" IsChecked="{Binding Model.Mengusui}"/>
                 </Grid>
@@ -58,31 +58,32 @@
                 <StackLayout BackgroundColor="WhiteSmoke" Padding="5">
                     <Label FontAttributes="Bold" Text="Riwayat Penyakit Sebelumnya" VerticalOptions="CenterAndExpand" ></Label>
                     <StackLayout Margin="20,0,0,0">
-                        <Grid BackgroundColor="Orange"  Padding="5">
+                        <Grid  Padding="5">
                             <Label VerticalOptions="Center" Text="Sakit Kuning" ></Label>
                             <CheckBox VerticalOptions="Center" HorizontalOptions="EndAndExpand" IsChecked="{Binding Model.SakitKuning}"/>
                         </Grid>
                         
-                        <Grid BackgroundColor="Orange"  Padding="5">
+                        <Grid  Padding="5">
                             <Label WidthRequest="250" HorizontalOptions="Start" VerticalOptions="Center" Text="Pendarahan Pervaginam yang tidak diketahui sebabnya" ></Label>
                             <CheckBox VerticalOptions="Center" HorizontalOptions="EndAndExpand" IsChecked="{Binding Model.SakitKuning}"/>
                         </Grid>
-                        <Grid BackgroundColor="Orange"  Padding="5">
+                        <Grid  Padding="5">
                             <Label WidthRequest="250" HorizontalOptions="Start" VerticalOptions="Center" 
                                    Text="Keputihan Yang Lama" ></Label>
                             <CheckBox VerticalOptions="Center" HorizontalOptions="EndAndExpand" IsChecked="{Binding Model.SakitKuning}"/>
                         </Grid>
-                        <Grid BackgroundColor="Orange"  Padding="5">
+                        <Grid  Padding="5">
                             <Label WidthRequest="250" HorizontalOptions="Start" VerticalOptions="Center" 
                                    Text="Tumor" ></Label>
                             <CheckBox VerticalOptions="Center" HorizontalOptions="EndAndExpand" IsChecked="{Binding Model.SakitKuning}"/>
+
                         </Grid>
                     </StackLayout>
                 </StackLayout>
-                <Grid BackgroundColor="Orange"  Padding="5">
+                <Grid  Padding="5">
                     <Label VerticalOptions="Center" Text="Alat Kontrasepsi Pilihan" ></Label>
                     <Frame Padding="10,0" Style="{StaticResource inputFrame}" VerticalOptions="CenterAndExpand" HorizontalOptions="EndAndExpand"   >
-                        <Picker WidthRequest="100" />
+                        <Picker ItemsSource="{Binding Alats}" VerticalOptions="CenterAndExpand" ItemDisplayBinding="{Binding Nama}" SelectedItem="{Binding Model.AlatKontrasepsiPilihan}" WidthRequest="100" />
                     </Frame>
                 </Grid>
 
@@ -90,7 +91,7 @@
 
         </ScrollView>
         <StackLayout Grid.Row="2">
-            <Button Text="Save" Command="{Binding Model.SaveCommand}" Margin="20"></Button>
+            <Button Text="Save" Command="{Binding SaveCommand}" Margin="20"></Button>
         </StackLayout>
     </Grid>
 </ContentPage>

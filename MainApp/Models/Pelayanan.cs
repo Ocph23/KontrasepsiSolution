@@ -26,5 +26,13 @@ namespace MainApp.Models
         public ICollection<KunjunganUlang>? Kunjungan { get; set; }
         public Petugas? Petugas { get; set; }
 
+
+        public bool Radang { get; set; }
+        public bool KeganasanGinekologi { get; set; }
+        public bool Diabetes { get; set; }
+        public bool PemekuanDarah { get; set; }
+        public bool RadangOrchitis { get; set; }
+        public bool KeganasanGinekologi2 { get; set; }
+
     }
 }
