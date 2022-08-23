@@ -12,6 +12,7 @@ namespace MainApp
     {
         public AccountService Account => DependencyService.Get<AccountService>();
         public AlatKontrasepsiService AlatKotrasepsi => DependencyService.Get<AlatKontrasepsiService>();
+        public PengajuanService Pengajuan=> DependencyService.Get<PengajuanService>();
         
         private string title;
 

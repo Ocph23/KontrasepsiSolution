@@ -1,4 +1,6 @@
 ﻿using MainApp.Models;
+using MainApp.Pages;
+using Microsoft.Maui.Accessibility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,6 +49,26 @@ namespace MainApp
             }
 
             return datas;
+        }
+
+        internal static async Task<Exception> ErrorHandle(HttpResponseMessage response)
+        {
+
+            if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+            {
+                _=LoadLogin();
+                throw new SystemException( "Maaf anda tidak memiliki akses !");
+            }
+
+            var stringData = await response.Content.ReadAsStringAsync();
+                var errorMessage = JsonSerializer.Deserialize<ErrorMessage>(stringData, Helper.JsonOptions);
+            throw new SystemException($"{errorMessage.Status} - {errorMessage.Title} - {errorMessage?.Detail}");
+        }
+
+        private static async Task LoadLogin()
+        {
+            await Task.Delay(5000);
+           Shell.Current.Navigation.PushAsync(new LoginPage());
         }
     }
 }

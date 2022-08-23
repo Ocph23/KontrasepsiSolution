@@ -15,7 +15,7 @@
         public bool Tumor { get; set; }
         public KeadaanUmum Keadaan { get; set; }
         public double BeratBadan { get; set; }
-        public string TekananDarah { get; set; }
+        public string TekananDarah { get; set; }   =String.Empty;
         public PosisiRahim PosisiRahim { get; set; }
         public AlatKontrasepsi? AlatKontrasepsiPilihan { get; set; }
         public DateTime? TanggalDilayani { get; set; }
@@ -29,5 +29,7 @@
         public bool PemekuanDarah { get; set; }
         public bool RadangOrchitis { get; set; }
         public bool KeganasanGinekologi2 { get; set; }
+
+        public DateTime Tanggal { get; set; } = DateTime.Now;
     }
 }

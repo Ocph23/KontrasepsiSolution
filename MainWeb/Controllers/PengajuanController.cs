@@ -20,9 +20,10 @@ namespace MainWeb.Controllers
 
         private readonly UserManager<IdentityUser> _userManager;
 
-        public PengajuanController(ApplicationDbContext context)
+        public PengajuanController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
             _dbcontext = context;
+            _userManager = userManager;
         }
 
 
@@ -64,7 +65,7 @@ namespace MainWeb.Controllers
             {
                 var userName = User.Identity.Name;
                 var user = await _userManager.FindByNameAsync(userName);
-                if (user != null)
+                if (user == null)
                 {
                     return Unauthorized();
                 }

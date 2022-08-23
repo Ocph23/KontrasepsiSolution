@@ -5,6 +5,9 @@
              Shell.NavBarIsVisible="False"
              Title="AddPelayananPage">
     <Grid RowDefinitions="auto,*, auto">
+
+        <ActivityIndicator Grid.RowSpan="3" HeightRequest="50" WidthRequest="50" IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"></ActivityIndicator>
+        
         <Image Opacity="0.5" Grid.RowSpan="3" HeightRequest="150" 
                            Aspect="Center" Source="Resources/Images/card1.png"></Image>
         <HorizontalStackLayout Padding="20" >
