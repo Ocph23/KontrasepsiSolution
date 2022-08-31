@@ -60,7 +60,6 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IEmailSender, EmailSender>();
-// builder.Services.AddScoped<IBerkasService, BerkasService>();
 
 builder.Services.AddScoped<DialogService>();
 builder.Services.AddScoped<NotificationService>();
@@ -111,7 +110,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 app.MapBlazorHub();
-
 
 app.UseSwagger();
 app.UseSwaggerUI(c =>
