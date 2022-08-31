@@ -9,7 +9,6 @@ public partial class AddPelayananPage : ContentPage
     public AddPelayananPage()
     {
         InitializeComponent();
-        this.BindingContext = new AddPelayananViewModel();
     }
 }
 
@@ -28,20 +27,21 @@ internal partial class AddPelayananViewModel : ViewModelBase
     public AddPelayananViewModel()
     {
         Model = new Pelayanan();
-        _ = Load();
+        _ = Load(Model);
 
     }
 
     public AddPelayananViewModel(Pelayanan model)
     {
-        Model = model;
-        _ = Load();
+        _ = Load(model);
     }
 
-    private async Task Load()
+    private async Task Load(Pelayanan model)
     {
         try
         {
+            Model = model;
+            var alatKontraSelection = model.AlatKontrasepsiPilihan;
             var alatKontrasepsi = await AlatKotrasepsi.Get();
             Alats.Clear();
             if (alatKontrasepsi != null)
@@ -49,6 +49,10 @@ internal partial class AddPelayananViewModel : ViewModelBase
                 foreach (var item in alatKontrasepsi)
                 {
                     Alats.Add(item);
+                    if (alatKontraSelection!=null)
+                    {
+                        model.AlatKontrasepsiPilihan = alatKontraSelection;
+                    }
                 }
             }
         }
@@ -63,6 +67,19 @@ internal partial class AddPelayananViewModel : ViewModelBase
         Shell.Current.Navigation.PopAsync();
         return Task.CompletedTask;
     }
+
+    [RelayCommand]
+    Task Pemeriksaan()
+    {
+
+        var page = new Pages.PemeriksaanPage();
+
+        page.BindingContext = new PemeriksaanPageViewModel(Model);
+
+        Shell.Current.Navigation.PushAsync(page);
+        return Task.CompletedTask;
+    }
+
 
 
     [RelayCommand]

@@ -1,8 +1,9 @@
-﻿using MainApp.Models;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using MainApp.Models;
 
 namespace MainApp.Models
 {
-    public partial class Pelayanan
+    public partial class Pelayanan     :ObservableObject
     {
         public int Id { get; set; }
         public DateTime TerakhirHaid { get; set; } = DateTime.Now;
@@ -19,7 +20,15 @@ namespace MainApp.Models
         public double BeratBadan { get; set; }
         public string TekananDarah { get; set; }
         public PosisiRahim PosisiRahim { get; set; }
-        public AlatKontrasepsi? AlatKontrasepsiPilihan { get; set; }
+
+        private AlatKontrasepsi? alatKontrasepsi;
+
+        public AlatKontrasepsi? AlatKontrasepsiPilihan
+        {
+            get { return alatKontrasepsi; }
+            set { SetProperty(ref alatKontrasepsi , value); }
+        }
+
         public DateTime? TanggalDilayani { get; set; }
         public DateTime? TanggalDicabut { get; set; }
         public string PenanggungJawab { get; set; } = string.Empty;

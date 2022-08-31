@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MainApp.Pages.PemeriksaanPage"
+             Shell.NavBarIsVisible="False"
+             Title="PemeriksaanPage">
+    <Grid RowDefinitions="auto,*, auto">
+        <ActivityIndicator Grid.RowSpan="3" HeightRequest="50" WidthRequest="50" IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"></ActivityIndicator>
+
+        <Image Opacity="0.8" Grid.RowSpan="3" HeightRequest="150" 
+                           Aspect="Center" Source="Resources/Images/bg.jpg"></Image>
+        <HorizontalStackLayout Padding="20" >
+            <ImageButton WidthRequest="20" HorizontalOptions="End"
+                         HeightRequest="20" Margin="10,0"
+                         Command="{Binding BackCommand}" Opacity="0.8"
+                         Source="Resources/Images/back.png"></ImageButton>
+            <Label Text="Hasil Pemeriksaan" FontAttributes="Bold" FontSize="20"></Label>
+        </HorizontalStackLayout>
+
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Grid.Row="1" Padding="10" Spacing="10" >
+                <Frame Padding="5">
+                    <Grid  Padding="5" >
+                        <Label VerticalOptions="Center" Text="Keadaan Umums" ></Label>
+                        <Picker WidthRequest="85" BackgroundColor="WhiteSmoke" ItemsSource="{Binding Keadaans}" VerticalOptions="Center" HorizontalOptions="EndAndExpand" 
+                                SelectedItem="{Binding Model.Keadaan}"/>
+                    </Grid>
+                </Frame>
+
+                <Frame Padding="5">
+                    <Grid  Padding="5">
+                        <Label VerticalOptions="Center" Text="Berat Badan (Kg)" ></Label>
+                        <Entry WidthRequest="85" BackgroundColor="WhiteSmoke" 
+                              Keyboard="Numeric" VerticalOptions="Center"  HorizontalOptions="EndAndExpand" 
+                               Text="{Binding Model.BeratBadan}"/>
+                    </Grid>
+                </Frame>
+                <Frame Padding="5">
+                    <Grid  Padding="5">
+                        <Label VerticalOptions="Center" Text="Tekanan Darah" ></Label>
+                        <Entry WidthRequest="85" BackgroundColor="WhiteSmoke"  VerticalOptions="Center" 
+                               HorizontalOptions="EndAndExpand" 
+                               Text="{Binding Model.TekananDarah}"/>
+                    </Grid>
+                </Frame>
+                <Frame Padding="5">
+                    <StackLayout BackgroundColor="WhiteSmoke" Padding="5">
+                        <Label Margin="5,10,0,0" FontAttributes="Bold" Text="Sebelum dilakukan pemasangan IUD atau MOW dilakukan periksaan dalam :" VerticalOptions="CenterAndExpand" ></Label>
+                        <StackLayout Margin="20,0,0,0">
+                            <Grid  Padding="5">
+                                <Label VerticalOptions="Center" Text="Tanda-tanda Radang" ></Label>
+                                <CheckBox VerticalOptions="Center" HorizontalOptions="EndAndExpand" IsChecked="{Binding Model.Radang}"/>
+                            </Grid>
+
+                            <Grid  Padding="5">
+                                <Label WidthRequest="250" HorizontalOptions="Start" VerticalOptions="Center" 
+                                       Text="Tumor/Keganasan Ginekologi" ></Label>
+                                <CheckBox VerticalOptions="Center" HorizontalOptions="EndAndExpand" IsChecked="{Binding Model.KeganasanGinekologi}"/>
+                            </Grid>
+                        </StackLayout>
+                    </StackLayout>
+                </Frame>
+                <Frame Padding="5">
+                    <Grid  Padding="5" >
+                        <Label VerticalOptions="Center" Text="Posisi Rahim" ></Label>
+                        <Picker ItemsSource="{Binding Rahims}" BackgroundColor="WhiteSmoke" WidthRequest="85" VerticalOptions="Center" HorizontalOptions="EndAndExpand" 
+                                SelectedItem="{Binding Model.PosisiRahim}"/>
+                    </Grid>
+                </Frame>
+                <Frame Padding="5">
+                    <StackLayout BackgroundColor="WhiteSmoke" Padding="5">
+                        <Label Margin="5,10,0,0" FontAttributes="Bold" Text="Pemeriksaan Tambahan (khusus untuk calon MOP dan MOW)" VerticalOptions="CenterAndExpand" ></Label>
+                        <StackLayout Margin="20,0,0,0">
+                            <Grid  Padding="5">
+                                <Label VerticalOptions="Center" Text="Tanda-tanda Diabetes" ></Label>
+                                <CheckBox VerticalOptions="Center" HorizontalOptions="EndAndExpand" IsChecked="{Binding Model.Diabetes}"/>
+                            </Grid>
+
+                            <Grid  Padding="5">
+                                <Label WidthRequest="250" HorizontalOptions="Start" VerticalOptions="Center" 
+                                       Text="Kelainan Pembekuan Darah" ></Label>
+                                <CheckBox VerticalOptions="Center" HorizontalOptions="EndAndExpand" IsChecked="{Binding Model.PembekuanDarah}"/>
+                            </Grid>
+                            <Grid  Padding="5">
+                                <Label WidthRequest="250" HorizontalOptions="Start" VerticalOptions="Center" 
+                                       Text="Radang Orchitis/epididymitis" ></Label>
+                                <CheckBox VerticalOptions="Center" HorizontalOptions="EndAndExpand" IsChecked="{Binding Model.RadangOrchitis}"/>
+                            </Grid>
+                            <Grid  Padding="5">
+                                <Label WidthRequest="250" HorizontalOptions="Start" VerticalOptions="Center" 
+                                       Text="Tumor Keganasan Ginekologi" ></Label>
+                                <CheckBox VerticalOptions="Center" HorizontalOptions="EndAndExpand" IsChecked="{Binding Model.KeganasanGinekologi2}"/>
+                            </Grid>
+                        </StackLayout>
+                    </StackLayout>
+                </Frame>
+                <Frame Padding="5">
+                    <Grid  Padding="5">
+                        <Label VerticalOptions="Center" Text="Alat Kontrasepsi Yang Boleh Digunakan" ></Label>
+                        <Picker ItemsSource="{Binding Alats, Mode=TwoWay}" BackgroundColor="WhiteSmoke" HorizontalOptions="EndAndExpand" VerticalOptions="CenterAndExpand" 
+                                ItemDisplayBinding="{Binding Nama}" HorizontalTextAlignment="End"
+                                SelectedItem="{Binding Model.AlatKontrasepsiPilihan, Mode=TwoWay}" WidthRequest="100" />
+                    </Grid>
+                </Frame>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

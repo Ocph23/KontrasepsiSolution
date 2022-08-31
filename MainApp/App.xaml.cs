@@ -34,7 +34,7 @@ namespace MainApp
             CrossFirebasePushNotification.Current.OnTokenRefresh+= (s, p) => {
                 FcmToken = p.Token;
                 Preferences.Set("FcmToken", FcmToken);
-                System.Diagnostics.Debug.WriteLine($"{p.Token}");
+                System.Diagnostics.Debug.WriteLine($"Ini Device Token : {p.Token}");
             };
             
             

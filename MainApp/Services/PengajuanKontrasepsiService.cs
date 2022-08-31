@@ -70,7 +70,7 @@ namespace MainApp.Services
             try
             {
                 using var rest = new RestService();
-                var response = await rest.PutAsync($"/api/pengajuan/{model.Id}", rest.GenerateHttpContent(model));
+                var response = await rest.PutAsync($"/api/pengajuan?id={model.Id}", rest.GenerateHttpContent(model));
                 var stringData = await response.Content.ReadAsStringAsync();
                 if (response.IsSuccessStatusCode)
                 {

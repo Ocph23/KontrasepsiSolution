@@ -5,6 +5,7 @@
              Shell.NavBarIsVisible="False"
              Title="LoginPage">
     <Grid RowDefinitions="auto, *">
+       
         <StackLayout Margin="0,30">
             <Image
                     Source="bkkbntext.png" 
@@ -12,7 +13,7 @@
                     HeightRequest="75" VerticalOptions="Center"
                     HorizontalOptions="Center" />
             <StackLayout Margin="0,30">
-                <Label Text="Aplikasi Pendaftaran " FontSize="20" HorizontalOptions="Center"></Label>
+                <Label TextColor="WhiteSmoke" Text="Aplikasi Pendaftaran " FontSize="20" HorizontalOptions="Center"></Label>
                 <Label Text="Pemasangan Alat Kontrasepsi" FontSize="20" HorizontalOptions="Center"></Label>
             </StackLayout>
         </StackLayout>

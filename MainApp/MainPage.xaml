@@ -6,7 +6,7 @@
 
     <Grid RowDefinitions="auto,*, auto">
         <Image Opacity="0.8" Grid.RowSpan="3" HeightRequest="150" 
-                           Aspect="Center" Source="Resources/Images/card1.png"></Image>
+                           Aspect="Center" Source="Resources/Images/bg.jpg"></Image>
         <StackLayout Padding="20" >
             <Label Text="DATA PELAYANAN" FontAttributes="Bold" FontSize="20"></Label>
             <ImageButton WidthRequest="35" HorizontalOptions="End"
@@ -24,35 +24,29 @@
                         SelectionChangedCommand="{Binding EditCommand}" SelectionChangedCommandParameter="{Binding ., Source={RelativeSource AncestorLevel=2}}" >
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                        <Frame Padding="0" Margin="20" Opacity="0.8" >
-                            <Frame.Background>
-                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                    <GradientStop Color="#5adff9" Offset="1.0" />
-                                    <GradientStop Color="#c6f1f7" Offset="0.0" />
-                                </LinearGradientBrush>
-                            </Frame.Background>
+                        <Frame  Padding="0" CornerRadius="10" Margin="10" Opacity="0.8" >
                             <Grid Margin="0" >
                                 <StackLayout Padding="20" Spacing="5">
                                     <StackLayout Margin="5">
                                         <Label Text="Nomor" FontSize="Small"></Label>
-                                        <Label FontSize="Subtitle" Text="2525252325"></Label>
+                                        <Label FontSize="Subtitle" Text="{Binding Id,StringFormat='{0:D7}'}"></Label>
                                     </StackLayout>
                                     <StackLayout Margin="5">
                                         <Label Text="Tanggal Pelayanan" FontSize="Small"></Label>
-                                        <Label FontSize="Subtitle" Text="25 Januari 2022"></Label>
+                                        <Label FontSize="Subtitle" Text="{Binding Tanggal,StringFormat='{0:dd/MM/yyyy}'}"></Label>
                                     </StackLayout>
 
                                     <StackLayout Margin="5">
                                         <Label Text="Alat Kontrasepsi Pilihan" FontSize="Small"></Label>
-                                        <Label FontSize="Subtitle" Text="Suntik"></Label>
+                                    <Label FontSize="Subtitle" Text="{Binding AlatKontrasepsiPilihan.Nama}"></Label>
                                     </StackLayout>
                                     <StackLayout Margin="5">
                                         <Label Text="Penanggung Jawab" FontSize="Small"></Label> 
-                                        <Button WidthRequest="100" 
-                         HeightRequest="40" Margin="10"
-                         Command="{Binding EditCommand}" CommandParameter="{Binding .}" Text="Detail"></Button>
+                                        <Label FontSize="Subtitle" Text="{Binding PenanggungJawab}"></Label>
+                                     
                                     </StackLayout>
-                                </StackLayout>
+                              
+                            </StackLayout>
                             </Grid>
                         </Frame>
                 </DataTemplate>

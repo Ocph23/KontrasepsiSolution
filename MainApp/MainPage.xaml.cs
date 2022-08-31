@@ -82,7 +82,9 @@ namespace MainApp
         [RelayCommand]
         Task AddPelayanan()
         {
-            Shell.Current.Navigation.PushAsync(new AddPelayananPage());
+            var page = new AddPelayananPage();
+            page.BindingContext = new AddPelayananViewModel();
+            Shell.Current.Navigation.PushAsync(page);
             return Task.CompletedTask;
         }
 

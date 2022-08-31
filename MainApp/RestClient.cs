@@ -19,6 +19,7 @@ namespace MainApp
             BaseAddress = new Uri(_server);
             DefaultRequestHeaders.TryAddWithoutValidation("Content-Type", "application/json; charset=utf-8");
             //key api = 57557c4f25f436213fe34a2090a266e2
+            this.CekTokenAsync();
         }
 
         public RestService(string apiUrl)
@@ -32,8 +33,7 @@ namespace MainApp
             var token = Preferences.Get("token", string.Empty);
             if (!string.IsNullOrEmpty(token))
             {
-                DefaultRequestHeaders.Authorization =
-                   new AuthenticationHeaderValue("", token);
+                this.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             }
         }
 
