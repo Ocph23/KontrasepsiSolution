@@ -2,9 +2,9 @@ name: WEB APP
 
 on:
   push:
-    branches: [ web ]
+    branches: [ Web ]
   pull_request:
-    branches: [ web ]
+    branches: [ Web ]
 
 jobs:
   build:
