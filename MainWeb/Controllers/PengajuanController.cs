@@ -106,7 +106,7 @@ namespace MainWeb.Controllers
             {
                 var userName = User.Identity.Name;
                 var user = await _userManager.FindByNameAsync(userName);
-                if (user != null)
+                if (user == null)
                 {
                     return Unauthorized();
                 }
@@ -116,17 +116,7 @@ namespace MainWeb.Controllers
                     return NotFound();
                 }
 
-                Peserta? peserta = await _dbcontext.Peserta.Where(x => x.UserId == user.Id)
-                    .Include(x => x.Pelayanan)
-                    .ThenInclude(x => x.AlatKontrasepsiPilihan)
-                    .FirstOrDefaultAsync(x => x.UserId == user.Id);
-
-                if (peserta == null)
-                {
-                    return NotFound();
-                }
-
-                var oldlayanan = peserta.Pelayanan.FirstOrDefault(x=>x.Id == id);
+                var oldlayanan = _dbcontext.Pelayanan.Include(x=>x.AlatKontrasepsiPilihan).FirstOrDefault(x=>x.Id == id);
 
                 if(oldlayanan== null)
                 {
@@ -168,12 +158,16 @@ namespace MainWeb.Controllers
                 
                 oldlayanan.TanggalDicabut= layanan.TanggalDicabut;
                 oldlayanan.TanggalDilayani = layanan.TanggalDilayani;
-                oldlayanan.AlatKontrasepsiPilihan= layanan.AlatKontrasepsiPilihan;
 
+                if (oldlayanan.AlatKontrasepsiPilihan!=null && layanan.AlatKontrasepsiPilihan != null && oldlayanan.AlatKontrasepsiPilihan.Id == layanan.AlatKontrasepsiPilihan.Id)
+                {
+                    _dbcontext.Entry(oldlayanan.AlatKontrasepsiPilihan).State = EntityState.Unchanged;
+                }
+                else
+                {
+                    oldlayanan.AlatKontrasepsiPilihan= layanan.AlatKontrasepsiPilihan;
+                }
 
-
-
-                peserta.Pelayanan.Add(layanan);
                 await _dbcontext.SaveChangesAsync();
                 return layanan;
             }

@@ -1,4 +1,4 @@
-/*@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
+@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
 
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -62,7 +62,7 @@ a, .btn-link {
     .blazor-error-boundary::after {
         content: "An error has occurred."
     }
-*/
+
 
 
 .inputLabel{
@@ -73,4 +73,4 @@ a, .btn-link {
 a {
     color: #0d6efd;
     text-decoration: none !important;
-}
+} 

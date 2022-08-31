@@ -54,15 +54,27 @@ namespace MainApp
         internal static async Task<Exception> ErrorHandle(HttpResponseMessage response)
         {
 
-            if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+            try
             {
-                _=LoadLogin();
-                throw new SystemException( "Maaf anda tidak memiliki akses !");
-            }
+                if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    _ = LoadLogin();
+                    throw new SystemException("Maaf anda tidak memiliki akses !");
+                }
 
-            var stringData = await response.Content.ReadAsStringAsync();
+                var stringData = await response.Content.ReadAsStringAsync();
+                if (string.IsNullOrEmpty(stringData))
+                {
+                    throw new SystemException(response.StatusCode.ToString());
+                }
+
                 var errorMessage = JsonSerializer.Deserialize<ErrorMessage>(stringData, Helper.JsonOptions);
-            throw new SystemException($"{errorMessage.Status} - {errorMessage.Title} - {errorMessage?.Detail}");
+                throw new SystemException($"{errorMessage.Status} - {errorMessage.Title} - {errorMessage?.Detail}");
+            }
+            catch (Exception ex)
+            {
+                throw new SystemException(response.StatusCode.ToString());
+            }
         }
 
         private static async Task LoadLogin()

@@ -17,6 +17,7 @@ namespace MainApp
             DependencyService.Register<AccountService>();
             DependencyService.Register<AlatKontrasepsiService>();
             DependencyService.Register<PengajuanService>();
+            DependencyService.Register<PesertaService>();
 
 
             var loginUser = Preferences.Get("userName", null);

@@ -1,4 +1,4 @@
-using CommunityToolkit.Mvvm.Input;
+    using CommunityToolkit.Mvvm.Input;
 using MainApp.Models;
 using System.Collections.ObjectModel;
 
@@ -30,6 +30,12 @@ internal partial class AddPelayananViewModel : ViewModelBase
         Model = new Pelayanan();
         _ = Load();
 
+    }
+
+    public AddPelayananViewModel(Pelayanan model)
+    {
+        Model = model;
+        _ = Load();
     }
 
     private async Task Load()
