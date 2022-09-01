@@ -103,6 +103,20 @@
                 </Frame>
                 <Frame Padding="5">
                     <Grid  Padding="5">
+                        <Label VerticalOptions="Center" Text="Status KB Baru" ></Label>
+                        <CheckBox VerticalOptions="Center" HorizontalOptions="EndAndExpand" IsChecked="{Binding Model.StatusKB}"/>
+                    </Grid>
+                </Frame>
+                <Frame Padding="5">
+                    <Grid  Padding="5">
+                        <Label VerticalOptions="Center" Text="Cara KB Terakhir" ></Label>
+                        <Picker ItemsSource="{Binding Alats, Mode=TwoWay}" BackgroundColor="WhiteSmoke" HorizontalOptions="EndAndExpand" VerticalOptions="CenterAndExpand" 
+                                ItemDisplayBinding="{Binding Nama}" 
+                                SelectedItem="{Binding Model.CaraKBTerakhir, Mode=TwoWay}" WidthRequest="100" />
+                    </Grid>
+                </Frame>
+                <Frame Padding="5">
+                    <Grid  Padding="5">
                         <Label VerticalOptions="Center" Text="Alat Kontrasepsi Pilihan" ></Label>
                         <Picker ItemsSource="{Binding Alats, Mode=TwoWay}" BackgroundColor="WhiteSmoke" HorizontalOptions="EndAndExpand" VerticalOptions="CenterAndExpand" 
                                 ItemDisplayBinding="{Binding Nama}" 

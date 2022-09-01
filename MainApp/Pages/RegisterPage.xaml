@@ -85,7 +85,7 @@
 
             <Label Text="Alamat S"></Label>
             <Frame Margin="0" Padding="10,2"  >
-                <Editor BackgroundColor="Red" WidthRequest="270" HeightRequest="100" HorizontalOptions="StartAndExpand" Text="{Binding Model.Alamat}"></Editor>
+                <Editor WidthRequest="270" HeightRequest="100" HorizontalOptions="StartAndExpand" Text="{Binding Model.Alamat}"></Editor>
             </Frame>
 
             <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />

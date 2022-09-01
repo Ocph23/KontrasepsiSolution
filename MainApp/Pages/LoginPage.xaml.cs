@@ -21,7 +21,7 @@ public partial class LoginPageViewModel :ViewModelBase
     public UserLogin Model { get; set; } = new UserLogin();
     public LoginPageViewModel()
     {
-        Model.Password = "Rl8)=1@E^";
+        
     }
 
     [RelayCommand]

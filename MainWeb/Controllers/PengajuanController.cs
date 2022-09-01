@@ -143,6 +143,8 @@ namespace MainWeb.Controllers
                 oldlayanan.BeratBadan = layanan.BeratBadan;
                 oldlayanan.TekananDarah= layanan.TekananDarah;
                 oldlayanan.PosisiRahim= layanan.PosisiRahim;
+
+                oldlayanan.StatusKB = layanan.StatusKB;
                 
                 
                 oldlayanan.Radang= layanan.Radang;
@@ -151,13 +153,20 @@ namespace MainWeb.Controllers
                 oldlayanan.PemekuanDarah= layanan.PemekuanDarah;
                 oldlayanan.RadangOrchitis= layanan.RadangOrchitis;
                 oldlayanan.KeganasanGinekologi2 = layanan.KeganasanGinekologi2;
-
-
-
-
-                
                 oldlayanan.TanggalDicabut= layanan.TanggalDicabut;
                 oldlayanan.TanggalDilayani = layanan.TanggalDilayani;
+                oldlayanan.TanggalKembali= layanan.TanggalKembali;
+
+                if (oldlayanan.CaraKBTerakhir!= null && layanan.CaraKBTerakhir!= null && 
+                    oldlayanan.CaraKBTerakhir.Id == layanan.CaraKBTerakhir.Id)
+                {
+                    _dbcontext.Entry(oldlayanan.CaraKBTerakhir).State = EntityState.Unchanged;
+                }
+                else
+                {
+                    oldlayanan.CaraKBTerakhir= layanan.CaraKBTerakhir;
+                }
+
 
                 if (oldlayanan.AlatKontrasepsiPilihan!=null && layanan.AlatKontrasepsiPilihan != null && oldlayanan.AlatKontrasepsiPilihan.Id == layanan.AlatKontrasepsiPilihan.Id)
                 {
