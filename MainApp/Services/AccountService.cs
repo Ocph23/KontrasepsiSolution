@@ -27,8 +27,6 @@ namespace MainApp.Services
                 if (response.IsSuccessStatusCode)
                 {
                     var result = JsonSerializer.Deserialize<Peserta>(stringData, Helper.JsonOptions);
-                    Preferences.Set("peserta", stringData);
-                    Preferences.Set("userName", model.Email);
                     await Application.Current.MainPage.DisplayAlert("Info", "Registrasi Berhasil !, Silahkan Periksan Email Anda !", "OK");
                     return result;
                 }
