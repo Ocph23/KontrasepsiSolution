@@ -45,11 +45,11 @@ namespace MainWeb.Models
         public int PesertaId { get; set; }
 
         [NotMapped]
-        public string? NamaPeserta { get; set; }
+        public string? NamaPeserta { get; set; } = string.Empty;
 
 
         [NotMapped]
-        public string? AlamatPeserta { get; set; }
+        public string? AlamatPeserta { get; set; } = string.Empty;
 
 
       
