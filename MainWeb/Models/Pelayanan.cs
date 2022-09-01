@@ -1,8 +1,17 @@
-﻿namespace MainWeb.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace MainWeb.Models
 {
     public class Pelayanan
     {
         public int Id { get; set; }
+
+        public int AnakHidupLaki { get; set; }
+        public int AnakHidupPerempuan { get; set; }
+        public int UmurAnakTerkecilTahun { get; set; }
+        public int UmurAnakTerkecilBulan { get; set; }
+        public bool StatusKB { get; set; }=true;
+        public AlatKontrasepsi? CaraKBTerakhir{ get; set; }
         public DateTime TerakhirHaid { get; set; } = DateTime.Now;
         public bool Hamil { get; set; }
         public bool Menyusui { get; set; }
@@ -20,6 +29,7 @@
         public AlatKontrasepsi? AlatKontrasepsiPilihan { get; set; }
         public DateTime? TanggalDilayani { get; set; }
         public DateTime? TanggalDicabut { get; set; }
+        public DateTime? TanggalKembali { get; set; }
         public string PenanggungJawab { get; set; } = string.Empty;
         public ICollection<KunjunganUlang>? Kunjungan { get; set; }
         public Petugas? Petugas { get; set; }
@@ -31,5 +41,18 @@
         public bool KeganasanGinekologi2 { get; set; }
 
         public DateTime Tanggal { get; set; } = DateTime.Now;
+
+        public int PesertaId { get; set; }
+
+        [NotMapped]
+        public string NamaPeserta { get; set; }
+
+
+        [NotMapped]
+        public string AlamatPeserta { get; set; }
+
+
+      
+
     }
 }

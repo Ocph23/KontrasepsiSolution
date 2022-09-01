@@ -115,7 +115,7 @@
                 await _userManager.AddToRoleAsync(user, "Petugas");
                 var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                 code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                var callbackUrl = $"{navManager.BaseUri}/Identity/Account/confirmemail?userid={user.Id}&code={code}";
+                var callbackUrl = $"{navManager.BaseUri}Identity/Account/confirmemail?userid={user.Id}&code={code}";
                 model.UserId = user.Id;
                 //save File
 

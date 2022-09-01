@@ -72,9 +72,20 @@
                         SelectedItem="{Binding PekerjaanPasanganSelected, Mode=TwoWay}"></Picker>
             </Frame>
 
+            <Label Text="Tahapan KS"></Label>
+            <Frame Style="{StaticResource inputFrame}"  >
+                <Entry Text="{Binding Model.TahapanKs}"></Entry>
+            </Frame>
+
+            <Label Text="Status Peserta JKN"></Label>
+            <Frame Style="{StaticResource inputFrame}"  >
+                <Picker ItemsSource="{Binding DataJKN}"  ItemDisplayBinding="{Binding Text}" 
+                        SelectedItem="{Binding JKNSelected, Mode=TwoWay}"></Picker>
+            </Frame>
+
             <Label Text="Alamat S"></Label>
             <Frame Margin="0" Padding="10,2"  >
-                <Editor  HeightRequest="100" Text="{Binding Model.Alamat}"></Editor>
+                <Editor BackgroundColor="Red" WidthRequest="270" HeightRequest="100" HorizontalOptions="StartAndExpand" Text="{Binding Model.Alamat}"></Editor>
             </Frame>
 
             <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />

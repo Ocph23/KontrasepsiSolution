@@ -10,7 +10,9 @@
 <h3 style="margin-bottom:20px">Alat Kontrasepsi</h3>
 
  <RadzenButton Style="margin-bottom:20px" Click=@(args => Add()) Icon="add_circle_outline" ButtonStyle="ButtonStyle.Primary" />
- <RadzenDataGrid @ref="dg" AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+ <RadzenDataGrid @ref="dg" AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced" 
+ AllowSorting="true" PageSize="10" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" 
+ ShowPagingSummary="true"
         Data="@datas" TItem="AlatKontrasepsi" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or">
         <Columns>
             <RadzenDataGridColumn TItem="AlatKontrasepsi" Property="Id" Title="ID" Frozen="true" Width="70px" 

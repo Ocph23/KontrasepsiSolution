@@ -29,7 +29,14 @@ namespace MainApp.Models
         private string tempatLahir ; 
 
         [ObservableProperty]
-        private string namaPasangan ; 
+        private string namaPasangan ;
+
+        public string tahapanKS { get; set; } = string.Empty;
+
+        public JKN JKN { get; set; }
+
+
+
         [ObservableProperty]
         private Pendidikan pendidikanPasangan ;
         [ObservableProperty]

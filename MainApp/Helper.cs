@@ -82,5 +82,17 @@ namespace MainApp
             await Task.Delay(5000);
            Shell.Current.Navigation.PushAsync(new LoginPage());
         }
+
+        internal static List<EnumDisplay<JKN>> GetJKN()
+        {
+            var sources = Enum.GetValues(typeof(JKN)).Cast<JKN>().ToList();
+            var datas = new List<EnumDisplay<JKN>>();
+            foreach (var data in sources)
+            {
+                datas.Add(new EnumDisplay<JKN>() { Value = data, Text = data.ToStringText() });
+            }
+
+            return datas;
+        }
     }
 }

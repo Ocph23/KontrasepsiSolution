@@ -23,6 +23,7 @@ public partial class RegisterPage : ContentPage
 
             DataGender = Enum.GetValues(typeof(Gender)).Cast<Gender>().ToList();
             DataPendidikan = Helper.GetPendidikan();
+            DataJKN = Helper.GetJKN();
             DataPekerjaan = Helper.GetPekerjaan();
 
             PendidikanSelected = DataPendidikan.FirstOrDefault();
@@ -106,6 +107,7 @@ public partial class RegisterPage : ContentPage
 
         public List<Gender> DataGender { get; }
         public List<EnumDisplay<Pendidikan>> DataPendidikan { get; }
+        public List<EnumDisplay<JKN>> DataJKN { get; }
         public List<EnumDisplay<Pekerjaan>> DataPekerjaan { get; }
 
         public RelayCommand RegisterCommand
@@ -143,6 +145,18 @@ public partial class RegisterPage : ContentPage
         }
 
 
+        public EnumDisplay<JKN> JKNSelected
+        {
+            get { return jknSelected; }
+            set
+            {
+                SetProperty(ref jknSelected, value);
+                if (value != null)
+                    Model.JKN = value.Value;
+            }
+        }
+
+
 
         private EnumDisplay<Pendidikan> pendidikanPasanganSelected;
         public EnumDisplay<Pendidikan> PendidikanPasanganSelected
@@ -159,6 +173,8 @@ public partial class RegisterPage : ContentPage
 
         private EnumDisplay<Pekerjaan> pekerjaanPasanganSelected
             ;
+        private EnumDisplay<JKN> jknSelected;
+
         public EnumDisplay<Pekerjaan> PekerjaanPasanganSelected
         {
             get { return pekerjaanPasanganSelected; }

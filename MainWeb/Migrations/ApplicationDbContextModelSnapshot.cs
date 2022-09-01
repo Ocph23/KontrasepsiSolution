@@ -98,8 +98,17 @@ namespace MainWeb.Migrations
                     b.Property<int?>("AlatKontrasepsiPilihanId")
                         .HasColumnType("int");
 
+                    b.Property<int>("AnakHidupLaki")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AnakHidupPerempuan")
+                        .HasColumnType("int");
+
                     b.Property<double>("BeratBadan")
                         .HasColumnType("double");
+
+                    b.Property<int?>("CaraKBTerakhirId")
+                        .HasColumnType("int");
 
                     b.Property<bool>("Diabetes")
                         .HasColumnType("tinyint(1)");
@@ -141,7 +150,7 @@ namespace MainWeb.Migrations
                     b.Property<bool>("PendarahanPervaginam")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<int?>("PesertaId")
+                    b.Property<int>("PesertaId")
                         .HasColumnType("int");
 
                     b.Property<int?>("PetugasId")
@@ -159,6 +168,9 @@ namespace MainWeb.Migrations
                     b.Property<bool>("SakitKuning")
                         .HasColumnType("tinyint(1)");
 
+                    b.Property<bool>("StatusKB")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<DateTime>("Tanggal")
                         .HasColumnType("datetime(6)");
 
@@ -166,6 +178,9 @@ namespace MainWeb.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<DateTime?>("TanggalDilayani")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime?>("TanggalKembali")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("TekananDarah")
@@ -178,9 +193,17 @@ namespace MainWeb.Migrations
                     b.Property<bool>("Tumor")
                         .HasColumnType("tinyint(1)");
 
+                    b.Property<int>("UmurAnakTerkecilBulan")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UmurAnakTerkecilTahun")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AlatKontrasepsiPilihanId");
+
+                    b.HasIndex("CaraKBTerakhirId");
 
                     b.HasIndex("PesertaId");
 
@@ -206,6 +229,9 @@ namespace MainWeb.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<int>("JKN")
+                        .HasColumnType("int");
+
                     b.Property<int>("JenisKelamin")
                         .HasColumnType("int");
 
@@ -228,6 +254,10 @@ namespace MainWeb.Migrations
 
                     b.Property<int>("PendidikanPasangan")
                         .HasColumnType("int");
+
+                    b.Property<string>("TahapanKS")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime?>("TanggalLahir")
                         .HasColumnType("datetime(6)");
@@ -492,15 +522,23 @@ namespace MainWeb.Migrations
                         .WithMany()
                         .HasForeignKey("AlatKontrasepsiPilihanId");
 
+                    b.HasOne("MainWeb.Models.AlatKontrasepsi", "CaraKBTerakhir")
+                        .WithMany()
+                        .HasForeignKey("CaraKBTerakhirId");
+
                     b.HasOne("MainWeb.Models.Peserta", null)
                         .WithMany("Pelayanan")
-                        .HasForeignKey("PesertaId");
+                        .HasForeignKey("PesertaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("MainWeb.Models.Petugas", "Petugas")
                         .WithMany()
                         .HasForeignKey("PetugasId");
 
                     b.Navigation("AlatKontrasepsiPilihan");
+
+                    b.Navigation("CaraKBTerakhir");
 
                     b.Navigation("Petugas");
                 });

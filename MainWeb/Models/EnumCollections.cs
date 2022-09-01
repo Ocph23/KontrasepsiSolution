@@ -35,6 +35,15 @@
     }
 
 
+    public enum JKN
+    {
+        JKNPenerimaBantuan,
+        JKNBukanPenerimaBantuan,
+        BukanPesertaJKN
+    }
+
+
+
     public static class PendidikanExtensions
     {
         public static string ToStringText(this Pendidikan data )
@@ -56,6 +65,24 @@
             }
         }
     }
+
+
+    public static class JKNExtensions
+    {
+        public static string ToStringText(this JKN data)
+        {
+            switch (data)
+            {
+                case JKN.JKNPenerimaBantuan:
+                    return "Peserta JKN Penerima Bantuan Iuran";
+                case JKN.JKNBukanPenerimaBantuan:
+                    return "Peserta JKN Bukan Penerima Bantuan Iuran";
+                default:
+                    return "Bukan Penerima JKN";
+            }
+        }
+    }
+
 
 
 

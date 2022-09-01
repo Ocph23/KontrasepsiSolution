@@ -17,6 +17,8 @@
         public string TempatLahir { get; set; } = string.Empty;
 
         public string NamaPasangan { get; set; } = string.Empty;
+        public string TahapanKS { get; set; } = string.Empty;
+        public JKN JKN { get; set; }
         public Pendidikan PendidikanPasangan { get; set; }
         public Pekerjaan PekerjaanPasangan { get; set; }
 

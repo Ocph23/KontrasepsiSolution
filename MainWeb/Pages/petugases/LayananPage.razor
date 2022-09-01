@@ -1,0 +1,77 @@
+﻿@layout PetugasLayout
+
+@page "/petugas/layanan"
+@using MainWeb.Pages.admins
+@using Microsoft.EntityFrameworkCore
+
+
+
+@inject ApplicationDbContext dbContext
+@inject DialogService DialogService
+@inject NavigationManager nav
+
+
+<h3 style="margin-bottom:20px">Data Pengajuan dan Pelayanan</h3>
+
+<RadzenDataGrid @ref="dg" AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced"
+                AllowSorting="true" PageSize="10" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left"
+                ShowPagingSummary="true"
+                Data="@datas" TItem="Pelayanan" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or">
+    <Columns>
+        <RadzenDataGridColumn TItem="Pelayanan" Property="Id" Title="ID" Frozen="true" Width="70px"
+                              TextAlign="TextAlign.Center" />
+        <RadzenDataGridColumn TItem="Pelayanan" Title="Tanggal" Width="140px" >
+            <Template Context="item" >
+                @item.Tanggal.ToString("dd/MM/yyyy")
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="Pelayanan" Property="NamaPeserta" Title="Peserta" />
+        <RadzenDataGridColumn TItem="Pelayanan" Property="AlamatPeserta" Title="Alamat" />
+        <RadzenDataGridColumn TItem="Pelayanan" Property="AlatKontrasepsiPilihan.Nama" Title="Kontrasepsi Pilihan" />
+        <RadzenDataGridColumn TItem="Pelayanan" Property="TanggalDilayani" Title="Dilayani" />
+        <RadzenDataGridColumn TItem="Pelayanan" Title="" Width="90px">
+            <Template Context="item">
+                <RadzenButton Click=@(args => Edit(item)) Icon="detail" ButtonStyle="ButtonStyle.Warning" />
+                <RadzenButton Click=@(args => Delete(item)) Icon="delete" ButtonStyle="ButtonStyle.Danger" />
+            </Template>
+        </RadzenDataGridColumn>
+    </Columns>
+</RadzenDataGrid>
+
+
+@code {
+    IEnumerable<Pelayanan> datas;
+    RadzenDataGrid<Pelayanan> dg;
+    protected override Task OnInitializedAsync()
+    {
+        datas =  from a in  dbContext.Pelayanan.Include(x=>x.AlatKontrasepsiPilihan) 
+                join b in dbContext.Peserta on a.PesertaId equals b.Id
+                select  new Pelayanan { Id=a.Id, NamaPeserta = b.Nama, AlamatPeserta= b.Alamat, AlatKontrasepsiPilihan=a.AlatKontrasepsiPilihan , Tanggal=a.Tanggal, TanggalDilayani=a.TanggalDilayani };
+        return base.OnInitializedAsync();
+    }
+
+
+    async Task Add()
+    {
+
+    }
+
+
+
+    async Task Edit(Pelayanan alat)
+    {
+        nav.NavigateTo($"/petugas/layanan/{alat.Id}");
+    }
+
+    async Task Delete(Pelayanan alat)
+    {
+        var result = await DialogService.Confirm("Yakin Hapus Data ?", "Delete", new ConfirmOptions() { OkButtonText = "Yes", CancelButtonText = "No" });
+        if (result.Value)
+        {
+            dbContext.Pelayanan.Remove(alat);
+            await dbContext.SaveChangesAsync();
+            await dg.Reload();
+        }
+
+    }
+}
