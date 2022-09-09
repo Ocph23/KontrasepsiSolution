@@ -114,5 +114,26 @@ namespace MainApp.Services
             return Task.CompletedTask;
 
         }
+
+        internal async Task UpdateDeviceToken(string fcmToken)
+        {
+            try
+            {
+                using var rest = new RestService();
+                var response = await rest.GetAsync($"/api/account/updatedevice?devicetoken={fcmToken}");
+                var stringData = await response.Content.ReadAsStringAsync();
+                if (response.IsSuccessStatusCode)
+                {
+                    return;
+                }
+
+                var errorMessage = JsonSerializer.Deserialize<ErrorMessage>(stringData, Helper.JsonOptions);
+                throw new SystemException($"{errorMessage.Status} - {errorMessage.Title} - {errorMessage?.Detail}");
+            }
+            catch (Exception ex)
+            {
+                throw new SystemException(ex.Message);
+            }
+        }
     }
 }

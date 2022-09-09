@@ -35,6 +35,9 @@ namespace MainApp
                 FcmToken = p.Token;
                 Preferences.Set("FcmToken", FcmToken);
                 System.Diagnostics.Debug.WriteLine($"Ini Device Token : {p.Token}");
+                var service = DependencyService.Get<AccountService>();
+               _= service.UpdateDeviceToken(FcmToken);
+
             };
             
             
