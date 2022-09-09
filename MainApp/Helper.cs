@@ -71,7 +71,7 @@ namespace MainApp
                 var errorMessage = JsonSerializer.Deserialize<ErrorMessage>(stringData, Helper.JsonOptions);
                 throw new SystemException($"{errorMessage.Status} - {errorMessage.Title} - {errorMessage?.Detail}");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw new SystemException(response.StatusCode.ToString());
             }
@@ -80,7 +80,7 @@ namespace MainApp
         private static async Task LoadLogin()
         {
             await Task.Delay(5000);
-           Shell.Current.Navigation.PushAsync(new LoginPage());
+         await  Shell.Current.Navigation.PushAsync(new LoginPage());
         }
 
         internal static List<EnumDisplay<JKN>> GetJKN()

@@ -16,10 +16,15 @@ namespace MainApp
         }
 
        
-        protected override void OnDisappearing()
+      
+        private void collection_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var collectionView = this.collection.SelectedItem=null;
-            base.OnDisappearing();
+
+        }
+
+        private void Button_Clicked(object sender, EventArgs e)
+        {
+
         }
     }
 
@@ -55,10 +60,18 @@ namespace MainApp
                 var peserta = JsonSerializer.Deserialize<Peserta>(pesertaString, Helper.JsonOptions);
                 Model = await Peserta.GetAsync(peserta.Id);
 
-                if(Model==null || Model.Pelayanan ==null || Model.Pelayanan.Count <= 0)
+                if (Model == null || Model.Pelayanan == null || Model.Pelayanan.Count <= 0)
                     Message = "Silahkan Ajukan Pelayanan !";
-                else 
-                    Message=string.Empty; 
+                else
+                    Message = string.Empty;
+
+
+                var deviceToken = Preferences.Get("FcmToken", null);
+                if (!string.IsNullOrEmpty(deviceToken))
+                {
+                    // _= Account.UpdateDeviceToken(deviceToken);
+                }
+
             }
             catch (Exception)
             {
@@ -93,6 +106,7 @@ namespace MainApp
 
         Task Edit(object model)
         {
+            SelectedItem = model as Pelayanan;
             if (SelectedItem != null)
             {
                 var page = new AddPelayananPage();
@@ -102,6 +116,19 @@ namespace MainApp
                 return Task.CompletedTask;
         }
 
+
+        [RelayCommand]
+        Task Kunjungan(object model)
+        {
+            SelectedItem = model as Pelayanan;
+            if (SelectedItem != null)
+            {
+                var page = new KunjunganPage();
+                //page.BindingContext = new AddPelayananViewModel(SelectedItem);
+                Shell.Current.Navigation.PushAsync(page);
+            }
+            return Task.CompletedTask;
+        }
 
     }
 }

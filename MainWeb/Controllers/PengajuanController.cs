@@ -44,8 +44,12 @@ namespace MainWeb.Controllers
                 return NotFound();
             }
            
-            var peserta = await _dbcontext.Peserta.Include(x => x.Pelayanan)
-                .ThenInclude(x=>x.AlatKontrasepsiPilihan).FirstOrDefaultAsync(x=>x.UserId==user.Id);
+            var peserta = await _dbcontext.Peserta
+                .Include(x => x.Pelayanan)
+                .ThenInclude(x=>x.AlatKontrasepsiPilihan)
+                .Include(x => x.Pelayanan)
+                .ThenInclude(x => x.Kunjungan)
+                .FirstOrDefaultAsync(x=>x.UserId==user.Id);
 
             if (peserta == null)
             {

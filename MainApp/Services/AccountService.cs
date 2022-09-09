@@ -66,7 +66,7 @@ namespace MainApp.Services
                     if (pesertaString == null || pesertaString.ToLower() != result.UserName )
                     {
                         Preferences.Set("userName", result.UserName);
-                        GetProfile();
+                        _=GetProfile();
                     }
                     return true;
                 }
@@ -119,16 +119,15 @@ namespace MainApp.Services
         {
             try
             {
+                await Task.Delay(1000);
                 using var rest = new RestService();
-                var response = await rest.GetAsync($"/api/account/updatedevice?devicetoken={fcmToken}");
+                var response = await rest.GetAsync($"/api/account/updatedevicetoken?deviceToken={fcmToken}");
                 var stringData = await response.Content.ReadAsStringAsync();
                 if (response.IsSuccessStatusCode)
                 {
                     return;
                 }
-
-                var errorMessage = JsonSerializer.Deserialize<ErrorMessage>(stringData, Helper.JsonOptions);
-                throw new SystemException($"{errorMessage.Status} - {errorMessage.Title} - {errorMessage?.Detail}");
+                await  Helper.ErrorHandle(response);
             }
             catch (Exception ex)
             {

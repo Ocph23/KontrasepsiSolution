@@ -39,15 +39,19 @@ namespace MainApp.Models
 
         [ObservableProperty]
         private Pendidikan pendidikanPasangan ;
+        
         [ObservableProperty]
         private Pekerjaan pekerjaanPasangan ;
 
         [ObservableProperty]
         private string alamat ; 
+        
         [ObservableProperty]
         private ICollection<Pelayanan>? pelayanan ;
+
         [ObservableProperty]
         private string? deviceToken ;
+        
         [ObservableProperty]
         private string? userId ; 
 

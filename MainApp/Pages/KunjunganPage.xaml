@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Shell.NavBarIsVisible="False"
+             x:Class="MainApp.Pages.KunjunganPage">
+    <Grid RowDefinitions="auto,*, auto">
+    <Image Opacity="0.8" Grid.RowSpan="3" HeightRequest="150" 
+                           Aspect="Center" Source="Resources/Images/bg.jpg"></Image>
+    <StackLayout Padding="20" >
+        <Label Text="DATA KUNJUNGAN ULANG" FontAttributes="Bold" FontSize="20"></Label>
+    </StackLayout>
+
+    <CollectionView x:Name="collection" 
+                        ItemsSource="{Binding Model.Pelayanan}" Grid.Row="1" 
+                        SelectionMode="Single" >
+        <CollectionView.ItemTemplate>
+            <DataTemplate>
+                <Grid>
+                    <Frame  Padding="0" CornerRadius="10" Margin="10" Opacity="0.2" >
+                        <Grid Margin="0" >
+                            <StackLayout Padding="20" Spacing="5">
+                                <StackLayout Margin="5">
+                                    <Label Text="Nomor" FontSize="Small"></Label>
+                                    <Label FontSize="Subtitle" Text="{Binding Id,StringFormat='{0:D7}'}"></Label>
+                                </StackLayout>
+                                <StackLayout Margin="5">
+                                    <Label Text="Tanggal Pelayanan" FontSize="Small"></Label>
+                                    <Label FontSize="Subtitle" Text="{Binding Tanggal,StringFormat='{0:dd/MM/yyyy}'}"></Label>
+                                </StackLayout>
+
+                                <StackLayout Margin="5">
+                                    <Label Text="Alat Kontrasepsi Pilihan" FontSize="Small"></Label>
+                                    <Label FontSize="Subtitle" Text="{Binding AlatKontrasepsiPilihan.Nama}"></Label>
+                                </StackLayout>
+                                <StackLayout Margin="5">
+                                    <Label Text="Penanggung Jawab" FontSize="Small"></Label>
+                                    <Label FontSize="Subtitle" Text="{Binding PenanggungJawab}"></Label>
+
+                                </StackLayout>
+                                <Button Command="{Binding Source={x:Reference Page}, Path=BindingContext.EditCommand }" CommandParameter="{Binding .}" Text="Detail"/>
+                                <Button BackgroundColor="OrangeRed" Command="{Binding Source={x:Reference Page}, Path=BindingContext.KunjunganCommand }" CommandParameter="{Binding .}" Text="Kunjungan Ulang"/>
+                            </StackLayout>
+                        </Grid>
+                    </Frame>
+                </Grid>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
+    </Grid>
+</ContentPage>
