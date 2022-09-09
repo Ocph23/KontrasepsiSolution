@@ -1,0 +1,190 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Identity.UI.Services
+@using Microsoft.AspNetCore.WebUtilities
+@using Microsoft.EntityFrameworkCore
+@using System.Text
+@using System.Text.Encodings.Web
+
+@inject Radzen.DialogService dialogService
+@inject ApplicationDbContext dbcontext
+@inject NotificationService NotificationService
+@inject UserManager<IdentityUser> _userManager
+@inject NavigationManager navManager
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject IFcmNotificationService fcm;
+
+<RadzenTemplateForm Data="@model" Submit="@(async (KunjunganUlang args) =>  { await Submit(args); })">
+    <div class="row">
+        <div class="col-md-12 align-items-center d-flex">
+            <RadzenLabel Text="Tanggal " />
+        </div>
+        <div class="col">
+            <RadzenDatePicker @bind-Value="model.Tanggal" Name="tanggal"></RadzenDatePicker>
+            <RadzenRequiredValidator RadzenLengthValidator Component="tanggal"
+                                     Text="tidak boleh kosong" Popup=@popup
+                                     Style="position:initial" />
+        </div>
+
+        <div class="col-md-12 align-items-center d-flex inputLabel">
+            <RadzenLabel Text="Haid Terakhir" />
+        </div>
+        <div class="col">
+            <RadzenDatePicker @bind-Value="model.Tanggal" Name="haidTerakhir"></RadzenDatePicker>
+            <RadzenRequiredValidator Component="haidTerakhir" Text="Email is required" Popup=@popup Style="position: initial" />
+        </div>
+
+        <div class="col-md-12 align-items-center d-flex inputLabel">
+            <RadzenLabel Text="Berat Badan" />
+        </div>
+        <div class="col">
+            <RadzenNumeric @bind-Value="model.BeratBadan" style="width: 100%;" Name="beratBadan" />
+            <RadzenRequiredValidator Component="beratBadan"
+                                     Text="tidak boleh kosong" Popup=@popup
+                                     Style="position:initial" />
+        </div>
+
+        <div class="col-md-12 align-items-center d-flex inputLabel">
+            <RadzenLabel Text="Tekanan Darah" />
+        </div>
+        <div class="col">
+            <RadzenTextBox @bind-Value="model.TekananDarah" style="width: 100%;" Name="tekananDarah" />
+            <RadzenRequiredValidator Component="tekananDarah"
+                                     Text="tidak boleh kosong" Popup=@popup
+                                     Style="position:initial" />
+        </div>
+
+        <div class="col-md-12 align-items-center d-flex inputLabel">
+            <RadzenLabel Text="Kompilasi Berat" />
+        </div>
+        <div class="col">
+            <RadzenTextArea @bind-Value="model.KompilasiBerat" style="width: 100%;" Name="kompilasi" />
+            
+        </div>
+
+        <div class="col-md-12 align-items-center d-flex inputLabel">
+            <RadzenLabel Text="Kegagalan" />
+        </div>
+        <div class="col">
+            <RadzenTextArea @bind-Value="model.Kegagalan" style="width: 100%;" Name="kompilasi" />
+        </div>
+
+        <div class="col-md-12 align-items-center d-flex inputLabel">
+            <RadzenLabel Text="Pemeriksaan dan Tindakan" />
+        </div>
+        <div class="col">
+            <RadzenTextArea @bind-Value="model.PemeriksaanDanTindakan" style="width: 100%;" Name="kompilasi" />
+
+        </div>
+        <div class="col-md-12 align-items-center d-flex inputLabel">
+            <RadzenLabel Text="Tanggal Dipesan Kembali" />
+        </div>
+        <div class="col">
+            <RadzenDatePicker @bind-Value="model.KonsultasiBerikut" Name="tanggalKembali"></RadzenDatePicker>
+            <RadzenRequiredValidator Component="tanggalKembali" Text="Tentukan Tanggal Kembali" Popup=@popup Style="position: initial" />
+        </div>
+
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 text-right" style="display:flex; justify-content:right; margin-top:20px">
+            <RadzenButton Click="@((args) => dialogService.Close(false))" ButtonStyle="ButtonStyle.Secondary"
+                          Text="Cancel" Style="width: 100px" Class="mr-1" />
+            <RadzenButton ButtonType="ButtonType.Submit" Text="OK" Style="width: 100px" />
+        </div>
+    </div>
+</RadzenTemplateForm>
+
+@code {
+    [Parameter] public int ID { get; set; }
+
+    [Parameter] public KunjunganUlang model { get; set; }
+
+    bool popup;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+
+
+        if (model == null)
+            model = new();
+        else
+        {
+            //  model = dbcontext.KunjunganUlang.FirstOrDefault(x => x.Id == ID);
+        }
+
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User.Identity.Name;
+        var dataUser = await _userManager.FindByNameAsync(user);
+
+
+
+        if (dataUser != null)
+        {
+            model.Petugas = dbcontext.Petugas.SingleOrDefault(x => x.UserId == dataUser.Id);
+        }
+
+    }
+
+
+
+    async Task Submit(KunjunganUlang entity)
+    {
+
+        var trans = await dbcontext.Database.BeginTransactionAsync();
+        try
+        {
+            //Create User Here
+
+            if (entity.Id <= 0)
+            {
+                var data = dbcontext.Pelayanan
+                        .Include(x => x.Kunjungan)
+                        .SingleOrDefault(x => x.Id == ID);
+                if(data!=null){
+
+
+                    var last = data.Kunjungan.OrderByDescending(x => x.KonsultasiBerikut).FirstOrDefault();
+                    if (last != null)
+                        last.Datang = true;
+
+                    data.Kunjungan.Add(entity);
+                    await dbcontext.SaveChangesAsync();
+
+
+                    var peserta = dbcontext.Peserta.Where(x => x.Id == data.PesertaId).FirstOrDefault();
+
+                  await  fcm.SendNotification(new NotificationModel { Title ="BKKBN", DeviceId = peserta.DeviceToken, Body = $"Kunjungan Berikut Tanggal {entity.KonsultasiBerikut.ToShortDateString()}" });
+
+                }
+            }
+            else
+            {
+                await dbcontext.SaveChangesAsync();
+            }
+
+            await trans.CommitAsync();
+
+            NotificationService.Notify(new NotificationMessage
+                {
+                    Severity = NotificationSeverity.Info,
+                    Summary = "Info ",
+                    Detail = "Data Tersimpan !",
+                    Duration = 3500
+                });
+            dialogService.Close(model);
+        }
+        catch (Exception ex)
+        {
+            await trans.RollbackAsync();
+            NotificationService.Notify(new NotificationMessage
+                {
+                    Severity = NotificationSeverity.Error,
+                    Summary = "Error ",
+                    Detail = ex.Message,
+                    Duration = 3500
+                });
+        }
+    }
+}

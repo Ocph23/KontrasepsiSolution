@@ -62,8 +62,30 @@ namespace MainWeb.Controllers
             }
         }
 
-
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpGet("updatedevicetoken")]
+        public async Task<IActionResult> UpdateDeviceToken(string deviceToken)
+        {
+            try
+            {
+                var userName = User.Identity.Name;
+                var user = await _userManager.FindByNameAsync(userName);
+                if (user != null)
+                {
+                    var peserta = _dbcontext.Peserta.SingleOrDefault(x => x.UserId == user.Id);
+                    if(peserta!=null)
+                    {
+                        peserta.DeviceToken = deviceToken;
+                        _dbcontext.SaveChanges();
+                        return Ok();
+                    }
+                }
+                throw new SystemException("Maaf Anda Tidak Memiliki Akses !");
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
-
-
 }

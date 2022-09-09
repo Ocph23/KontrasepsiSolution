@@ -1,0 +1,113 @@
+﻿@layout PetugasLayout
+
+@page "/petugas/kunjungan/{Id:int}"
+@using MainWeb.Pages.admins
+@using Microsoft.EntityFrameworkCore
+
+
+
+@inject ApplicationDbContext dbContext
+@inject DialogService DialogService
+@inject NavigationManager nav
+
+
+<h3 style="margin-bottom:20px">Data KunjunganUlang</h3>
+<RadzenButton Style="margin-bottom:20px" Click=@(args => Add()) Icon="add_circle_outline" ButtonStyle="ButtonStyle.Primary" />
+<RadzenDataGrid @ref="dg" AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced"
+                AllowSorting="true" PageSize="10" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left"
+                ShowPagingSummary="true"
+                Data="@datas" TItem="KunjunganUlang" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or">
+    <Columns>
+        <RadzenDataGridColumn TItem="KunjunganUlang" Property="Id" Title="ID" Frozen="true" Width="70px"
+                              TextAlign="TextAlign.Center" />
+        <RadzenDataGridColumn TItem="KunjunganUlang" Title="Tanggal" Width="140px" >
+            <Template Context="item" >
+                @item.Tanggal.ToString("dd/MM/yyyy")
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="KunjunganUlang" Title="Haid Terakhir" Width="140px">
+            <Template Context="item">
+                @item.HaidTerakhir.ToString("dd/MM/yyyy")
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="KunjunganUlang" Property="BeratBadan" Title="Berat" Width="100px" />
+        <RadzenDataGridColumn TItem="KunjunganUlang" Property="TekananDarah" Title="Tekanan Darah" Width="100px" />
+        <RadzenDataGridColumn TItem="KunjunganUlang" Property="KompilasiBerat" Title="Komplikasi" />
+        <RadzenDataGridColumn TItem="KunjunganUlang" Property="PemeriksaanDanTindakan" Title="Pemeriksaan dan Tindakan" />
+        <RadzenDataGridColumn TItem="KunjunganUlang" Title="Dipesan Kembali" Width="140px">
+            <Template Context="item">
+                @item.KonsultasiBerikut.ToString("dd/MM/yyyy")
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="KunjunganUlang" Title="" Width="100px">
+            <Template Context="item">
+                <RadzenButton Click=@(args => Edit(item)) Icon="edit" ButtonStyle="ButtonStyle.Warning" />
+                <RadzenButton Click=@(args => Delete(item)) Icon="delete" ButtonStyle="ButtonStyle.Danger" />
+            </Template>
+        </RadzenDataGridColumn>
+    </Columns>
+</RadzenDataGrid>
+
+
+@code {
+
+
+    [Parameter] public int Id { get; set; }
+
+    IEnumerable<KunjunganUlang> datas;
+    RadzenDataGrid<KunjunganUlang> dg;
+    Peserta peserta;
+
+    protected override Task OnInitializedAsync()
+    {
+        var result = (from a in dbContext.Pelayanan
+                        .Include(x => x.Kunjungan)
+                        .Where(x => x.Id == Id)
+                      join b in dbContext.Peserta on a.PesertaId equals b.Id
+                      select new { A = a, B = b }).FirstOrDefault();
+        datas = result.A.Kunjungan;
+        peserta = result.B;
+        return base.OnInitializedAsync();
+    }
+
+
+    async Task Add()
+    {
+        var result = await DialogService.OpenAsync<DialogAddKunjungan>($"Tambah Kunjungan",
+              new Dictionary<string, object>() { { "ID", Id } },
+              new DialogOptions() { Width = "500px", Height = "600px", Resizable = true, Draggable = true });
+
+        if (result.GetType() == typeof(KunjunganUlang))
+        {
+            var data = result as KunjunganUlang;
+            await dg.Reload();
+        }
+    }
+
+
+
+    async Task Edit(KunjunganUlang alat)
+    {
+        var result = await DialogService.OpenAsync<DialogAddKunjungan>($"Edit Kunjungan",
+             new Dictionary<string, object>() { { "ID", Id }, { "model", alat} },
+             new DialogOptions() { Width = "500px", Height = "600px", Resizable = true, Draggable = true });
+
+        if (result.GetType() == typeof(KunjunganUlang))
+        {
+            var data = result as KunjunganUlang;
+            await dg.Reload();
+        }
+    }
+
+    async Task Delete(KunjunganUlang alat)
+    {
+        var result = await DialogService.Confirm("Yakin Hapus Data ?", "Delete", new ConfirmOptions() { OkButtonText = "Yes", CancelButtonText = "No" });
+        if (result.Value)
+        {
+            //dbContext.KunjunganUlang.Remove(alat);
+            await dbContext.SaveChangesAsync();
+            await dg.Reload();
+        }
+
+    }
+}

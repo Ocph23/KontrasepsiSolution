@@ -1,0 +1,96 @@
+﻿@layout PetugasLayout
+
+@page "/petugas/kunjungan"
+@using MainWeb.Pages.admins
+@using Microsoft.EntityFrameworkCore
+
+
+
+@inject ApplicationDbContext dbContext
+@inject DialogService DialogService
+@inject NavigationManager nav
+
+
+<h3 style="margin-bottom:20px">Kunjungan Akan Datang</h3>
+<RadzenDataGrid @ref="dg" AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced"
+                AllowSorting="true" PageSize="10" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left"
+                ShowPagingSummary="true"
+                Data="@datas" TItem="Pelayanan" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or">
+    <Columns>
+        <RadzenDataGridColumn TItem="Pelayanan" Title="Tanggal Konsultasi" Width="140px">
+            <Template Context="item">
+                @item.TanggalKembali.Value.ToString("dd/MM/yyyy HH:mm")
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="Pelayanan" Property="PesertaId" Title="ID Peserta" 
+                              TextAlign="TextAlign.Center">
+                          <Template Context="item">
+                              @(item.PesertaId.ToString("D7"))
+                              </Template>
+                          </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="Pelayanan" Property="NamaPeserta" Title="Nama Peserta" />
+      
+        <RadzenDataGridColumn TItem="Pelayanan" Title="" Width="50px">
+            <Template Context="item">
+                <RadzenButton Click=@(args => Edit(item)) Icon="edit" ButtonStyle="ButtonStyle.Warning" />
+            </Template>
+        </RadzenDataGridColumn>
+    </Columns>
+</RadzenDataGrid>
+
+
+@code {
+
+
+    [Parameter] public int Id { get; set; }
+
+    IEnumerable<Pelayanan> datas;
+    RadzenDataGrid<Pelayanan> dg;
+    Peserta peserta;
+
+    protected override Task OnInitializedAsync()
+    {
+        var result = (from a in dbContext.Pelayanan
+                        .Include(x => x.Kunjungan)
+                      join b in dbContext.Peserta on a.PesertaId equals b.Id
+                      select new Pelayanan { Id=a.Id, NamaPeserta = b.Nama,  PesertaId = b.Id,
+                          TanggalKembali = a.Kunjungan == null ? null : 
+                          a.Kunjungan.FirstOrDefault(x=> !x.Datang) == null ? null :
+                          a.Kunjungan.FirstOrDefault(x => x.KonsultasiBerikut >= DateTime.Now && !x.Datang).KonsultasiBerikut});
+        datas = result.ToList();
+        return base.OnInitializedAsync();
+    }
+
+
+    async Task Add()
+    {
+        var result = await DialogService.OpenAsync<DialogAddKunjungan>($"Tambah Kunjungan",
+              new Dictionary<string, object>() { { "ID", Id } },
+              new DialogOptions() { Width = "500px", Height = "700px", Resizable = true, Draggable = true });
+
+        if (result.GetType() == typeof(Pelayanan))
+        {
+            var data = result as Pelayanan;
+            await dg.Reload();
+        }
+    }
+
+
+
+    async Task Edit(Pelayanan alat)
+    {
+        nav.NavigateTo($"/petugas/kunjungan/{alat.Id}");
+    }
+
+    async Task Delete(Pelayanan alat)
+    {
+        var result = await DialogService.Confirm("Yakin Hapus Data ?", "Delete", new ConfirmOptions() { OkButtonText = "Yes", CancelButtonText = "No" });
+        if (result.Value)
+        {
+            //dbContext.Pelayanan.Remove(alat);
+            await dbContext.SaveChangesAsync();
+            await dg.Reload();
+        }
+
+    }
+}

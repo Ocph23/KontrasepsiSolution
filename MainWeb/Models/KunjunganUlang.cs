@@ -6,7 +6,7 @@
         public DateTime Tanggal  { get; set; } =DateTime.Now;
         public DateTime HaidTerakhir { get; set; } =DateTime.Now;   
         public double BeratBadan { get; set; }
-        public double TekananDarah{ get; set; }
+        public string TekananDarah { get; set; } = string.Empty;
         public string KompilasiBerat { get; set; } =string.Empty;
         public string Kegagalan { get; set; } = string.Empty;
         public string PemeriksaanDanTindakan { get; set; } = string.Empty;

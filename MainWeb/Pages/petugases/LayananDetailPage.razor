@@ -9,6 +9,7 @@
 @inject ApplicationDbContext dbContext
 @inject DialogService DialogService
 @inject NavigationManager nav
+@inject NotificationService notif
 <style>
     .row {
         margin-bottom: 10px;
@@ -254,14 +255,6 @@
                         </div>
                     </div>
                 </div>
-
-
-            </ChildContent>
-        </RadzenFieldset>
-    </div>
-    <div class="col-md-6">
-        <RadzenFieldset>
-            <ChildContent>
                 <div class="row">
                     <div class="col-md-4 align-items-center d-flex">
                         <RadzenLabel Text="Keadaan Umum" />
@@ -281,6 +274,12 @@
                     </div>
                 </div>
 
+            </ChildContent>
+        </RadzenFieldset>
+    </div>
+    <div class="col-md-6">
+        <RadzenFieldset>
+            <ChildContent>
                 <div class="row">
                     <div class="col-md-4 align-items-center d-flex">
                         <RadzenLabel Text="Tekanan Darah" />
@@ -378,7 +377,7 @@
             <ChildContent>
                 <div class="row">
                     <div class="col-md-4 align-items-center d-flex">
-                        <RadzenLabel Text="Tanggal Dipesan Kembali" />
+                        <RadzenLabel Text="Tanggal Dilayani" />
                     </div>
                     <div class="col-md-8">
                         <RadzenDatePicker @bind-Value="pelayanan.TanggalDilayani" style="width: 100%;"  />
@@ -386,7 +385,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-4 align-items-center d-flex">
-                        <RadzenLabel Text="Tanggal Dipesan Kembali" />
+                        <RadzenLabel Text="Tanggal Dicabut (Khusus Implan/IUD)" />
                     </div>
                     <div class="col-md-8">
                         <RadzenDatePicker @bind-Value="pelayanan.TanggalDicabut" style="width: 100%;"  />
@@ -395,6 +394,39 @@
                 
             </ChildContent>
         </RadzenFieldset>
+    </div>
+    <div class="col-md-6">
+        <RadzenFieldset>
+
+            <ChildContent>
+                <div class="row">
+                    <div class="col-md-4 align-items-center d-flex">
+                        <RadzenLabel Text="Tanggal Dipesan Kembali" />
+                    </div>
+                    <div class="col-md-8">
+                        <RadzenDatePicker @bind-Value="pelayanan.TanggalKembali" style="width: 100%;" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 align-items-center d-flex">
+                        <RadzenLabel Text="Penanggung Jawab" />
+                    </div>
+                    <div class="col-md-8">
+                        <RadzenTextBox @bind-Value="pelayanan.PenanggungJawab" style="width: 100%;" />
+                    </div>
+                </div>
+
+            </ChildContent>
+        </RadzenFieldset>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <RadzenButton Click="@(async ()=> await Simpan())" Style="width:100%; margin:0px; height:45px">Simpan</RadzenButton>
+    </div>
+    <div class="col-md-12">
+        <RadzenButton ButtonStyle="ButtonStyle.Info" Click="@(async ()=> await Kunjungan())" Style="width:100%; margin:0px; height:45px">Data Kunjungan</RadzenButton>
     </div>
 </div>
 
@@ -423,8 +455,40 @@
     }
 
 
-    async Task Add()
+    Task Kunjungan()
     {
+        nav.NavigateTo($"/petugas/kunjungan/{Id}");
+        return Task.CompletedTask;
+    }
+
+
+    async Task Simpan()
+    {
+
+        try{
+            var data = dbContext.Pelayanan
+                       .Include(x => x.CaraKBTerakhir)
+                       .Include(x => x.AlatKontrasepsiPilihan)
+                       .SingleOrDefault(x => x.Id == Id);
+            dbContext.Entry(data).CurrentValues.SetValues(pelayanan);
+            await dbContext.SaveChangesAsync();
+
+            notif.Notify(new NotificationMessage
+                {
+                    Severity = NotificationSeverity.Info,
+                    Summary = "Sukses",
+                    Detail = "Data Berhasil Disimpan !",
+                    Duration = 2500
+                });
+        }catch(Exception ex){
+             notif.Notify(new NotificationMessage
+                {
+                    Severity = NotificationSeverity.Error,
+                    Summary = "Error ",
+                    Detail = ex.Message,
+                    Duration = 3500
+                });
+        }
 
     }
 

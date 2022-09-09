@@ -1,6 +1,7 @@
 using MainWeb;
 using MainWeb.Areas.Identity;
 using MainWeb.Data;
+using MainWeb.Models;
 using MainWeb.Services;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -8,13 +9,20 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Radzen;
+using System.Configuration;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.WebHost.UseUrls("http://localhost:5022");
+/builder.WebHost.UseUrls("http://localhost:5022");
 var host = builder.Configuration["DBHOST"] ?? "localhost";
 var connectionConfig = builder.Configuration.GetConnectionString("DefaultConnection");
 var connectionString = string.Format(connectionConfig, host);
+
+var appSettingsSection = builder.Configuration.GetSection("FcmNotification");
+builder.Services.Configure<FcmNotificationSetting>(appSettingsSection);
+
+builder.Services.AddTransient<IFcmNotificationService, FcmNotificationService>();
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 

@@ -29,9 +29,9 @@
         <RadzenDataGridColumn TItem="Pelayanan" Property="AlamatPeserta" Title="Alamat" />
         <RadzenDataGridColumn TItem="Pelayanan" Property="AlatKontrasepsiPilihan.Nama" Title="Kontrasepsi Pilihan" />
         <RadzenDataGridColumn TItem="Pelayanan" Property="TanggalDilayani" Title="Dilayani" />
-        <RadzenDataGridColumn TItem="Pelayanan" Title="" Width="90px">
+        <RadzenDataGridColumn TItem="Pelayanan" Title="" Width="120px">
             <Template Context="item">
-                <RadzenButton Click=@(args => Edit(item)) Icon="detail" ButtonStyle="ButtonStyle.Warning" />
+                <RadzenButton Click=@(args => Edit(item)) Icon="list" ButtonStyle="ButtonStyle.Warning" />
                 <RadzenButton Click=@(args => Delete(item)) Icon="delete" ButtonStyle="ButtonStyle.Danger" />
             </Template>
         </RadzenDataGridColumn>
