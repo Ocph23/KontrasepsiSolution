@@ -20,7 +20,6 @@ var connectionString = string.Format(connectionConfig, host);
 
 var appSettingsSection = builder.Configuration.GetSection("FcmNotification");
 builder.Services.Configure<FcmNotificationSetting>(appSettingsSection);
-
 builder.Services.AddTransient<IFcmNotificationService, FcmNotificationService>();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -75,6 +74,7 @@ builder.Services.AddScoped<TooltipService>();
 builder.Services.AddScoped<ContextMenuService>();
 
 builder.Services.AddSwaggerGen();
+builder.Services.AddHostedService<SendMessageBackgroundService>();
 var app = builder.Build();
 
 //dbseed

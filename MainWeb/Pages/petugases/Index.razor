@@ -21,7 +21,6 @@
 @code{
     protected override Task OnInitializedAsync()
     {
-        fcmNotification.SendNotification(new NotificationModel { Body = "", DeviceId = "", Title = "" });
 
         return base.OnInitializedAsync();
     }

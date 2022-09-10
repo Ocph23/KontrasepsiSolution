@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MainApp.Models;
+using System.Collections.ObjectModel;
 using System.Text.Json;
 
 namespace MainApp.Pages;
@@ -17,6 +18,9 @@ public partial class KunjunganPage : ContentPage
 
 internal partial class KunjunganPageViewModel : ViewModelBase
 {
+
+    public ObservableCollection<KunjunganUlang> Datas { get; set; } = new ObservableCollection<KunjunganUlang>();
+
     private Pelayanan peserta;
 
     public Pelayanan Model
@@ -30,7 +34,7 @@ internal partial class KunjunganPageViewModel : ViewModelBase
     private string message;
 
     [ObservableProperty]
-    private Pelayanan selectedItem;
+    private KunjunganUlang selectedItem;
 
 
 
@@ -48,7 +52,13 @@ internal partial class KunjunganPageViewModel : ViewModelBase
             if (Model == null || Model.Kunjungan== null || Model.Kunjungan.Count <= 0)
                 Message = "Belum Ada Data Kunjungan Ulang !";
             else
+            {
                 Message = string.Empty;
+                foreach (var item in Model.Kunjungan.OrderByDescending(x=>x.Id))
+                {
+                    Datas.Add(item);
+                }
+            }
         }
         catch (Exception ex)
         {
@@ -82,25 +92,11 @@ internal partial class KunjunganPageViewModel : ViewModelBase
 
     Task Edit(object model)
     {
-        SelectedItem = model as Pelayanan;
+        SelectedItem = model as KunjunganUlang;
         if (SelectedItem != null)
         {
-            var page = new AddPelayananPage();
-            page.BindingContext = new AddPelayananViewModel(SelectedItem);
-            Shell.Current.Navigation.PushAsync(page);
-        }
-        return Task.CompletedTask;
-    }
-
-
-    [RelayCommand]
-    Task Kunjungan(object model)
-    {
-        SelectedItem = model as Pelayanan;
-        if (SelectedItem != null)
-        {
-            var page = new KunjunganPage();
-            //page.BindingContext = new AddPelayananViewModel(SelectedItem);
+            var page = new KunjunganDetailPage();
+            page.BindingContext = new KunjunganDetailPageViewModel(SelectedItem);
             Shell.Current.Navigation.PushAsync(page);
         }
         return Task.CompletedTask;

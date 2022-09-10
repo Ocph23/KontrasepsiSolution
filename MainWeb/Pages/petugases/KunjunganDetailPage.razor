@@ -104,7 +104,7 @@
         var result = await DialogService.Confirm("Yakin Hapus Data ?", "Delete", new ConfirmOptions() { OkButtonText = "Yes", CancelButtonText = "No" });
         if (result.Value)
         {
-            //dbContext.KunjunganUlang.Remove(alat);
+            dbContext.KunjunganUlang.Remove(alat);
             await dbContext.SaveChangesAsync();
             await dg.Reload();
         }

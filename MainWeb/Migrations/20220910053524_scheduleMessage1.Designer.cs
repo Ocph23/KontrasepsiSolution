@@ -3,6 +3,7 @@ using System;
 using MainWeb.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MainWeb.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220910053524_scheduleMessage1")]
+    partial class scheduleMessage1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -325,9 +327,6 @@ namespace MainWeb.Migrations
 
                     b.Property<bool>("Sended")
                         .HasColumnType("tinyint(1)");
-
-                    b.Property<DateTime?>("Tanggal")
-                        .HasColumnType("datetime(6)");
 
                     b.HasKey("Id");
 

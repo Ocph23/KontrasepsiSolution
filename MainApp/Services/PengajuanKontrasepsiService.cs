@@ -17,7 +17,7 @@ namespace MainApp.Services
             try
             {
                 using var rest = new RestService();
-                var response = await rest.GetAsync("/api/pengajuan/");
+                var response = await rest.GetAsync($"/api/pengajuan/{id}");
                 var stringData = await response.Content.ReadAsStringAsync();
                 if (response.IsSuccessStatusCode)
                 {

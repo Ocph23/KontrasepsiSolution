@@ -58,7 +58,7 @@
         </div>
         <div class="col">
             <RadzenTextArea @bind-Value="model.KompilasiBerat" style="width: 100%;" Name="kompilasi" />
-            
+
         </div>
 
         <div class="col-md-12 align-items-center d-flex inputLabel">
@@ -142,21 +142,17 @@
                 var data = dbcontext.Pelayanan
                         .Include(x => x.Kunjungan)
                         .SingleOrDefault(x => x.Id == ID);
-                if(data!=null){
-
-
+                if (data != null)
+                {
                     var last = data.Kunjungan.OrderByDescending(x => x.KonsultasiBerikut).FirstOrDefault();
                     if (last != null)
                         last.Datang = true;
 
                     data.Kunjungan.Add(entity);
-                    await dbcontext.SaveChangesAsync();
-
-
                     var peserta = dbcontext.Peserta.Where(x => x.Id == data.PesertaId).FirstOrDefault();
-
-                  await  fcm.SendNotification(new NotificationModel { Title ="BKKBN", DeviceId = peserta.DeviceToken, Body = $"Kunjungan Berikut Tanggal {entity.KonsultasiBerikut.ToShortDateString()}" });
-
+                    var message = new ScheduleMessage { Tanggal = entity.KonsultasiBerikut.AddDays(-2), PesertaId = peserta.Id, Message = $"Kunjungan Berikut Tanggal {entity.KonsultasiBerikut.ToShortDateString()}" };
+                    dbcontext.Messages.Add(message);
+                    await dbcontext.SaveChangesAsync();
                 }
             }
             else

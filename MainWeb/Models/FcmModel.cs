@@ -24,9 +24,14 @@ namespace MainWeb.Models
         {
             public string Title { get; set; }
             public string Body { get; set; }
+
+            public string Image { get; set; }
+            public bool IsScheduled { get; set; }
+            public string ScheduledTime { get; set; }
         }
+        public string To { get; set; }
         public string Priority { get; set; } = "high";
-        public DataPayload Data { get; set; }
+        //public DataPayload Data { get; set; }
         public DataPayload Notification { get; set; }
     }
 

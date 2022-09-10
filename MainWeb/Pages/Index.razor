@@ -1,7 +1,8 @@
 ﻿@page "/"
 
 <PageTitle>Index</PageTitle>
-
+@inject ApplicationDbContext dbcontext
+@inject IFcmNotificationService fcm
 
 <div style="height:80vh; display:flex;justify-content:center; flex-direction:column; align-items:center">
     <img src="/images/logobkkbn.png" style="width:15%; margin-bottom:50px" />
@@ -18,9 +19,13 @@
 
     <a class="btn btn-info" href="/androidapp/com.ocph23.kontrasepsikb-Signed">DOWNLOAD ANDROID APP</a>
 
-
 </div>
 
 @code{
 
+    //async Task SendMessage(){
+    //    var peserta = dbcontext.Peserta.SingleOrDefault(x=>x.Id==1);
+    //    dbcontext.Messages.Add(new ScheduleMessage { PesertaId=peserta.Id, Message = $"Dengan Schedule Kunjungan Berikut Tanggal {DateTime.Now.ToShortDateString()}" });
+    //    dbcontext.SaveChanges();
+    //}
 }

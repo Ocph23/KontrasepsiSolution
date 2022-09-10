@@ -75,3 +75,21 @@ Authorization: {{auth}}
 GET {{url}}/bypetugas/1 HTTP/1.1
 Content-Type: application/json
 
+
+
+
+#########
+
+
+POST https://fcm.googleapis.com/fcm/send HTTP/1.1
+Content-Type: application/json
+Authorization: key=AAAAj9FjpgY:APA91bGd-U2WFbvjrtF335cyaqmBob1djVqJ3R8z_jFqx1uzVKRfCFerXa55RhJftnYtE8GMbMIWU2kH5dCcRszXxkafnP8kGGjerDEC_L60XNkvCIduXglaIqT6187bSaxgLAZarq8a
+Sender:id=617693292038
+
+{
+  
+  "to": "ctVsw91uQ3qU3PqSrfetfb:APA91bF7LBsOkJOpx7VQMpmzMcesZLZmJ32Hcapbvd40EljorDNRDu0qfao_4W-b5y78tnxp26gLlIggCmlJBg-n4E-uvrpg65xRHIyMxj4ipQO6umdUJUlNPzta49NqsNpj3KTgzY1o",
+  "priority":"high","notification":{"title":"BKKBN","body":"Dengan Schedule Kunjungan Berikut Tanggal 10/09/2022","image":"https://jateng.bkkbn.go.id/wp-content/uploads/2020/09/cropped-LOGO-BKKBN-2020-KUPU2.png","isScheduled":true,"scheduledTime":"2022-09-10 13:09:33"}
+  }
+
+####

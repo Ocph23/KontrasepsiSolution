@@ -5,6 +5,8 @@ using static MainWeb.Models.GoogleNotification;
 using System.Net.Http.Headers;
 using System.Runtime;
 using CorePush.Google;
+using CorePush.Utils;
+using System.Text;
 
 namespace MainWeb.Services
 {
@@ -25,21 +27,31 @@ namespace MainWeb.Services
                     SenderId = _fcmNotificationSetting.SenderId,
                     ServerKey = _fcmNotificationSetting.ServerKey
                 };
-                HttpClient httpClient = new HttpClient();
-                string authorizationKey = string.Format("keyy={0}", settings.ServerKey);
+                HttpClient httpClient = new HttpClient() { BaseAddress = new Uri("https://fcm.googleapis.com/fcm/send") };
+                string authorizationKey = string.Format("key={0}", settings.ServerKey);
                 string deviceToken = notificationModel.DeviceId;
                 httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", authorizationKey);
                 httpClient.DefaultRequestHeaders.Accept
                         .Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 DataPayload dataPayload = new DataPayload();
+                dataPayload.Image = "https://jateng.bkkbn.go.id/wp-content/uploads/2020/09/cropped-LOGO-BKKBN-2020-KUPU2.png";
+                dataPayload.IsScheduled = true;
+
+                dataPayload.ScheduledTime = DateTime.Now.AddMinutes(5).ToString("yyyy-MM-dd HH:MM:ss");
+
                 dataPayload.Title = notificationModel.Title;
                 dataPayload.Body = notificationModel.Body;
                 GoogleNotification notification = new GoogleNotification();
-                notification.Data = dataPayload;
                 notification.Notification = dataPayload;
+                notification.To= deviceToken;
+
+
+                string content = JsonHelper.Serialize(notification);
+                var message = new StringContent(content, Encoding.UTF8, "application/json");
                 var fcm = new FcmSender(settings, httpClient);
-                var fcmSendResponse = await fcm.SendAsync(deviceToken, notification);
-                if (fcmSendResponse.IsSuccess())
+                var fcmSendResponse = await httpClient.PostAsync("",message);
+
+                if (fcmSendResponse.IsSuccessStatusCode)
                 {
                     response.IsSuccess = true;
                     response.Message = "Notification sent successfully";
@@ -48,7 +60,7 @@ namespace MainWeb.Services
                 else
                 {
                     response.IsSuccess = false;
-                    response.Message = fcmSendResponse.Results[0].Error;
+                    //response.Message = fcmSendResponse.Results[0].Error;
                     return response;
                 }
             }

@@ -15,6 +15,8 @@ namespace MainWeb.Data
         public DbSet<Peserta> Peserta { get; set; }
         public DbSet<Pelayanan> Pelayanan{ get; set; }
         public DbSet<AlatKontrasepsi> AlatKontrasepsi { get; set; }
+        public DbSet<ScheduleMessage> Messages{ get; set; }
+        public DbSet<KunjunganUlang> KunjunganUlang{ get; set; }
 
 
     }
