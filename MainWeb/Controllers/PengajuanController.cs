@@ -34,7 +34,7 @@ namespace MainWeb.Controllers
         {
             var userName = User.Identity.Name;
             var user = await _userManager.FindByNameAsync(userName);
-            if (user != null)
+            if (user == null)
             {
                 return Unauthorized();
             }

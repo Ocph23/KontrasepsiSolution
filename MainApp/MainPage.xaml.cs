@@ -124,7 +124,7 @@ namespace MainApp
             if (SelectedItem != null)
             {
                 var page = new KunjunganPage();
-                //page.BindingContext = new AddPelayananViewModel(SelectedItem);
+                page.BindingContext = new KunjunganPageViewModel(SelectedItem.Id);
                 Shell.Current.Navigation.PushAsync(page);
             }
             return Task.CompletedTask;
