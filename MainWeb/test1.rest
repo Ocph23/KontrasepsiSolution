@@ -1,0 +1,41 @@
+@url=https://localhost:5001/api
+#@url=https://absenimigrasi.ocphapp.tech/api
+@auth=bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoib2NwaDIzQGhvdG1haWwuY29tIiwianRpIjoiYTgyOGMzZjUtOGE1Zi00ODg0LTliMTMtN2Y0OWE1MTRiMmM4IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiS2FyeWF3YW4iLCJleHAiOjE2NjM0NDI5MzV9.WVVzZYyZK2TdDmCea8tU1uXy260BhrMaLPVYy9iVxfs
+
+
+POST {{url}}/mobile/login HTTP/1.1
+Content-Type: application/json
+
+{"userName":"ocph23@hotmail.com", "password":"Sony@77"}
+
+
+####
+
+
+GET {{url}}/Mobile/absen/1 HTTP/1.1
+Content-Type: application/json
+Authorization: {{auth}}
+
+#####
+
+
+
+GET {{url}}/Mobile/tempat HTTP/1.1
+Content-Type: application/json
+Authorization: {{auth}}
+
+#####
+
+
+
+GET {{url}}/Mobile/jam HTTP/1.1
+Content-Type: application/json
+Authorization: {{auth}}
+
+#####
+#
+GET {{url}}/Mobile/GetAbsen HTTP/1.1
+Content-Type: application/json
+Authorization: {{auth}}
+
+#####

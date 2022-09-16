@@ -13,7 +13,10 @@ using System.Configuration;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.WebHost.UseUrls("http://localhost:5022");
+
+if (builder.Environment.EnvironmentName == "Production")
+    builder.WebHost.UseUrls("http://localhost:5022");
+
 var host = builder.Configuration["DBHOST"] ?? "localhost";
 var connectionConfig = builder.Configuration.GetConnectionString("DefaultConnection");
 var connectionString = string.Format(connectionConfig, host);

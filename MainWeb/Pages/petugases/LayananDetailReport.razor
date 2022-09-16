@@ -1,0 +1,370 @@
+﻿<style>
+    .box {
+        border: 1px solid;
+        padding-left: 2px;
+        padding-right: 2px;
+        width: fit-content;
+    }
+
+    .box2 {
+        border: 1px solid;
+        padding-left: 2px;
+        padding-right: 2px;
+        margin-left: -4px;
+    }
+
+    th, td {
+        border: 1px solid;
+        font-size: 12px;
+    }
+
+    span {
+        padding: 0px;
+        margin: 0px;
+    }
+
+    table {
+        width: 100%;
+        table-layout: fixed
+    }
+
+    .table1 tr td, .table1 tr th {
+        font-size: 8px;
+    }
+
+    .smallText {
+        font-size: 8px;
+    }
+
+</style>
+
+<div class="onlyprint">
+    <div style="display:flex; justify-content:center">
+        <h4 style="border: 2px solid">KARTU STATUS PESERTA KB</h4>
+    </div>
+
+
+    <table>
+        <tr>
+            <td>III. Nama Peserta KB</td>
+            <td>: @peserta.Nama</td>
+            <td colspan="2">
+                IV. Tgl/Bln/Tahun LAhir/Umur Istri
+                <span class="box"> @peserta.TanggalLahir.Value.ToString("dd").ToArray()[0]</span>
+                <span class="box2"> @peserta.TanggalLahir.Value.ToString("dd").ToArray()[1]</span>
+                <span class="box"> @peserta.TanggalLahir.Value.ToString("MM").ToArray()[0]</span>
+                <span class="box2"> @peserta.TanggalLahir.Value.ToString("MM").ToArray()[1]</span>
+                <span class="box"> @peserta.TanggalLahir.Value.ToString("yyyy").ToArray()[2]</span>
+                <span class="box2"> @peserta.TanggalLahir.Value.ToString("yyyy").ToArray()[3]</span>
+                /<span class="box" style="margin-left:40px"> @peserta.Usia.ToString("D2")[0]</span>
+                <span class="box2"> @peserta.Usia.ToString("D2")[1]</span>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+                V. Nama Suami/Istri
+            </td>
+            <td>@peserta.NamaPasangan</td>
+            <td>
+                VI. Pendidikan Suami dan Istri
+            </td>
+            <td style="text-align:right">
+                <span class="box"> @(((int)peserta.PendidikanPasangan) + 1)</span>
+                <span class="box2" style="margin-left:10px">@(((int)peserta.Pendidikan) + 1)</span>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+            </td>
+            <td colspan="2">
+                <table class="table1">
+                    <tr>
+                        <td>1. Tidak Tamat SD</td>
+                        <td>2. Tamat SD</td>
+                        <td>3. Tamat SLTP</td>
+                    </tr>
+                    <tr>
+                        <td>4. Tamat SLTA</td>
+                        <td>2. Tamat PT</td>
+                        <td></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                VII. Alamat Peserta KB
+            </td>
+            <td>
+                @peserta.Alamat
+            </td>
+            <td>
+                VIII. Pekerjaan Suami dan IStri
+            </td>
+            <td style="text-align:right">
+                <span class="box"> @(((int)peserta.PekerjaanPasangan) + 1)</span>
+                <span class="box2" style="margin-left:10px">@(((int)peserta.Pekerjaan) + 1)</span>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+            </td>
+            <td colspan="2">
+                <table class="table1">
+                    <tr>
+                        <td>1. Pegawai Pemerintah</td>
+                        <td>4. Nelayan</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                IX. Tahapan KS
+            </td>
+            <td>
+                @peserta.TahapanKS
+            </td>
+            <td colspan="2">
+                <table class="table1">
+                    <tr>
+                        <td>2. Pegawai Swasta</td>
+                        <td>5. Tidak Bekerja</td>
+                    </tr>
+                    <tr>
+                        <td>3. Petani</td>
+                        <td>6. Lain-Lain ......... </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                X. Status Peserta Jaminan Kesehatan Nasional JKN
+            </td>
+            <td colspan="2">
+                <div style="display:flex">
+                    <div>
+                        <span class="box"> @(((int)peserta.JKN) + 1)</span>
+                    </div>
+                    <div style="margin-left:3px">
+                        <div style="font-size:8px">1. Peserta JKN Penerima Bantuan Iuran</div>
+                        <div style="font-size:8px">2. Peserta JKN Bukan Penerima Bantuan Iuran</div>
+                        <div style="font-size:8px">3. Bukan Peserta JKN</div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+
+    <table>
+        <tr>
+            <td>
+                XI Jumlah Anak Hidup  <span class="box2" style="margin-left:20px">@(pelayanan.AnakHidupLaki)</span>
+                <span class="box2" style="margin-left:20px">@(pelayanan.AnakHidupPerempuan)</span>
+            </td>
+            <td>
+                XII. Umur Anak Terkecil
+                <span style="margin-left:30px" class="box">@(pelayanan.UmurAnakTerkecilTahun.ToString("D2")[0])</span>
+                <span class="box2">@(pelayanan.UmurAnakTerkecilTahun.ToString("D2")[1])</span>
+
+                <span style="margin-left:30px" class="box">@(pelayanan.UmurAnakTerkecilBulan.ToString("D2")[0])</span>
+                <span class="box2">@(pelayanan.UmurAnakTerkecilBulan.ToString("D2")[1])</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                XIII. Status Peserta KB <span style="margin-left:30px" class="box">@(pelayanan.StatusKB)</span>
+            </td>
+            <td>
+                XIV. Cara KB terakhir <span style="margin-left:30px" class="box">@(pelayanan.CaraKBTerakhir)</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align:top">
+                <div>
+                    <div class="smallText">1. Baru Pertama Kali</div>
+                    <div class="smallText">2. Pernah Pake Alat KB Terhenti sebelim bersalin/melahirkan</div>
+                </div>
+            </td>
+            <td>
+                <table class="table1">
+                    <tr>
+                        <td>1. IUD</td>
+                        <td>2. MOW</td>
+                        <td>3. MOP</td>
+                    </tr>
+                    <tr>
+                        <td>4. Kondom</td>
+                        <td>5. Implan</td>
+                        <td>6. Suntikan</td>
+                    </tr>
+                    <tr>
+                        <td>7. PIL</td>
+                    </tr>
+                </table>
+
+
+
+
+
+
+            </td>
+        </tr>
+    </table>
+
+    <hr />
+    <div>
+    </div>
+    <div>
+    </div>
+    <div>
+    </div>
+    <table>
+        <tr>
+            <td>
+                XV Penapisan (Skrining) untuk menentukan alat kontrasepsi yang dapat digunakan calon peserta KB
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Petunjuk : Periksa keadaan berikut ini dan hasilnya ditulis dengan angka atau tanda centang (v) pada kota tersedia
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Penapisan (Skrining) hanya boleh dilakukan oleh pelaksana yang telah dilatih dalam pelayanan kontrasepsi
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Anamnese
+            </td>
+        </tr>
+    </table>
+
+    <table>
+        <tr>
+            <td>
+                1. Haid terakhir Tanggal :
+                <span class="box">@pelayanan.TerakhirHaid.ToString("dd")[0]</span>
+                <span class="box2">@pelayanan.TerakhirHaid.ToString("dd")[1]</span>
+
+                <span class="box" style="margin-left:30px">@pelayanan.TerakhirHaid.ToString("MM")[0]</span>
+                <span class="box2">@pelayanan.TerakhirHaid.ToString("MM")[1]</span>
+
+                <span class="box" style="margin-left:30px">@pelayanan.TerakhirHaid.ToString("yyyy")[2]</span>
+                <span class="box2">@pelayanan.TerakhirHaid.ToString("yyyy")[3]</span>
+            </td>
+            <td>
+                2. Hamil/Diduga Hamil : 1) Ya         <span style="margin-left:20px">2) Tidak </span>
+                <span class="box" style="margin-left:30px">@(pelayanan.Hamil ? "1" : "2")</span>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                3. Jumlah GPA :  Gravida (Kehamilan)
+                <span class="box">@pelayanan.JumlahKehamilan.ToString("D2")[0]</span>
+                <span class="box2" style="margin-right:30px">@pelayanan.JumlahKehamilan.ToString("D2")[1]</span>
+
+                Partus (Persalinan)
+                <span class="box">@pelayanan.JumlahPersalinan.ToString("D2")[0]</span>
+                <span class="box2" style="margin-right:30px">@pelayanan.JumlahPersalinan.ToString("D2")[1]</span>
+
+                Abortus (Keguguran)
+                <span class="box">@pelayanan.JumlahPersalinan.ToString("D2")[0]</span>
+                <span class="box2">@pelayanan.JumlahPersalinan.ToString("D2")[1]</span>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+                4. Menyusui : <span>1) Ya</span>  <span>1) Tidak </span>
+                <span class="box" style="margin-left:30px">@(pelayanan.Menyusui ? "1" : "2")</span>
+            </td>
+        </tr>
+    </table>
+
+    <table>
+        <tr>
+            <td colspan="3">
+                5. Riwayat Penyakit Sebelumnya
+            </td>
+            <td>Tidak</td>
+            <td>Ya</td>
+            <td colspan="4"></td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <span style="margin-left:10px">a. Sakit Kuning </span>
+            </td>
+            <td>
+                @if (pelayanan.SakitKuning)
+                {
+                    <span class="box">&nbsp;&nbsp;</span>
+                }else{
+                    <span class="box">v</span>
+                }
+            </td>
+            <td>
+                @if (pelayanan.SakitKuning)
+                {
+                    <span class="box">v</span>
+                }
+                else
+                {
+                    <span class="box">&nbsp;&nbsp;</span>
+                }
+                </td>
+            <td colspan="4"></td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <span style="margin-left:10px">b. Pendarahan pervaginam yang tidak diketahui sebabnya </span>
+            </td>
+            <td>
+                @if (pelayanan.PendarahanPervaginam)
+                {
+                    <span class="box">&nbsp;&nbsp;</span>
+                }
+                else
+                {
+                    <span class="box">v</span>
+                }
+            </td>
+            <td>
+                @if (pelayanan.PendarahanPervaginam)
+                {
+                    <span class="box">v</span>
+                }
+                else
+                {
+                    <span class="box">&nbsp;&nbsp;</span>
+                }
+            </td>
+            <td colspan="4"></td>
+        </tr>
+    </table>
+
+
+</div>
+
+
+
+
+@code {
+    [Parameter]
+    public Peserta peserta { get; set; }
+
+
+    [Parameter]
+    public Pelayanan pelayanan { get; set; }
+
+
+
+}

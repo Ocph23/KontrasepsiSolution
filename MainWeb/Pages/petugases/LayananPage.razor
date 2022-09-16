@@ -5,14 +5,15 @@
 @using Microsoft.EntityFrameworkCore
 
 
-
+@inject IJSRuntime JS
 @inject ApplicationDbContext dbContext
 @inject DialogService DialogService
 @inject NavigationManager nav
 
+<div class="noprint">
 
 <h3 style="margin-bottom:20px">Data Pengajuan dan Pelayanan</h3>
-
+<RadzenButton Style="margin-bottom:20px" Click=@(args => JS.InvokeVoidAsync("doprint")) Icon="printer" ButtonStyle="ButtonStyle.Info" />
 <RadzenDataGrid @ref="dg" AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced"
                 AllowSorting="true" PageSize="10" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left"
                 ShowPagingSummary="true"
@@ -20,15 +21,15 @@
     <Columns>
         <RadzenDataGridColumn TItem="Pelayanan" Property="Id" Title="ID" Frozen="true" Width="70px"
                               TextAlign="TextAlign.Center" />
-        <RadzenDataGridColumn TItem="Pelayanan" Title="Tanggal" Width="140px" >
+        <RadzenDataGridColumn TItem="Pelayanan" Title="Tanggal" Width="120px" >
             <Template Context="item" >
                 @item.Tanggal.ToString("dd/MM/yyyy")
             </Template>
         </RadzenDataGridColumn>
         <RadzenDataGridColumn TItem="Pelayanan" Property="NamaPeserta" Title="Peserta" />
         <RadzenDataGridColumn TItem="Pelayanan" Property="AlamatPeserta" Title="Alamat" />
-        <RadzenDataGridColumn TItem="Pelayanan" Property="AlatKontrasepsiPilihan.Nama" Title="Kontrasepsi Pilihan" />
-        <RadzenDataGridColumn TItem="Pelayanan" Property="TanggalDilayani" Title="Dilayani" />
+        <RadzenDataGridColumn TItem="Pelayanan" Property="AlatKontrasepsiPilihan.Nama" Title="Kontrasepsi Pilihan" Width="200px" />
+        <RadzenDataGridColumn TItem="Pelayanan" Property="TanggalDilayani" Title="Dilayani" Width="180px" />
         <RadzenDataGridColumn TItem="Pelayanan" Title="" Width="120px">
             <Template Context="item">
                 <RadzenButton Click=@(args => Edit(item)) Icon="list" ButtonStyle="ButtonStyle.Warning" />
@@ -37,6 +38,39 @@
         </RadzenDataGridColumn>
     </Columns>
 </RadzenDataGrid>
+</div>
+
+
+
+<div class="onlyprint">
+    <div style="display:flex; justify-content:center; flex-direction:column;align-items:center">
+        <h5>LAPORAN DATA PENGAJUAN PELAYANAN/PEMASANGAN</h5>
+        <h5>ALAT KONTRASEPSI</h5>
+    </div>
+
+    <table class="table" style="margin-top:30px">
+        <tr>
+            <th>ID</th>
+            <th>Tanggal Pengajuan</th>
+            <th>Nama</th>
+            <th>Alamat</th>
+            <th>Kontrasepsi Pilihan</th>
+            <th>Dilayani</th>
+        </tr>
+        @foreach (var item in datas)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Tanggal.ToString("dd-MM-yyyy")</td>
+                <td>@item.NamaPeserta</td>
+                <td style="width:30%">@item.AlamatPeserta</td>
+                <td>@item.AlatKontrasepsiPilihan.Nama</td>
+                <td>@item.TanggalDilayani.Value.ToString("dd-MM-yyyy")</td>
+            </tr>
+        }
+    </table>
+
+</div>
 
 
 @code {

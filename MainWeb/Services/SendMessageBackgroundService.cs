@@ -30,6 +30,7 @@ namespace MainWeb.Services
 
             try
             {
+                
                 using var scope = _scopeFactory.CreateScope();
 
                 // Get a Dbcontext from the scope

@@ -59,7 +59,6 @@
 	  <None Remove="Resources\Images\bkknsplash.png" />
 	  <None Remove="Resources\Images\card1.png" />
 	  <None Remove="Resources\Images\kindpng.png" />
-	  <None Remove="Resources\Images\logout.png" />
 	  <None Remove="Resources\Images\medicalhistory.png" />
 	  <None Remove="Resources\Images\plus.png" />
 	  <None Remove="Resources\Images\syringe.png" />
@@ -110,6 +109,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\LoginPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\LogoutPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\PelayananViewPage.xaml">

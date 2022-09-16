@@ -5,7 +5,7 @@
 @using Microsoft.EntityFrameworkCore
 
 
-
+@inject IJSRuntime JS
 @inject ApplicationDbContext dbContext
 @inject DialogService DialogService
 @inject NavigationManager nav
@@ -16,419 +16,427 @@
     }
 </style>
 
+<div class="noprint">
 
-<h3 style="margin-bottom:20px">Detail Pengajuan dan Pelayanan</h3>
 
-<div class="row">
-    <div style="margin-top:20px"><h5>PROFILE PESERTA</h5> </div>
-</div>
-<div class="row">
-    <div class="col-md-6">
-        <RadzenFieldset>
 
-            <ChildContent>
-                <div class="row">
-                    <div class="col-md-4 align-items-center d-flex">
-                        <RadzenLabel Text="Nama Peserta" />
-                    </div>
-                    <div class="col-md-8">
-                        <RadzenTextBox  Disabled=true @bind-Value="peserta.Nama" style="width: 100%;" Name="nama" />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4 align-items-center d-flex">
-                        <RadzenLabel Text="Tanggal Lahir" />
-                    </div>
-                    <div class="col-md-8">
-                        <RadzenTextBox Disabled=true Value="@(peserta.TanggalLahir.Value.ToString("dd - MM - yyyy"))" style="width: 100%;"  />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4 align-items-center d-flex">
-                        <RadzenLabel Text="Umur" />
-                    </div>
-                    <div class="col-md-8">
-                        <RadzenTextBox Disabled=true Value="@($"{DateTime.Now.Year - peserta.TanggalLahir.Value.Year} Tahun")" style="width: 100%;"  />
-                    </div>
-                </div>
+    <h3 style="margin-bottom:20px">Detail Pengajuan dan Pelayanan</h3>
 
-                <div class="row">
-                    <div class="col-md-4 align-items-center d-flex">
-                        <RadzenLabel Text="Nama Suami/Istri" />
-                    </div>
-                    <div class="col-md-8">
-                        <RadzenTextBox Disabled=true @bind-Value="peserta.NamaPasangan" style="width: 100%;"  />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4 align-items-center d-flex">
-                        <RadzenLabel Text="Pendidikan Istri" />
-                    </div>
-                    <div class="col-md-8">
-                        <RadzenTextBox Disabled=true Value="@(peserta.Pendidikan.ToStringText())" style="width: 100%;"  />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4 align-items-center d-flex">
-                        <RadzenLabel Text="Pendidikan Pasangan" />
-                    </div>
-                    <div class="col-md-8">
-                        <RadzenTextBox Disabled=true Value="@(peserta.PendidikanPasangan.ToStringText())" style="width: 100%;"  />
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-4 align-items-center d-flex">
-                        <RadzenLabel Text="Pekerjaan" />
-                    </div>
-                    <div class="col-md-8">
-                        <RadzenTextBox Disabled=true Value="@(peserta.Pekerjaan.ToStringText())" style="width: 100%;"  />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4 align-items-center d-flex">
-                        <RadzenLabel Text="Pekerjaan Pasangan" />
-                    </div>
-                    <div class="col-md-8">
-                        <RadzenTextBox Disabled=true Value="@(peserta.PekerjaanPasangan.ToStringText())" style="width: 100%;"  />
-                    </div>
-                </div>
-
-            </ChildContent>
-        </RadzenFieldset>
+    <div>
+        <div style="margin-top:20px"><h5>PROFILE PESERTA</h5> </div>
+        <RadzenButton  Style="margin-bottom:20px" Click=@(args => JS.InvokeVoidAsync("doprint")) Icon="printer" ButtonStyle="ButtonStyle.Info" />
     </div>
-    <div class="col-md-6">
-        <RadzenFieldset>
-            <HeaderTemplate>
-                <div style="margin-left:-10px;margin-top:20px"><h5></h5> </div>
-            </HeaderTemplate>
-            <ChildContent>
-                <div class="row">
-                    <div class="col-md-4 align-items-center d-flex">
-                        <RadzenLabel Text="Alamat" />
-                    </div>
-                    <div class="col-md-8">
-                        <RadzenTextArea Disabled=true Value="@(peserta.Alamat)" style="height:52px; width: 100%;"  />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4 align-items-center d-flex">
-                        <RadzenLabel Text="Tahapan KSP" />
-                    </div>
-                    <div class="col-md-8">
-                        <RadzenTextBox Disabled=true @bind-Value="peserta.TahapanKS" style="width: 100%;" />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4 align-items-center d-flex">
-                        <RadzenLabel Text="Status JKN" />
-                    </div>
-                    <div class="col-md-8">
-                        <RadzenTextBox Disabled=true Value="@(peserta.JKN.ToStringText())" style="width: 100%;"  />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4 align-items-center d-flex">
-                        <RadzenLabel Text="Jumlah Anak Hidup" />
-                    </div>
-                    <div class="col-md-8" style="display:flex; align-items:center">
-                        <RadzenLabel Text="laki-Laki" />
-                        <RadzenTextBox Disabled=true Value="@(pelayanan.AnakHidupLaki.ToString())" style="width: 50px;margin-right:40px; margin-left:10px"  />
-                        <RadzenLabel Text="Perempuan" />
-                        <RadzenTextBox Disabled=true Value="@(pelayanan.AnakHidupPerempuan.ToString())" style="width: 50px; margin-left:10px"  />
-                    </div>
-                </div>
+    <div class="row">
+        <div class="col-md-6">
+            <RadzenFieldset>
 
-                <div class="row">
-                    <div class="col-md-4 align-items-center d-flex">
-                        <RadzenLabel Text="Umur Anak Terkecil" />
+                <ChildContent>
+                    <div class="row">
+                        <div class="col-md-4 align-items-center d-flex">
+                            <RadzenLabel Text="Nama Peserta" />
+                        </div>
+                        <div class="col-md-8">
+                            <RadzenTextBox Disabled=true @bind-Value="peserta.Nama" style="width: 100%;" Name="nama" />
+                        </div>
                     </div>
-                    <div class="col-md-8" style="display:flex; align-items:center">
-                        <RadzenTextBox Disabled=true Value="@(pelayanan.UmurAnakTerkecilTahun.ToString())" style="width: 50px;margin-right:10px"  />
-                        <RadzenLabel Text="Tahun" />
-                        <RadzenTextBox Disabled=true Value="@(pelayanan.UmurAnakTerkecilBulan.ToString())" style="width: 50px; margin-right:10px; margin-left:40px"  />
-                        <RadzenLabel Text="Bulan" />
+                    <div class="row">
+                        <div class="col-md-4 align-items-center d-flex">
+                            <RadzenLabel Text="Tanggal Lahir" />
+                        </div>
+                        <div class="col-md-8">
+                            <RadzenTextBox Disabled=true Value="@(peserta.TanggalLahir.Value.ToString("dd - MM - yyyy"))" style="width: 100%;" />
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4 align-items-center d-flex">
-                        <RadzenLabel Text="Status Peserta KB" />
+                    <div class="row">
+                        <div class="col-md-4 align-items-center d-flex">
+                            <RadzenLabel Text="Umur" />
+                        </div>
+                        <div class="col-md-8">
+                            <RadzenTextBox Disabled=true Value="@($"{DateTime.Now.Year - peserta.TanggalLahir.Value.Year} Tahun")" style="width: 100%;" />
+                        </div>
                     </div>
-                    <div class="col-md-8">
-                        <RadzenTextBox Disabled=true Value="@(pelayanan.StatusKB?"Baru Pertama Kali":"Pernah Pakai Alat KB dan berhenti setelah bersalin/keguguran")" style="width: 100%;"  />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4 align-items-center d-flex">
-                        <RadzenLabel Text="Cara KB Terakhir" />
-                    </div>
-                    <div class="col-md-8">
-                        <RadzenTextBox Disabled=true Value="@(pelayanan.CaraKBTerakhir?.Nama)" style="width: 100%;"  />
-                    </div>
-                </div>
 
-            </ChildContent>
-        </RadzenFieldset>
+                    <div class="row">
+                        <div class="col-md-4 align-items-center d-flex">
+                            <RadzenLabel Text="Nama Suami/Istri" />
+                        </div>
+                        <div class="col-md-8">
+                            <RadzenTextBox Disabled=true @bind-Value="peserta.NamaPasangan" style="width: 100%;" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 align-items-center d-flex">
+                            <RadzenLabel Text="Pendidikan Istri" />
+                        </div>
+                        <div class="col-md-8">
+                            <RadzenTextBox Disabled=true Value="@(peserta.Pendidikan.ToStringText())" style="width: 100%;" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 align-items-center d-flex">
+                            <RadzenLabel Text="Pendidikan Pasangan" />
+                        </div>
+                        <div class="col-md-8">
+                            <RadzenTextBox Disabled=true Value="@(peserta.PendidikanPasangan.ToStringText())" style="width: 100%;" />
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 align-items-center d-flex">
+                            <RadzenLabel Text="Pekerjaan" />
+                        </div>
+                        <div class="col-md-8">
+                            <RadzenTextBox Disabled=true Value="@(peserta.Pekerjaan.ToStringText())" style="width: 100%;" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 align-items-center d-flex">
+                            <RadzenLabel Text="Pekerjaan Pasangan" />
+                        </div>
+                        <div class="col-md-8">
+                            <RadzenTextBox Disabled=true Value="@(peserta.PekerjaanPasangan.ToStringText())" style="width: 100%;" />
+                        </div>
+                    </div>
+
+                </ChildContent>
+            </RadzenFieldset>
+        </div>
+        <div class="col-md-6">
+            <RadzenFieldset>
+                <HeaderTemplate>
+                    <div style="margin-left:-10px;margin-top:20px"><h5></h5> </div>
+                </HeaderTemplate>
+                <ChildContent>
+                    <div class="row">
+                        <div class="col-md-4 align-items-center d-flex">
+                            <RadzenLabel Text="Alamat" />
+                        </div>
+                        <div class="col-md-8">
+                            <RadzenTextArea Disabled=true Value="@(peserta.Alamat)" style="height:52px; width: 100%;" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 align-items-center d-flex">
+                            <RadzenLabel Text="Tahapan KSP" />
+                        </div>
+                        <div class="col-md-8">
+                            <RadzenTextBox Disabled=true @bind-Value="peserta.TahapanKS" style="width: 100%;" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 align-items-center d-flex">
+                            <RadzenLabel Text="Status JKN" />
+                        </div>
+                        <div class="col-md-8">
+                            <RadzenTextBox Disabled=true Value="@(peserta.JKN.ToStringText())" style="width: 100%;" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 align-items-center d-flex">
+                            <RadzenLabel Text="Jumlah Anak Hidup" />
+                        </div>
+                        <div class="col-md-8" style="display:flex; align-items:center">
+                            <RadzenLabel Text="laki-Laki" />
+                            <RadzenTextBox Disabled=true Value="@(pelayanan.AnakHidupLaki.ToString())" style="width: 50px;margin-right:40px; margin-left:10px" />
+                            <RadzenLabel Text="Perempuan" />
+                            <RadzenTextBox Disabled=true Value="@(pelayanan.AnakHidupPerempuan.ToString())" style="width: 50px; margin-left:10px" />
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 align-items-center d-flex">
+                            <RadzenLabel Text="Umur Anak Terkecil" />
+                        </div>
+                        <div class="col-md-8" style="display:flex; align-items:center">
+                            <RadzenTextBox Disabled=true Value="@(pelayanan.UmurAnakTerkecilTahun.ToString())" style="width: 50px;margin-right:10px" />
+                            <RadzenLabel Text="Tahun" />
+                            <RadzenTextBox Disabled=true Value="@(pelayanan.UmurAnakTerkecilBulan.ToString())" style="width: 50px; margin-right:10px; margin-left:40px" />
+                            <RadzenLabel Text="Bulan" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 align-items-center d-flex">
+                            <RadzenLabel Text="Status Peserta KB" />
+                        </div>
+                        <div class="col-md-8">
+                            <RadzenTextBox Disabled=true Value="@(pelayanan.StatusKB?"Baru Pertama Kali":"Pernah Pakai Alat KB dan berhenti setelah bersalin/keguguran")" style="width: 100%;" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 align-items-center d-flex">
+                            <RadzenLabel Text="Cara KB Terakhir" />
+                        </div>
+                        <div class="col-md-8">
+                            <RadzenTextBox Disabled=true Value="@(pelayanan.CaraKBTerakhir?.Nama)" style="width: 100%;" />
+                        </div>
+                    </div>
+
+                </ChildContent>
+            </RadzenFieldset>
+        </div>
     </div>
-</div>
 
 
 
-<div class="row">
-    <div style="margin-top:20px"><h5>ANAMNESE DAN PEMERIKSAAN</h5> </div>
-</div>
-
-
-<div class="row">
-    <div class="col-md-6">
-        <RadzenFieldset>
-
-            <ChildContent>
-                <div class="row">
-                    <div class="col-md-4 align-items-center d-flex">
-                        <RadzenLabel Text="Tanggal Terakhir Haid" />
-                    </div>
-                    <div class="col-md-8">
-                        <RadzenDatePicker @bind-Value="pelayanan.TerakhirHaid" style="width: 100%;"  />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4 align-items-center d-flex">
-                        <RadzenLabel Text="Hamil/Diduga Hamil" />
-                    </div>
-                    <div class="col-md-8">
-                        <RadzenCheckBox @bind-Value="pelayanan.Hamil" />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4 align-items-start d-flex">
-                        <RadzenLabel Text="Jumlah GPA" />
-                    </div>
-                    <div class="col-md-8">
-                        <div style="display:flex;align-items:center;justify-content:space-between">
-                            <RadzenLabel Text="Gravida(Kehamilan)" />
-                            <RadzenNumeric @bind-Value="pelayanan.JumlahKehamilan" style="width: 70px; margin-left:40px"  />
-
-                        </div>
-                        <div style="display:flex;align-items:center;justify-content:space-between">
-                            <RadzenLabel Text="Partus (Persalinan)" />
-                            <RadzenNumeric @bind-Value="pelayanan.JumlahPersalinan" style="width: 70px; margin-left:40px"  />
-
-                        </div>
-
-                        <div style="display:flex;align-items:center;justify-content:space-between">
-
-                            <RadzenLabel Text="Abortus (Keguguran)" />
-                            <RadzenNumeric @bind-Value="pelayanan.JumlahKeguguran" style="width: 70px; margin-left:40px"  />
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4 align-items-center d-flex">
-                        <RadzenLabel Text="Menyusui" />
-                    </div>
-                    <div class="col-md-8">
-                        <RadzenCheckBox @bind-Value="pelayanan.Menyusui" />
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-4 align-items-start d-flex">
-                        <RadzenLabel Text="Riwayat Penyakit Sebelumnya" />
-                    </div>
-                    <div class="col-md-8">
-                        <div style="display:flex;align-items:center;justify-content:space-between">
-                            <RadzenLabel Text="Sakit Kuning" />
-                            <RadzenCheckBox @bind-Value="pelayanan.SakitKuning" />
-                        </div>
-                         <div style="display:flex;align-items:center;justify-content:space-between">
-                            <RadzenLabel Text="Pendarahan Pervaginam yang tidak diketahui sebabnya" />
-                            <RadzenCheckBox @bind-Value="pelayanan.PendarahanPervaginam" />
-                        </div>
-                         <div style="display:flex;align-items:center;justify-content:space-between">
-                           <RadzenLabel Text="Keputihan Yang Lama" />
-                            <RadzenCheckBox @bind-Value="pelayanan.KeputihanYangLama" />
-                        </div>
-                         <div style="display:flex;align-items:center;justify-content:space-between">
-                            <RadzenLabel Text="Tumor (payudara, rahim, indung telur)" />
-                            <RadzenCheckBox @bind-Value="pelayanan.Tumor" />
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4 align-items-center d-flex">
-                        <RadzenLabel Text="Keadaan Umum" />
-                    </div>
-                    <div class="col-md-8">
-                        <RadzenDropDown AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" Data=@(Enum.GetValues(typeof(KeadaanUmum)).Cast<KeadaanUmum>().ToList()) @bind-Value=@pelayanan.Keadaan
-                                        Class="w-100" />
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-4 align-items-center d-flex">
-                        <RadzenLabel Text="Berat Badan (Kg)" />
-                    </div>
-                    <div class="col-md-8">
-                        <RadzenNumeric @bind-Value="pelayanan.BeratBadan"/>
-                    </div>
-                </div>
-
-            </ChildContent>
-        </RadzenFieldset>
+    <div class="row">
+        <div style="margin-top:20px"><h5>ANAMNESE DAN PEMERIKSAAN</h5> </div>
     </div>
-    <div class="col-md-6">
-        <RadzenFieldset>
-            <ChildContent>
-                <div class="row">
-                    <div class="col-md-4 align-items-center d-flex">
-                        <RadzenLabel Text="Tekanan Darah" />
+
+
+    <div class="row">
+        <div class="col-md-6">
+            <RadzenFieldset>
+
+                <ChildContent>
+                    <div class="row">
+                        <div class="col-md-4 align-items-center d-flex">
+                            <RadzenLabel Text="Tanggal Terakhir Haid" />
+                        </div>
+                        <div class="col-md-8">
+                            <RadzenDatePicker @bind-Value="pelayanan.TerakhirHaid" style="width: 100%;" />
+                        </div>
                     </div>
-                    <div class="col-md-8">
-                        <RadzenTextBox @bind-Value="pelayanan.TekananDarah"/>
+                    <div class="row">
+                        <div class="col-md-4 align-items-center d-flex">
+                            <RadzenLabel Text="Hamil/Diduga Hamil" />
+                        </div>
+                        <div class="col-md-8">
+                            <RadzenCheckBox @bind-Value="pelayanan.Hamil" />
+                        </div>
                     </div>
-                </div>
-                <div class="row" style="margin-top:20px">
+                    <div class="row">
+                        <div class="col-md-4 align-items-start d-flex">
+                            <RadzenLabel Text="Jumlah GPA" />
+                        </div>
+                        <div class="col-md-8">
+                            <div style="display:flex;align-items:center;justify-content:space-between">
+                                <RadzenLabel Text="Gravida(Kehamilan)" />
+                                <RadzenNumeric @bind-Value="pelayanan.JumlahKehamilan" style="width: 70px; margin-left:40px" />
+
+                            </div>
+                            <div style="display:flex;align-items:center;justify-content:space-between">
+                                <RadzenLabel Text="Partus (Persalinan)" />
+                                <RadzenNumeric @bind-Value="pelayanan.JumlahPersalinan" style="width: 70px; margin-left:40px" />
+
+                            </div>
+
+                            <div style="display:flex;align-items:center;justify-content:space-between">
+
+                                <RadzenLabel Text="Abortus (Keguguran)" />
+                                <RadzenNumeric @bind-Value="pelayanan.JumlahKeguguran" style="width: 70px; margin-left:40px" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 align-items-center d-flex">
+                            <RadzenLabel Text="Menyusui" />
+                        </div>
+                        <div class="col-md-8">
+                            <RadzenCheckBox @bind-Value="pelayanan.Menyusui" />
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 align-items-start d-flex">
+                            <RadzenLabel Text="Riwayat Penyakit Sebelumnya" />
+                        </div>
+                        <div class="col-md-8">
+                            <div style="display:flex;align-items:center;justify-content:space-between">
+                                <RadzenLabel Text="Sakit Kuning" />
+                                <RadzenCheckBox @bind-Value="pelayanan.SakitKuning" />
+                            </div>
+                            <div style="display:flex;align-items:center;justify-content:space-between">
+                                <RadzenLabel Text="Pendarahan Pervaginam yang tidak diketahui sebabnya" />
+                                <RadzenCheckBox @bind-Value="pelayanan.PendarahanPervaginam" />
+                            </div>
+                            <div style="display:flex;align-items:center;justify-content:space-between">
+                                <RadzenLabel Text="Keputihan Yang Lama" />
+                                <RadzenCheckBox @bind-Value="pelayanan.KeputihanYangLama" />
+                            </div>
+                            <div style="display:flex;align-items:center;justify-content:space-between">
+                                <RadzenLabel Text="Tumor (payudara, rahim, indung telur)" />
+                                <RadzenCheckBox @bind-Value="pelayanan.Tumor" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 align-items-center d-flex">
+                            <RadzenLabel Text="Keadaan Umum" />
+                        </div>
+                        <div class="col-md-8">
+                            <RadzenDropDown AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" Data=@(Enum.GetValues(typeof(KeadaanUmum)).Cast<KeadaanUmum>().ToList()) @bind-Value=@pelayanan.Keadaan
+                                            Class="w-100" />
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 align-items-center d-flex">
+                            <RadzenLabel Text="Berat Badan (Kg)" />
+                        </div>
+                        <div class="col-md-8">
+                            <RadzenNumeric @bind-Value="pelayanan.BeratBadan" />
+                        </div>
+                    </div>
+
+                </ChildContent>
+            </RadzenFieldset>
+        </div>
+        <div class="col-md-6">
+            <RadzenFieldset>
+                <ChildContent>
+                    <div class="row">
+                        <div class="col-md-4 align-items-center d-flex">
+                            <RadzenLabel Text="Tekanan Darah" />
+                        </div>
+                        <div class="col-md-8">
+                            <RadzenTextBox @bind-Value="pelayanan.TekananDarah" />
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top:20px">
                         <RadzenLabel Text="Sebelum Dilakukan Pemasangan IUD atau MOW dilakukan Pemeriksaan dalam : " />
-                </div>
+                    </div>
 
-                <div class="row">
-                    <div class="col-md-4 align-items-start d-flex">
-                    </div>
-                    <div class="col-md-8">
-                        <div style="display:flex;align-items:center;justify-content:space-between">
-                            <RadzenLabel Text="Tanda - tanda Radang " />
-                            <RadzenCheckBox @bind-Value="pelayanan.Radang" />
+                    <div class="row">
+                        <div class="col-md-4 align-items-start d-flex">
                         </div>
-                        <div style="display:flex;align-items:center;justify-content:space-between">
-                            <RadzenLabel Text="Tumor/ Keganasan Ginekologi" />
-                            <RadzenCheckBox @bind-Value="pelayanan.KeganasanGinekologi" />
+                        <div class="col-md-8">
+                            <div style="display:flex;align-items:center;justify-content:space-between">
+                                <RadzenLabel Text="Tanda - tanda Radang " />
+                                <RadzenCheckBox @bind-Value="pelayanan.Radang" />
+                            </div>
+                            <div style="display:flex;align-items:center;justify-content:space-between">
+                                <RadzenLabel Text="Tumor/ Keganasan Ginekologi" />
+                                <RadzenCheckBox @bind-Value="pelayanan.KeganasanGinekologi" />
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="row">
-                    <div class="col-md-4 align-items-center d-flex">
-                        <RadzenLabel Text="Posisi Rahim" />
+                    <div class="row">
+                        <div class="col-md-4 align-items-center d-flex">
+                            <RadzenLabel Text="Posisi Rahim" />
+                        </div>
+                        <div class="col-md-8">
+                            <RadzenDropDown AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
+                                            Data=@(Enum.GetValues(typeof(PosisiRahim)).Cast<PosisiRahim>().ToList()) @bind-Value=@pelayanan.PosisiRahim
+                                            Class="w-100" />
+                        </div>
                     </div>
-                    <div class="col-md-8">
-                        <RadzenDropDown AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" 
-                        Data=@(Enum.GetValues(typeof(PosisiRahim)).Cast<PosisiRahim>().ToList()) @bind-Value=@pelayanan.PosisiRahim
-                                        Class="w-100" />
-                    </div>
-                </div>
-                  <div class="row" style="margin-top:20px">
+                    <div class="row" style="margin-top:20px">
                         <RadzenLabel Text="Pemeriksaan tambahan  (khusus untuk calon MOP dan MOW " />
-                </div>
-
-                <div class="row">
-                    <div class="col-md-4 align-items-start d-flex">
                     </div>
-                    <div class="col-md-8">
-                        <div style="display:flex;align-items:center;justify-content:space-between">
-                            <RadzenLabel Text="Tanda- Tanda Diabetes" />
-                            <RadzenCheckBox @bind-Value="pelayanan.Diabetes" />
+
+                    <div class="row">
+                        <div class="col-md-4 align-items-start d-flex">
                         </div>
-                        <div style="display:flex;align-items:center;justify-content:space-between">
-                            <RadzenLabel Text="Kelainan Pembekuan Darah" />
-                            <RadzenCheckBox @bind-Value="pelayanan.PemekuanDarah" />
-                        </div>
-                        <div style="display:flex;align-items:center;justify-content:space-between">
-                            <RadzenLabel Text="Radang Orchitis/epididymitis" />
-                            <RadzenCheckBox @bind-Value="pelayanan.RadangOrchitis" />
-                        </div>
-                        <div style="display:flex;align-items:center;justify-content:space-between">
-                            <RadzenLabel Text="Tumor/ Keganasan Ginekologi" />
-                            <RadzenCheckBox @bind-Value="pelayanan.KeganasanGinekologi2" />
+                        <div class="col-md-8">
+                            <div style="display:flex;align-items:center;justify-content:space-between">
+                                <RadzenLabel Text="Tanda- Tanda Diabetes" />
+                                <RadzenCheckBox @bind-Value="pelayanan.Diabetes" />
+                            </div>
+                            <div style="display:flex;align-items:center;justify-content:space-between">
+                                <RadzenLabel Text="Kelainan Pembekuan Darah" />
+                                <RadzenCheckBox @bind-Value="pelayanan.PemekuanDarah" />
+                            </div>
+                            <div style="display:flex;align-items:center;justify-content:space-between">
+                                <RadzenLabel Text="Radang Orchitis/epididymitis" />
+                                <RadzenCheckBox @bind-Value="pelayanan.RadangOrchitis" />
+                            </div>
+                            <div style="display:flex;align-items:center;justify-content:space-between">
+                                <RadzenLabel Text="Tumor/ Keganasan Ginekologi" />
+                                <RadzenCheckBox @bind-Value="pelayanan.KeganasanGinekologi2" />
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="row">
-                    <div class="col-md-4 align-items-center d-flex">
-                        <RadzenLabel Text="Alat kontrasepsi yang boleh" />
+                    <div class="row">
+                        <div class="col-md-4 align-items-center d-flex">
+                            <RadzenLabel Text="Alat kontrasepsi yang boleh" />
+                        </div>
+                        <div class="col-md-8">
+                            <RadzenDropDown AllowClear="true" AllowFiltering="true"
+                                            FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" TextProperty="Nama"
+                                            Data=@(alats) @bind-Value="pelayanan.AlatKontrasepsiPilihan" Class="w-100" />
+                        </div>
                     </div>
-                    <div class="col-md-8">
-                        <RadzenDropDown AllowClear="true" AllowFiltering="true" 
-                            FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" TextProperty="Nama" 
-                        Data=@(alats) @bind-Value="pelayanan.AlatKontrasepsiPilihan" Class="w-100" />
+
+
+
+                </ChildContent>
+            </RadzenFieldset>
+        </div>
+    </div>
+
+
+
+
+    <div class="row">
+        <div style="margin-top:20px"><h5>CATATAN</h5> </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-6">
+            <RadzenFieldset>
+
+                <ChildContent>
+                    <div class="row">
+                        <div class="col-md-4 align-items-center d-flex">
+                            <RadzenLabel Text="Tanggal Dilayani" />
+                        </div>
+                        <div class="col-md-8">
+                            <RadzenDatePicker @bind-Value="pelayanan.TanggalDilayani" style="width: 100%;" />
+                        </div>
                     </div>
-                </div>
+                    <div class="row">
+                        <div class="col-md-4 align-items-center d-flex">
+                            <RadzenLabel Text="Tanggal Dicabut (Khusus Implan/IUD)" />
+                        </div>
+                        <div class="col-md-8">
+                            <RadzenDatePicker @bind-Value="pelayanan.TanggalDicabut" style="width: 100%;" />
+                        </div>
+                    </div>
 
+                </ChildContent>
+            </RadzenFieldset>
+        </div>
+        <div class="col-md-6">
+            <RadzenFieldset>
 
+                <ChildContent>
+                    <div class="row">
+                        <div class="col-md-4 align-items-center d-flex">
+                            <RadzenLabel Text="Tanggal Dipesan Kembali" />
+                        </div>
+                        <div class="col-md-8">
+                            <RadzenDatePicker @bind-Value="pelayanan.TanggalKembali" style="width: 100%;" />
+                        </div>
+                    </div>
 
-            </ChildContent>
-        </RadzenFieldset>
+                    <div class="row">
+                        <div class="col-md-4 align-items-center d-flex">
+                            <RadzenLabel Text="Penanggung Jawab" />
+                        </div>
+                        <div class="col-md-8">
+                            <RadzenTextBox @bind-Value="pelayanan.PenanggungJawab" style="width: 100%;" />
+                        </div>
+                    </div>
+
+                </ChildContent>
+            </RadzenFieldset>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <RadzenButton Click="@(async ()=> await Simpan())" Style="width:100%; margin:0px; height:45px">Simpan</RadzenButton>
+        </div>
+        <div class="col-md-12">
+            <RadzenButton ButtonStyle="ButtonStyle.Info" Click="@(async ()=> await Kunjungan())" Style="width:100%; margin:0px; height:45px">Data Kunjungan</RadzenButton>
+        </div>
     </div>
 </div>
 
+<LayananDetailReport pelayanan="pelayanan" peserta="peserta"/>
 
-
-
-<div class="row">
-    <div style="margin-top:20px"><h5>CATATAN</h5> </div>
-</div>
-
-
-<div class="row">
-    <div class="col-md-6">
-        <RadzenFieldset>
-
-            <ChildContent>
-                <div class="row">
-                    <div class="col-md-4 align-items-center d-flex">
-                        <RadzenLabel Text="Tanggal Dilayani" />
-                    </div>
-                    <div class="col-md-8">
-                        <RadzenDatePicker @bind-Value="pelayanan.TanggalDilayani" style="width: 100%;"  />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4 align-items-center d-flex">
-                        <RadzenLabel Text="Tanggal Dicabut (Khusus Implan/IUD)" />
-                    </div>
-                    <div class="col-md-8">
-                        <RadzenDatePicker @bind-Value="pelayanan.TanggalDicabut" style="width: 100%;"  />
-                    </div>
-                </div>
-                
-            </ChildContent>
-        </RadzenFieldset>
-    </div>
-    <div class="col-md-6">
-        <RadzenFieldset>
-
-            <ChildContent>
-                <div class="row">
-                    <div class="col-md-4 align-items-center d-flex">
-                        <RadzenLabel Text="Tanggal Dipesan Kembali" />
-                    </div>
-                    <div class="col-md-8">
-                        <RadzenDatePicker @bind-Value="pelayanan.TanggalKembali" style="width: 100%;" />
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-4 align-items-center d-flex">
-                        <RadzenLabel Text="Penanggung Jawab" />
-                    </div>
-                    <div class="col-md-8">
-                        <RadzenTextBox @bind-Value="pelayanan.PenanggungJawab" style="width: 100%;" />
-                    </div>
-                </div>
-
-            </ChildContent>
-        </RadzenFieldset>
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-12">
-        <RadzenButton Click="@(async ()=> await Simpan())" Style="width:100%; margin:0px; height:45px">Simpan</RadzenButton>
-    </div>
-    <div class="col-md-12">
-        <RadzenButton ButtonStyle="ButtonStyle.Info" Click="@(async ()=> await Kunjungan())" Style="width:100%; margin:0px; height:45px">Data Kunjungan</RadzenButton>
-    </div>
-</div>
 
 @code {
     [Parameter]
@@ -465,7 +473,8 @@
     async Task Simpan()
     {
 
-        try{
+        try
+        {
             var data = dbContext.Pelayanan
                        .Include(x => x.CaraKBTerakhir)
                        .Include(x => x.AlatKontrasepsiPilihan)
@@ -480,8 +489,10 @@
                     Detail = "Data Berhasil Disimpan !",
                     Duration = 2500
                 });
-        }catch(Exception ex){
-             notif.Notify(new NotificationMessage
+        }
+        catch (Exception ex)
+        {
+            notif.Notify(new NotificationMessage
                 {
                     Severity = NotificationSeverity.Error,
                     Summary = "Error ",

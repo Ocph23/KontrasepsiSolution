@@ -19,7 +19,9 @@
     <Columns>
         <RadzenDataGridColumn TItem="Pelayanan" Title="Tanggal Konsultasi" Width="140px">
             <Template Context="item">
-                @item.TanggalKembali.Value.ToString("dd/MM/yyyy HH:mm")
+               @if(item.TanggalKembali!=null){
+                    @item.TanggalKembali.Value.ToString("dd/MM/yyyy HH:mm")
+               }
             </Template>
         </RadzenDataGridColumn>
         <RadzenDataGridColumn TItem="Pelayanan" Property="PesertaId" Title="ID Peserta" 

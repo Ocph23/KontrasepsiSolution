@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:rv="http://sharpnado.com"
+             x:Class="MainApp.Pages.LogoutPage"
+             
+             BackgroundImageSource="Resources/Images/bg.jpg">
+    <ContentPage.Content>
+        <Grid>
+            <StackLayout VerticalOptions="Center">
+            <Label TextColor="White" FontSize="20" Text="Yakin Keluar ?"
+                HorizontalOptions="CenterAndExpand" />
+            <Button BackgroundColor="Red" TextColor="White" Text="Logout" Margin="50" 
+                   CornerRadius="25" Clicked="logoutClick"></Button>
+            </StackLayout>
+        </Grid>
+
+    </ContentPage.Content>
+</ContentPage>

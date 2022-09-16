@@ -25,6 +25,11 @@
         public string Alamat { get; set; } = string.Empty;
         public ICollection<Pelayanan>? Pelayanan { get; set; }
         public string? DeviceToken { get; set; }
+
+
+        public int Usia => TanggalLahir == null ? 0 : DateTime.Now.Year - TanggalLahir.Value.Year;
+
+
         public string? UserId { get; set; } 
 
     }

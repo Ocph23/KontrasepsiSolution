@@ -1,5 +1,42 @@
 @import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
 
+.onlyprint{
+    display:none;
+}
+
+.noprint{
+    display:block;
+}
+
+
+@media print{
+    .onlyprint {
+        display: block !important;
+    }
+
+    .noprint {
+        display: none !important;
+    }
+    .page{
+        display:none;
+    }
+    .auth{
+        display:none;
+    }
+
+    th,td{
+        border:solid 1px black;
+        font-size:12px;
+        padding:3px;
+    }
+
+    .sidebar{
+        display:none !important;
+    }
+
+}
+
+
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }

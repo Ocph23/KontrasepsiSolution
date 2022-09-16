@@ -1,35 +1,68 @@
 ﻿@layout AdminLayout
 
-@page "/admin/petugas"  
+@page "/admin/petugas"
 
 @inject ApplicationDbContext dbContext
 @inject DialogService DialogService
+@inject IJSRuntime JS
+
 <PageTitle>Petugas</PageTitle>
 
+<div class="noprint">
 
-<h3 style="margin-bottom:20px">Data Petugas</h3>
+    <h3 style="margin-bottom:20px">Data Petugas</h3>
 
- <RadzenButton Style="margin-bottom:20px" Click=@(args => Add()) Icon="add_circle_outline" ButtonStyle="ButtonStyle.Primary" />
- <RadzenDataGrid @ref="dg" AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
-        Data="@datas" TItem="Petugas" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or">
+    <RadzenButton Style="margin-bottom:20px" Click=@(args => Add()) Icon="add_circle_outline" ButtonStyle="ButtonStyle.Primary" />
+    <RadzenButton Style="margin-bottom:20px" Click=@(args => JS.InvokeVoidAsync("doprint")) Icon="printer" ButtonStyle="ButtonStyle.Info" />
+    <RadzenDataGrid @ref="dg" AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+                    Data="@datas" TItem="Petugas" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or">
         <Columns>
-            <RadzenDataGridColumn TItem="Petugas" Property="Id" Title="ID" Frozen="true" Width="70px" 
-            TextAlign="TextAlign.Center" />
+            <RadzenDataGridColumn TItem="Petugas" Property="Id" Title="ID" Frozen="true" Width="70px"
+                                  TextAlign="TextAlign.Center" />
             <RadzenDataGridColumn TItem="Petugas" Property="Nama" Title="Nama " Width="140px" />
             <RadzenDataGridColumn TItem="Petugas" Property="Email" Title="Email" Width="140px" />
             <RadzenDataGridColumn TItem="Petugas" Property="Jabatan" Title="Jabatan" Width="140px" />
-            <RadzenDataGridColumn TItem="Petugas" Property="Alamat" Title="Alamat"  />
-            <RadzenDataGridColumn TItem="Petugas" Title="" Width="80px"  >
+            <RadzenDataGridColumn TItem="Petugas" Property="Alamat" Title="Alamat" />
+            <RadzenDataGridColumn TItem="Petugas" Title="" Width="80px">
                 <Template Context="item">
-                      <RadzenButton Click=@(args => Edit(item))  Icon="edit" ButtonStyle="ButtonStyle.Warning" />
-                      <RadzenButton Click=@(args => Delete(item))  Icon="delete" ButtonStyle="ButtonStyle.Danger" />
+                    <RadzenButton Click=@(args => Edit(item)) Icon="edit" ButtonStyle="ButtonStyle.Warning" />
+                    <RadzenButton Click=@(args => Delete(item)) Icon="delete" ButtonStyle="ButtonStyle.Danger" />
                 </Template>
             </RadzenDataGridColumn>
         </Columns>
     </RadzenDataGrid>
+</div>
 
 
-@code{
+<div class="onlyprint">
+    <div style="display:flex; justify-content:center">
+        <h3>DATA PETUGAS</h3>
+    </div>
+
+    <table class="table" style="margin-top:30px">
+        <tr>
+            <th>ID</th>
+            <th>Nama</th>
+            <th>Email</th>
+            <th>Jabatan</th>
+            <th>Alamat</th>
+        </tr>
+        @foreach (var item in datas)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Nama</td>
+                <td>@item.Email</td>
+                <td>@item.Jabatan</td>
+                <td>@item.Alamat</td>
+            </tr>
+        }
+    </table>
+
+</div>
+
+
+@code {
     IEnumerable<Petugas> datas;
     RadzenDataGrid<Petugas> dg;
     protected override Task OnInitializedAsync()
@@ -41,41 +74,41 @@
 
     async Task Add()
     {
-        var result =  await DialogService.OpenAsync<DialogAddPetugas>($"Tambah Petugas",
-                new Dictionary<string, object>() { { "ID", 0} },
+        var result = await DialogService.OpenAsync<DialogAddPetugas>($"Tambah Petugas",
+                new Dictionary<string, object>() { { "ID", 0 } },
                 new DialogOptions() { Width = "500px", Height = "600px", Resizable = true, Draggable = true });
 
-        if(result.GetType()== typeof(Petugas))
+        if (result.GetType() == typeof(Petugas))
         {
             var data = result as Petugas;
-          await  dg.Reload();
+            await dg.Reload();
         }
     }
 
 
 
-    async Task Edit( Petugas alat)
+    async Task Edit(Petugas alat)
     {
         var result = await DialogService.OpenAsync<DialogAddPetugas>($"Edit Petugas",
-                new Dictionary<string, object>() { { "ID", alat.Id} },
+                new Dictionary<string, object>() { { "ID", alat.Id } },
                 new DialogOptions() { Width = "500px", Height = "600px", Resizable = true, Draggable = true });
 
-        if(result.GetType()== typeof(Petugas))
+        if (result.GetType() == typeof(Petugas))
         {
-            
+
         }
 
 
     }
 
-    async Task Delete( Petugas alat)
+    async Task Delete(Petugas alat)
     {
         var result = await DialogService.Confirm("Yakin Hapus Data ?", "Delete", new ConfirmOptions() { OkButtonText = "Yes", CancelButtonText = "No" });
         if (result.Value)
         {
             dbContext.Petugas.Remove(alat);
-           await dbContext.SaveChangesAsync();
-           await  dg.Reload();
+            await dbContext.SaveChangesAsync();
+            await dg.Reload();
         }
 
     }

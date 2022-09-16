@@ -4,8 +4,9 @@
              x:Class="MainApp.Pages.ProfilePage" Shell.NavBarIsVisible="False"
              Title="ProfilePage">
     <Grid RowDefinitions="auto,*, auto">
-        <Image Opacity="0.5" Grid.RowSpan="3" HeightRequest="150" 
-                           Aspect="Center" Source="Resources/Images/card1.png"></Image>
+        <Image Opacity="0.8" Grid.RowSpan="3" HeightRequest="150" 
+                           Aspect="Center" Source="Resources/Images/bg.jpg"></Image>
+    
         <HorizontalStackLayout Padding="20" >
             <ImageButton WidthRequest="20" HorizontalOptions="End"
                          HeightRequest="20" Margin="10,0"
