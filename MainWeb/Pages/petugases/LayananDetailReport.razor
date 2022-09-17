@@ -14,8 +14,8 @@
     }
 
     th, td {
-        border: 1px solid;
         font-size: 12px;
+        border: none !important;
     }
 
     span {
@@ -25,11 +25,16 @@
 
     table {
         width: 100%;
-        table-layout: fixed
+        table-layout: fixed;
+        vertical-align:top;
+        border:none !important;
     }
 
     .table1 tr td, .table1 tr th {
         font-size: 8px;
+        vertical-align:top;
+       padding:0px;
+
     }
 
     .smallText {
@@ -40,13 +45,13 @@
 
 <div class="onlyprint">
     <div style="display:flex; justify-content:center">
-        <h4 style="border: 2px solid">KARTU STATUS PESERTA KB</h4>
+        <h4 style="border: 2px solid; padding-left:30px; padding-right:30px">KARTU STATUS PESERTA KB</h4>
     </div>
 
 
     <table>
         <tr>
-            <td>III. Nama Peserta KB</td>
+            <td style="border:none">III. Nama Peserta KB</td>
             <td>: @peserta.Nama</td>
             <td colspan="2">
                 IV. Tgl/Bln/Tahun LAhir/Umur Istri
@@ -65,7 +70,7 @@
             <td>
                 V. Nama Suami/Istri
             </td>
-            <td>@peserta.NamaPasangan</td>
+            <td>: @peserta.NamaPasangan</td>
             <td>
                 VI. Pendidikan Suami dan Istri
             </td>
@@ -98,7 +103,7 @@
                 VII. Alamat Peserta KB
             </td>
             <td>
-                @peserta.Alamat
+                : @peserta.Alamat
             </td>
             <td>
                 VIII. Pekerjaan Suami dan IStri
@@ -126,7 +131,7 @@
                 IX. Tahapan KS
             </td>
             <td>
-                @peserta.TahapanKS
+                : @peserta.TahapanKS
             </td>
             <td colspan="2">
                 <table class="table1">
@@ -178,10 +183,10 @@
         </tr>
         <tr>
             <td>
-                XIII. Status Peserta KB <span style="margin-left:30px" class="box">@(pelayanan.StatusKB)</span>
+                XIII. Status Peserta KB <span style="margin-left:30px" class="box">@(pelayanan.StatusKB?"1":"2")</span>
             </td>
             <td>
-                XIV. Cara KB terakhir <span style="margin-left:30px" class="box">@(pelayanan.CaraKBTerakhir)</span>
+                XIV. Cara KB terakhir <span style="margin-left:30px" class="box">@(AlatPilihan(pelayanan.CaraKBTerakhir))</span>
             </td>
         </tr>
         <tr>
@@ -216,14 +221,6 @@
             </td>
         </tr>
     </table>
-
-    <hr />
-    <div>
-    </div>
-    <div>
-    </div>
-    <div>
-    </div>
     <table>
         <tr>
             <td>
@@ -243,7 +240,7 @@
         </tr>
         <tr>
             <td>
-                Anamnese
+                <span style="text-decoration:underline">Anamnese</span>
             </td>
         </tr>
     </table>
@@ -307,7 +304,9 @@
                 @if (pelayanan.SakitKuning)
                 {
                     <span class="box">&nbsp;&nbsp;</span>
-                }else{
+                }
+                else
+                {
                     <span class="box">v</span>
                 }
             </td>
@@ -320,8 +319,15 @@
                 {
                     <span class="box">&nbsp;&nbsp;</span>
                 }
-                </td>
-            <td colspan="4"></td>
+            </td>
+            <td></td>
+            <td rowspan="3" colspan="3">
+                <div class="box smallText">
+                    <div> - Bila semua jawaban Tidak , dapat diberikan saalah satu dari cara KB (Kecuali IUD dan MOW)</div>
+                    <div> - Bila salah satu jawaban Ya, rujuk ke dokter</div>
+                </div>
+
+            </td>
         </tr>
         <tr>
             <td colspan="3">
@@ -349,6 +355,296 @@
             </td>
             <td colspan="4"></td>
         </tr>
+        <tr>
+            <td colspan="3">
+                <span style="margin-left:10px">c. Keputihan yang lama </span>
+            </td>
+            <td>
+                @if (pelayanan.KeputihanYangLama)
+                {
+                    <span class="box">&nbsp;&nbsp;</span>
+                }
+                else
+                {
+                    <span class="box">v</span>
+                }
+            </td>
+            <td>
+                @if (pelayanan.KeputihanYangLama)
+                {
+                    <span class="box">v</span>
+                }
+                else
+                {
+                    <span class="box">&nbsp;&nbsp;</span>
+                }
+            </td>
+            <td colspan="4"></td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <div>
+                    <span style="margin-left:10px">b. Tumor </span>
+                    <div style="margin-left:10px">
+                        <div>- Payudara</div>
+                        <div>- Rahim</div>
+                        <div>- Indung Telur</div>
+                    </div>
+                </div>
+            </td>
+            <td style="vertical-align:top">
+                @if (pelayanan.Tumor)
+                {
+                    <span class="box">&nbsp;&nbsp;</span>
+                }
+                else
+                {
+                    <span class="box">v</span>
+                }
+            </td>
+            <td style="vertical-align:top">
+                @if (pelayanan.Tumor)
+                {
+                    <span class="box">v</span>
+                }
+                else
+                {
+                    <span class="box">&nbsp;&nbsp;</span>
+                }
+            </td>
+            <td colspan="4"></td>
+        </tr>
+        <tr>
+            <td>
+                <span style="text-decoration:underline">Pemeriksaan</span>
+            </td>
+        </tr>
+    </table>
+
+    <table>
+        <tr>
+            <td>
+                6. Keadaan Umum :
+                <span>1) Baik</span>
+                <span>2) Sedang  </span>
+                <span>3) Kurang </span>
+                <span class="box" style="margin-left:30px">@(pelayanan.Keadaan == KeadaanUmum.Baik ? "1" : pelayanan.Keadaan == KeadaanUmum.Kurang ? "2" : "3")</span>
+            </td>
+            <td>
+                7. Berat Badan :
+                <span class="box" style="margin-left:30px">@(pelayanan.BeratBadan) </span>Kg
+            </td>
+
+        </tr>
+        <tr>
+            <td>
+                8. Tekanan Darah :
+                <span style="margin-left:30px">@(pelayanan.TekananDarah) </span>
+            </td>
+        </tr>
+    </table>
+
+    <table>
+        <tr>
+            <td colspan="3">9. Sebelum dilakukan pemasangan IUD atau MOW dilakukan pemeriksaan dalam :</td>
+            <td style="vertical-align:top" colspan="3">
+                10. Posisi Rahim
+                <span>1) Retrofleksi</span>
+                <span>2) Antefleksi </span>
+                <span class="box" style="margin-left:30px">@(pelayanan.PosisiRahim == PosisiRahim.Retrofleksi ? "1" : "2")</span>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">a. Tanda-tanda radang</td>
+            <td>
+                @if (pelayanan.Radang)
+                {
+                    <span class="box" style="margin-left:30px">&nbsp;&nbsp;</span>
+                    <span class="box" style="margin-left:30px">v</span>
+                }
+                else
+                {
+                    <span class="box" style="margin-left:30px">v</span>
+                    <span class="box" style="margin-left:30px">&nbsp;&nbsp;</span>
+                }
+            </td>
+            <td colspan="3">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">b. Tumor Keganasan gikenologi</td>
+            <td>
+                @if (pelayanan.KeganasanGinekologi)
+                {
+                    <span class="box" style="margin-left:30px">&nbsp;&nbsp;</span>
+                    <span class="box" style="margin-left:30px">v</span>
+                }
+                else
+                {
+                    <span class="box" style="margin-left:30px">v</span>
+                    <span class="box" style="margin-left:30px">&nbsp;&nbsp;</span>
+                }
+            </td>
+            <td colspan="3">
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="4">11. Pemeriksaan tambahan (khusus untuk calon MOP dan MOW)</td>
+        </tr>
+        <tr>
+            <td colspan="2">a. Tanda-tanda diabetes</td>
+            <td>
+                @if (pelayanan.Diabetes)
+                {
+                    <span class="box" style="margin-left:30px">&nbsp;&nbsp;</span>
+                    <span class="box" style="margin-left:30px">v</span>
+                }
+                else
+                {
+                    <span class="box" style="margin-left:30px">v</span>
+                    <span class="box" style="margin-left:30px">&nbsp;&nbsp;</span>
+                }
+            </td>
+            <td colspan="3">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">b. Kelainan Pembekuan Darah </td>
+            <td>
+                @if (pelayanan.PemekuanDarah)
+                {
+                    <span class="box" style="margin-left:30px">&nbsp;&nbsp;</span>
+                    <span class="box" style="margin-left:30px">v</span>
+                }
+                else
+                {
+                    <span class="box" style="margin-left:30px">v</span>
+                    <span class="box" style="margin-left:30px">&nbsp;&nbsp;</span>
+                }
+            </td>
+            <td colspan="3">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">c. Radang Orchitis/epidymitis</td>
+            <td>
+                @if (pelayanan.RadangOrchitis)
+                {
+                    <span class="box" style="margin-left:30px">&nbsp;&nbsp;</span>
+                    <span class="box" style="margin-left:30px">v</span>
+                }
+                else
+                {
+                    <span class="box" style="margin-left:30px">v</span>
+                    <span class="box" style="margin-left:30px">&nbsp;&nbsp;</span>
+                }
+            </td>
+            <td colspan="3">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">d. Tumor/Keganasan ginekologi </td>
+            <td>
+                @if (pelayanan.KeganasanGinekologi2)
+                {
+                    <span class="box" style="margin-left:30px">&nbsp;&nbsp;</span>
+                    <span class="box" style="margin-left:30px">v</span>
+                }
+                else
+                {
+                    <span class="box" style="margin-left:30px">v</span>
+                    <span class="box" style="margin-left:30px">&nbsp;&nbsp;</span>
+                }
+            </td>
+            <td colspan="3">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="5">
+                12. Alat kontrasepsi yang boleh dipergunakan
+                <span class="box" style="margin-left:30px">IUD</span>
+                <span class="box1">MOW</span>
+                <span class="box1">MOP</span>
+                <span class="box1">Kondom</span>
+                <span class="box1">Implan</span>
+                <span class="box1">Suntikan </span>
+                <span class="box1">Pil</span>
+            </td>
+        </tr>
+    </table>
+
+    <table>
+        <tr>
+            <td>
+                XIV. Metode dan jenis alat kontrasepsi yang dipilih : <span class="box" style="margin-left:30px">
+                    @AlatPilihan(pelayanan.AlatKontrasepsiPilihan)
+                </span>
+            </td>
+            <td>
+                Tanggal dilayani   **)......
+                <span class="box">@pelayanan.TanggalDilayani.Value.ToString("dd")[0]</span>
+                <span class="box2">@pelayanan.TanggalDilayani.Value.ToString("dd")[1]</span>
+
+                <span class="box" style="margin-left:30px">@pelayanan.TanggalDilayani.Value.ToString("MM")[0]</span>
+                <span class="box2">@pelayanan.TanggalDilayani.Value.ToString("MM")[1]</span>
+
+                <span class="box" style="margin-left:30px">@pelayanan.TanggalDilayani.Value.ToString("yyyy")[2]</span>
+                <span class="box2">@pelayanan.TanggalDilayani.Value.ToString("yyyy")[3]</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <table class="table1">
+                    <tr>
+                        <td>1.IUD</td>
+                        <td>2.MOW</td>
+                        <td>3.MOP</td>
+                        <td>4.Kondom</td>
+                    </tr>
+                    <tr>
+                        <td>5.Implan</td>
+                        <td>6.Suntik</td>
+                        <td>7.Pil</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                XVIII Tanggal dipesan kembali   <span class="box">@pelayanan.TanggalKembali.Value.ToString("dd")[0]</span>
+                <span class="box2">@pelayanan.TanggalKembali.Value.ToString("dd")[1]</span>
+
+                <span class="box" style="margin-left:30px">@pelayanan.TanggalKembali.Value.ToString("MM")[0]</span>
+                <span class="box2">@pelayanan.TanggalKembali.Value.ToString("MM")[1]</span>
+
+                <span class="box" style="margin-left:30px">@pelayanan.TanggalKembali.Value.ToString("yyyy")[2]</span>
+                <span class="box2">@pelayanan.TanggalKembali.Value.ToString("yyyy")[3]</span>
+            </td>
+            <td>
+                XIX Tanggal Dicabut   <span class="box">@pelayanan.TanggalDicabut.Value.ToString("dd")[0]</span>
+                <span class="box2">@pelayanan.TanggalDicabut.Value.ToString("dd")[1]</span>
+
+                <span class="box" style="margin-left:30px">@pelayanan.TanggalDicabut.Value.ToString("MM")[0]</span>
+                <span class="box2">@pelayanan.TanggalDicabut.Value.ToString("MM")[1]</span>
+
+                <span class="box" style="margin-left:30px">@pelayanan.TanggalDicabut.Value.ToString("yyyy")[2]</span>
+                <span class="box2">@pelayanan.TanggalDicabut.Value.ToString("yyyy")[3]</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align:top">
+                <div>Keterangan</div>
+                <div>*) Coret yang tidak perlu/ yang tidak diberikan</div>
+                <div>*) Ditulis gratis untuk pelayanan tidak bayar</div>
+            </td>
+            <td>
+                <div>XX. Penanggungjawab pelayanan KB </div>
+                <div>Dokter/Bidan/Perawat Kesehatan</div>
+                <div style="margin-top:40px">( @pelayanan.PenanggungJawab)</div>
+                <div>NIP.  ................. </div>
+            </td>
+        </tr>
     </table>
 
 
@@ -364,6 +660,33 @@
 
     [Parameter]
     public Pelayanan pelayanan { get; set; }
+
+
+
+    protected override Task OnInitializedAsync()
+    {
+        if (pelayanan.TanggalDicabut == null)
+            pelayanan.TanggalDicabut = new DateTime();
+
+        if (pelayanan.TanggalDilayani== null)
+            pelayanan.TanggalDilayani = new DateTime();
+
+        if (pelayanan.TanggalKembali== null)
+            pelayanan.TanggalKembali = new DateTime();
+
+        return base.OnInitializedAsync();
+    }
+
+
+    string AlatPilihan(AlatKontrasepsi alat)
+    {
+        return alat.Nama.ToLower().Contains("iud") ? "1" :
+         alat.Nama.ToLower().Contains("mow") ? "2" :
+         alat.Nama.ToLower().Contains("mop") ? "3" :
+          alat.Nama.ToLower().Contains("kondom") ? "4" :
+          alat.Nama.ToLower().Contains("implan") ? "5" :
+          alat.Nama.ToLower().Contains("suntik") ? "5" : "7";
+    }
 
 
 
