@@ -81,7 +81,6 @@ namespace MainWeb.Controllers
 
                 Peserta? peserta = await _dbcontext.Peserta.Where(x => x.UserId == user.Id)
                     .Include(x => x.Pelayanan)
-                    .ThenInclude(x => x.AlatKontrasepsiPilihan)
                     .FirstOrDefaultAsync(x => x.UserId == user.Id);
 
                 if (peserta == null)
@@ -90,6 +89,7 @@ namespace MainWeb.Controllers
                 }
 
                 peserta.Pelayanan.Add(layanan);
+
                 await _dbcontext.SaveChangesAsync();
                 return layanan;
             }

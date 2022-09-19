@@ -5,7 +5,6 @@ namespace MainWeb.Models
     public class Pelayanan
     {
         public int Id { get; set; }
-
         public int AnakHidupLaki { get; set; }
         public int AnakHidupPerempuan { get; set; }
         public int UmurAnakTerkecilTahun { get; set; }

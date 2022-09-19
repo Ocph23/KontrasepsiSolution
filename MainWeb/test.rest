@@ -1,10 +1,10 @@
 
-@url=https://localhost:5001/api
+@url=https://localhost:7001/api
 ##@url = https://kontrasepsikb.ocphapp.tech/api
 
-@auth=bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoib2NwaDIzQGhvdG1haWwuY29tIiwianRpIjoiYzllOGNhZDgtMDJhMy00ODI0LWFlM2EtOGQ2YjA0MWVhODBiIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiUGFzaWVuIiwiZXhwIjoxNjYyODYyMzEzLCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo3MDg2LyIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0OjcwODYvIn0.QvhJmrckwhYdHocyhlo94cM0TPKOzvyROp-LYr9Ade0
+@auth=bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoib2NwaDIzQGhvdG1haWwuY29tIiwianRpIjoiMmFiYzFiYWItZDg1NS00MzNlLWEyMjktMjFjZjIxNjg1NzI0IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiUGFzaWVuIiwiZXhwIjoxNjYzNjY2MjA3LCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo3MDg2LyIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0OjcwODYvIn0.czvQLScPEZv3eFz8hvM9iH9n1uCtVvo8lmU09e1J8Io
 
-POST {{url}}/mobile/login HTTP/1.1
+POST {{url}}/ACCOUNT/login HTTP/1.1
 Content-Type: application/json
 
 {"userName":"ocph23@hotmail.com", "password":"Sony@77"}
@@ -23,10 +23,7 @@ POST  {{url}}/pengajuan HTTP/1.1
 Content-Type: application/json
 Authorization: {{auth}}
 
-
-{"Id":0,"AnakHidupLaki":0,"AnakHidupPerempuan":0,"UmurAnakTerkecilTahun":0,"UmurAnakTerkecilBulan":0,"StatusKB":true,"CaraKBTerakhir":{"IdView":"00004","Id":4,"Nama":"Kondom","Keterangan":"kondom"},"TerakhirHaid":"2022-09-01T17:07:24.4929976+09:00","Hamil":false,"Menyusui":false,"JumlahKehamilan":0,"JumlahPersalinan":0,"JumlahKeguguran":0,"SakitKuning":false,"PendarahanPervaginam":false,"KeputihanYangLama":false,"Tumor":false,"Keadaan":0,"BeratBadan":0,"TekananDarah":"","PosisiRahim":0,"AlatKontrasepsiPilihan":{"IdView":"00006","Id":6,"Nama":"Suntikan","Keterangan":"suntik"},"TanggalDilayani":null,"TanggalDicabut":null,"TanggalKembali":null,"PenanggungJawab":"","Kunjungan":null,"Petugas":null,"Radang":false,"KeganasanGinekologi":false,"Diabetes":false,"PemekuanDarah":false,"RadangOrchitis":false,"KeganasanGinekologi2":false,"Tanggal":"2022-09-01T17:07:24.4930209+09:00","PesertaId":0,"NamaPeserta":null,"AlamatPeserta":null}
-
-
+{"Id":0,"AnakHidupLaki":0,"AnakHidupPerempuan":0,"UmurAnakTerkecilTahun":0,"UmurAnakTerkecilBulan":0,"StatusKB":true,"CaraKBTerakhir":{"IdView":"00004","Id":4,"Nama":"Kondom","Keterangan":"kondom"},"TerakhirHaid":"2022-09-19T18:20:53.5519074+09:00","Hamil":false,"Menyusui":false,"JumlahKehamilan":0,"JumlahPersalinan":0,"JumlahKeguguran":0,"SakitKuning":false,"PendarahanPervaginam":false,"KeputihanYangLama":false,"Tumor":false,"Keadaan":0,"BeratBadan":0,"TekananDarah":"","PosisiRahim":0,"AlatKontrasepsiPilihan":{"IdView":"00006","Id":6,"Nama":"Suntikan","Keterangan":"suntik"},"TanggalDilayani":null,"TanggalDicabut":null,"TanggalKembali":null,"PenanggungJawab":"","Kunjungan":null,"Petugas":null,"Radang":false,"KeganasanGinekologi":false,"Diabetes":false,"PemekuanDarah":false,"RadangOrchitis":false,"KeganasanGinekologi2":false,"Tanggal":"2022-09-19T18:20:53.5519403+09:00","PesertaId":0,"NamaPeserta":"","AlamatPeserta":""}
 
 #####
 
