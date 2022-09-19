@@ -36,18 +36,25 @@ internal partial class KunjunganPageViewModel : ViewModelBase
     [ObservableProperty]
     private KunjunganUlang selectedItem;
 
-
+    int Id;
 
     public KunjunganPageViewModel(int id)
     {
-        _ = Load(id);
+
+        Id = id;
+        LoadCommand.Execute(null);
+
     }
 
-    private async Task Load(int pelayananId)
+    [RelayCommand]
+    public async Task Load()
     {
         try
         {
-            Model = await Pengajuan.GetAsync(pelayananId);
+            if (IsBusy)
+                return;
+            IsBusy = true;
+            Model = await Pengajuan.GetAsync(Id);
 
             if (Model == null || Model.Kunjungan== null || Model.Kunjungan.Count <= 0)
                 Message = "Belum Ada Data Kunjungan Ulang !";

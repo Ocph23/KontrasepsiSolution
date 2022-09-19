@@ -19,9 +19,10 @@
                    FontSize="18" VerticalOptions="CenterAndExpand"
                    TextColor="IndianRed" HorizontalOptions="Center"></Label>
         </StackLayout>
-
+        <RefreshView Grid.Row="1" Command="{Binding LoadCommand}" IsRefreshing="{Binding IsBusy}">
+            
         <CollectionView x:Name="collection" 
-                        ItemsSource="{Binding Model.Pelayanan}" Grid.Row="1" 
+                        ItemsSource="{Binding Model.Pelayanan}" 
                         SelectionMode="Single" 
                         >
             <CollectionView.ItemTemplate>
@@ -57,5 +58,6 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
+        </RefreshView>
     </Grid>
 </ContentPage>

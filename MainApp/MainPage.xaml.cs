@@ -49,9 +49,11 @@ namespace MainApp
 
         public MainPageViewModel()
         {
-            _= Load();
+            LoadCommand.Execute(this);
         }
 
+
+        [RelayCommand]
         private async Task Load()
         {
             try
