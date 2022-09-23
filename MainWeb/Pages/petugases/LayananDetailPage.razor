@@ -475,6 +475,7 @@
 
         try
         {
+            pelayanan.TanggalDilayani = DateTime.UtcNow.AddHours(9);
             var data = dbContext.Pelayanan
                        .Include(x => x.CaraKBTerakhir)
                        .Include(x => x.AlatKontrasepsiPilihan)

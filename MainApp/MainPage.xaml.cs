@@ -71,7 +71,7 @@ namespace MainApp
                 var deviceToken = Preferences.Get("FcmToken", null);
                 if (!string.IsNullOrEmpty(deviceToken))
                 {
-                    // _= Account.UpdateDeviceToken(deviceToken);
+                    _= Account.UpdateDeviceToken(deviceToken);
                 }
 
             }

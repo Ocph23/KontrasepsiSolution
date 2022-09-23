@@ -15,10 +15,11 @@ namespace MainWeb.Services
             _scopeFactory = scopeFactory;
         }
 
-        private readonly PeriodicTimer _timer = new PeriodicTimer(TimeSpan.FromMinutes(30));
+        private readonly PeriodicTimer _timer = new PeriodicTimer(TimeSpan.FromMinutes(1));
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            await DoWorkAsync();
             while (await _timer.WaitForNextTickAsync(stoppingToken) && !stoppingToken.IsCancellationRequested)
             {
                  await DoWorkAsync();
@@ -43,7 +44,7 @@ namespace MainWeb.Services
 
                 if (messagesQuery.Any())
                 {
-                    foreach (var item in messagesQuery.Where(x=>x.message.Tanggal <= DateTime.Now))
+                    foreach (var item in messagesQuery.Where(x=>x.message.Tanggal <= DateTime.UtcNow.AddHours(9)))
                     {
                         var result = await fcmService.SendNotification(new Models.NotificationModel { Body = item.message.Message, DeviceId = item.peserta.DeviceToken });
                         if (result.IsSuccess)

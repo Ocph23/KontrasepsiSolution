@@ -56,10 +56,10 @@
                         .Include(x => x.Kunjungan)
                       join b in dbContext.Peserta on a.PesertaId equals b.Id
                       select new Pelayanan { Id=a.Id, NamaPeserta = b.Nama,  PesertaId = b.Id,
-                          TanggalKembali = a.Kunjungan == null ? null : 
+                          TanggalKembali = a.Kunjungan == null ? a.TanggalKembali : 
                           a.Kunjungan.FirstOrDefault(x=> !x.Datang) == null ? null :
-                          a.Kunjungan.FirstOrDefault(x => x.KonsultasiBerikut >= DateTime.Now && !x.Datang).KonsultasiBerikut});
-        datas = result.ToList();
+                          a.Kunjungan.FirstOrDefault(x => x.KonsultasiBerikut >= DateTime.UtcNow.AddDays(-1).AddHours(9) && !x.Datang).KonsultasiBerikut});
+        datas = result.Where(x=>x.TanggalKembali !=null).ToList();
         return base.OnInitializedAsync();
     }
 

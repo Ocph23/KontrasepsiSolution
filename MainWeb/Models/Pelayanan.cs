@@ -26,9 +26,9 @@ namespace MainWeb.Models
         public string TekananDarah { get; set; }   =String.Empty;
         public PosisiRahim PosisiRahim { get; set; }
         public AlatKontrasepsi? AlatKontrasepsiPilihan { get; set; }
-        public DateTime? TanggalDilayani { get; set; }
+        public DateTime? TanggalDilayani { get; set; } = DateTime.UtcNow.AddHours(9);
         public DateTime? TanggalDicabut { get; set; }
-        public DateTime? TanggalKembali { get; set; }
+        public DateTime? TanggalKembali { get; set; } =  DateTime.UtcNow.AddDays(2).AddHours(9);
         public string PenanggungJawab { get; set; } = string.Empty;
         public ICollection<KunjunganUlang>? Kunjungan { get; set; }
         public Petugas? Petugas { get; set; }

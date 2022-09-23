@@ -53,19 +53,19 @@
                         <Label FontAttributes="Bold" Text="Jumlah GPA" VerticalOptions="CenterAndExpand" ></Label>
                         <StackLayout Margin="20,0,0,0">
                             <Grid Padding="5" >
-                                <Label Text="Jumlah Kehamilan" VerticalOptions="CenterAndExpand" ></Label>
+                                <Label Text="Gravida" VerticalOptions="CenterAndExpand" ></Label>
                                 <Frame Padding="10,0" Style="{StaticResource inputFrame}" VerticalOptions="CenterAndExpand" HorizontalOptions="EndAndExpand"   >
                                     <Entry Keyboard="Numeric" HeightRequest="35" WidthRequest="20" Text="{Binding Model.JumlahKehamilan}"/>
                                 </Frame>
                             </Grid>
                             <Grid  Padding="5" >
-                                <Label Text="Jumlah Kehamilan" VerticalOptions="CenterAndExpand" ></Label>
+                                <Label Text="Partus" VerticalOptions="CenterAndExpand" ></Label>
                                 <Frame Padding="10,0" Style="{StaticResource inputFrame}" VerticalOptions="CenterAndExpand" HorizontalOptions="EndAndExpand"   >
                                     <Entry Keyboard="Numeric" HeightRequest="35" WidthRequest="20" Text="{Binding Model.JumlahPersalinan}"/>
                                 </Frame>
                             </Grid>
                             <Grid Padding="5" >
-                                <Label Text="Jumlah Kehamilan" VerticalOptions="CenterAndExpand" ></Label>
+                                <Label Text="Abortus" VerticalOptions="CenterAndExpand" ></Label>
                                 <Frame Padding="10,0" Style="{StaticResource inputFrame}" VerticalOptions="CenterAndExpand" HorizontalOptions="EndAndExpand"   >
                                     <Entry Keyboard="Numeric" HeightRequest="35" WidthRequest="20" Text="{Binding Model.JumlahKeguguran}"/>
                                 </Frame>
