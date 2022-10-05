@@ -72,6 +72,8 @@ namespace MainWeb.Controllers
             try
             {
                 await _context.SaveChangesAsync();
+
+                return Ok(peserta);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -81,7 +83,7 @@ namespace MainWeb.Controllers
                 }
                 else
                 {
-                    throw;
+                    return BadRequest();
                 }
             }
 

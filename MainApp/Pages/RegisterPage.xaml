@@ -41,9 +41,16 @@
 
             <Label Text="Pekerjaan"></Label>
             <Frame Style="{StaticResource inputFrame}"  >
-                <Picker ItemsSource="{Binding DataPekerjaan}"  ItemDisplayBinding="{Binding Text}" 
+                <StackLayout>
+                    <Picker ItemsSource="{Binding DataPekerjaan}"  ItemDisplayBinding="{Binding Text}" 
                         SelectedItem="{Binding PekerjaanSelected, Mode=TwoWay}"></Picker>
+                   
+                </StackLayout>
             </Frame>
+            <Frame IsVisible="{Binding ShowPekerjaanLain}"  Style="{StaticResource inputFrame}"  >
+                    <Entry Text="{Binding Model.PekerjaanText}" />
+            </Frame>
+
 
             <Label Text="Tempat Lahir"></Label>
             <Frame Style="{StaticResource inputFrame}"  >
@@ -70,6 +77,9 @@
             <Frame Style="{StaticResource inputFrame}"  >
                 <Picker ItemsSource="{Binding DataPekerjaan}"  ItemDisplayBinding="{Binding Text}" 
                         SelectedItem="{Binding PekerjaanPasanganSelected, Mode=TwoWay}"></Picker>
+            </Frame>
+            <Frame IsVisible="{Binding ShowPekerjaanPasanganLain}"  Style="{StaticResource inputFrame}"  >
+                <Entry Text="{Binding Model.PekerjaanPasanganText}" />
             </Frame>
 
             <Label Text="Tahapan KS"></Label>

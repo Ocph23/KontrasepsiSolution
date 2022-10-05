@@ -141,6 +141,7 @@ public partial class RegisterPage : ContentPage
                 SetProperty(ref pekerjaanSelected, value);
                 if (value != null)
                     Model.Pekerjaan = value.Value;
+                OnPropertyChanged("ShowPekerjaanLain");
             }
         }
 
@@ -171,9 +172,13 @@ public partial class RegisterPage : ContentPage
         }
 
 
-        private EnumDisplay<Pekerjaan> pekerjaanPasanganSelected
-            ;
+        public bool ShowPekerjaanLain => Model.Pekerjaan== Pekerjaan.LainLain ?true:false;
+        public bool ShowPekerjaanPasanganLain => Model.PekerjaanPasangan== Pekerjaan.LainLain ?true:false;
+
+
+
         private EnumDisplay<JKN> jknSelected;
+        private EnumDisplay<Pekerjaan> pekerjaanPasanganSelected ;
 
         public EnumDisplay<Pekerjaan> PekerjaanPasanganSelected
         {
@@ -183,6 +188,8 @@ public partial class RegisterPage : ContentPage
                 SetProperty(ref pekerjaanPasanganSelected, value);
                 if (value != null)
                     Model.PekerjaanPasangan= value.Value;
+
+                OnPropertyChanged("ShowPekerjaanPasanganLain");
             }
         }
 

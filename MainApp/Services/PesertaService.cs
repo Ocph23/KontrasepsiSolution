@@ -35,5 +35,31 @@ namespace MainApp.Services
                 throw new SystemException(ex.Message);
             }
         }
+
+
+
+        internal async Task<Peserta> PuAsync(int id, Peserta model)
+        {
+            try
+            {
+                using var rest = new RestService();
+                var response = await rest.PutAsync($"/api/pesertas/{id}",rest.GenerateHttpContent(model) );
+                var stringData = await response.Content.ReadAsStringAsync();
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = JsonSerializer.Deserialize<Peserta>(stringData, Helper.JsonOptions);
+                    return result;
+                }
+                else
+                {
+                    throw await Helper.ErrorHandle(response);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw new SystemException(ex.Message);
+            }
+        }
     }
 }
