@@ -9,7 +9,20 @@
 
 <h3 style="margin-bottom:20px">Alat Kontrasepsi</h3>
 
+
+      <div style="display:flex; justify-content:space-between">
+        <div>
  <RadzenButton Style="margin-bottom:20px" Click=@(args => Add()) Icon="add_circle_outline" ButtonStyle="ButtonStyle.Primary" />
+        </div>
+        <div>
+            <RadzenTextBox @bind-Value="searchText" />
+            <RadzenButton Style="margin-bottom:20px" Click=@(args => SearchAction(searchText)) Icon="search" ButtonStyle="ButtonStyle.Info" />
+        </div>
+    </div>
+
+
+
+
  <RadzenDataGrid @ref="dg" AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced" 
  AllowSorting="true" PageSize="10" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" 
  ShowPagingSummary="true"
@@ -37,6 +50,13 @@
         datas = dbContext.AlatKontrasepsi;
         return base.OnInitializedAsync();
     }
+
+    string searchText;
+    async Task SearchAction(string text)
+    {
+        datas = dbContext.AlatKontrasepsi.Where(x => x.Nama.Contains(text) || x.Keterangan.Contains(text) );
+    }
+
 
 
     async Task Add()

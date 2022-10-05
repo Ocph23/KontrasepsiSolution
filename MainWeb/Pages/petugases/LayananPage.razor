@@ -13,7 +13,13 @@
 
 <div class="noprint">
     <h3 style="margin-bottom:20px">Data Pengajuan dan Pelayanan</h3>
-    <RadzenButton Style="margin-bottom:20px" Click=@(args => JS.InvokeVoidAsync("doprint")) Icon="printer" ButtonStyle="ButtonStyle.Info" />
+   <div style="display:flex; justify-content:space-between">
+        <RadzenButton Style="margin-bottom:20px" Click=@(args => JS.InvokeVoidAsync("doprint")) Icon="printer" ButtonStyle="ButtonStyle.Warning" />
+       <div>
+            <RadzenTextBox @bind-Value="searchText" />
+        <RadzenButton Style="margin-bottom:20px" Click=@(args => SearchAction(searchText)) Icon="search" ButtonStyle="ButtonStyle.Info" />
+       </div>
+   </div>
     <RadzenDataGrid @ref="dg" AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced"
                     AllowSorting="true" PageSize="10" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left"
                     ShowPagingSummary="true"
@@ -79,6 +85,7 @@
 
 
 @code {
+
     IEnumerable<Pelayanan> datas = new List<Pelayanan>();
     RadzenDataGrid<Pelayanan> dg;
     protected override Task OnInitializedAsync()
@@ -90,9 +97,14 @@
     }
 
 
-    async Task Add()
+    string searchText;
+    async Task SearchAction(string text)
     {
+        var result = from a in dbContext.Pelayanan.Include(x => x.AlatKontrasepsiPilihan)
+                     join b in dbContext.Peserta on a.PesertaId equals b.Id
+                     select new Pelayanan { Id = a.Id, NamaPeserta = b.Nama, AlamatPeserta = b.Alamat, AlatKontrasepsiPilihan = a.AlatKontrasepsiPilihan, Tanggal = a.Tanggal, TanggalDilayani = a.TanggalDilayani };
 
+        datas = result.Where(x =>  x.NamaPeserta.Contains(text) || x.AlamatPeserta.Contains(text) || x.AlatKontrasepsiPilihan.Nama.Contains(text));
     }
 
 

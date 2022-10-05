@@ -12,8 +12,18 @@
 
     <h3 style="margin-bottom:20px">Data Petugas</h3>
 
-    <RadzenButton Style="margin-bottom:20px" Click=@(args => Add()) Icon="add_circle_outline" ButtonStyle="ButtonStyle.Primary" />
-    <RadzenButton Style="margin-bottom:20px" Click=@(args => JS.InvokeVoidAsync("doprint")) Icon="printer" ButtonStyle="ButtonStyle.Info" />
+    <div style="display:flex; justify-content:space-between">
+        <div>
+            <RadzenButton Style="margin-bottom:20px" Click=@(args => Add()) Icon="add_circle_outline" ButtonStyle="ButtonStyle.Primary" />
+            <RadzenButton Style="margin-bottom:20px" Click=@(args => JS.InvokeVoidAsync("doprint")) Icon="printer" ButtonStyle="ButtonStyle.Info" />
+        </div>
+        <div>
+            <RadzenTextBox @bind-Value="searchText" />
+            <RadzenButton Style="margin-bottom:20px" Click=@(args => SearchAction(searchText)) Icon="search" ButtonStyle="ButtonStyle.Info" />
+        </div>
+    </div>
+
+
     <RadzenDataGrid @ref="dg" AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
                     Data="@datas" TItem="Petugas" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or">
         <Columns>
@@ -69,6 +79,13 @@
     {
         datas = dbContext.Petugas;
         return base.OnInitializedAsync();
+    }
+
+
+    string searchText;
+    async Task SearchAction(string text)
+    {
+        datas = dbContext.Petugas.Where(x => x.Nama.Contains(text) || x.Email.Contains(text) || x.Jabatan.Contains(text) || x.Alamat.Contains(text));
     }
 
 

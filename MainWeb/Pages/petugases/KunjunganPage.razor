@@ -12,6 +12,12 @@
 
 
 <h3 style="margin-bottom:20px">Kunjungan Akan Datang</h3>
+<div style="display:flex; justify-content:end">
+    <div>
+        <RadzenTextBox @bind-Value="searchText" />
+        <RadzenButton Style="margin-bottom:20px" Click=@(args => SearchAction(searchText)) Icon="search" ButtonStyle="ButtonStyle.Info" />
+    </div>
+</div>
 <RadzenDataGrid @ref="dg" AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced"
                 AllowSorting="true" PageSize="10" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left"
                 ShowPagingSummary="true"
@@ -62,6 +68,29 @@
         datas = result.Where(x=>x.TanggalKembali !=null).ToList();
         return base.OnInitializedAsync();
     }
+
+
+    string searchText;
+    async Task SearchAction(string text)
+    {
+        var result = (from a in dbContext.Pelayanan
+                        .Include(x => x.Kunjungan)
+                      join b in dbContext.Peserta on a.PesertaId equals b.Id
+                      select new Pelayanan
+                          {
+                              Id = a.Id,
+                              NamaPeserta = b.Nama,
+                              AlamatPeserta = b.Alamat,
+                              PesertaId = b.Id,
+                              TanggalKembali = a.Kunjungan == null ? a.TanggalKembali :
+                              a.Kunjungan.FirstOrDefault(x => !x.Datang) == null ? null :
+                              a.Kunjungan.FirstOrDefault(x => x.KonsultasiBerikut >= DateTime.UtcNow.AddDays(-1).AddHours(9) && !x.Datang).KonsultasiBerikut
+                          });
+
+
+        datas = result.Where(x => x.TanggalKembali != null && (x.NamaPeserta.Contains(text) || x.AlamatPeserta.Contains(text) ));
+    }
+
 
 
     async Task Add()
