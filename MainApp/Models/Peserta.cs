@@ -43,6 +43,14 @@ namespace MainApp.Models
         [ObservableProperty]
         private Pekerjaan pekerjaanPasangan ;
 
+
+        [ObservableProperty]
+        private string? pekerjaanText; 
+        
+        [ObservableProperty]
+        private string? pekerjaanPasanganText;
+
+
         [ObservableProperty]
         private string alamat ; 
         

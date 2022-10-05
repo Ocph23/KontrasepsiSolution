@@ -24,7 +24,7 @@
 
     <div>
         <div style="margin-top:20px"><h5>PROFILE PESERTA</h5> </div>
-        <RadzenButton  Style="margin-bottom:20px" Click=@(args => JS.InvokeVoidAsync("doprint")) Icon="printer" ButtonStyle="ButtonStyle.Info" />
+        <RadzenButton Style="margin-bottom:20px" Click=@(args => JS.InvokeVoidAsync("doprint")) Icon="printer" ButtonStyle="ButtonStyle.Info" />
     </div>
     <div class="row">
         <div class="col-md-6">
@@ -87,6 +87,10 @@
                         </div>
                         <div class="col-md-8">
                             <RadzenTextBox Disabled=true Value="@(peserta.Pekerjaan.ToStringText())" style="width: 100%;" />
+                            @if (peserta.Pekerjaan == Pekerjaan.LainLain)
+                            {
+                                <RadzenTextBox Disabled=true Value="@(peserta.PekerjaanText)" style="width: 100%;" />
+                            }
                         </div>
                     </div>
                     <div class="row">
@@ -95,6 +99,10 @@
                         </div>
                         <div class="col-md-8">
                             <RadzenTextBox Disabled=true Value="@(peserta.PekerjaanPasangan.ToStringText())" style="width: 100%;" />
+                            @if (peserta.PekerjaanPasangan == Pekerjaan.LainLain)
+                            {
+                                    <RadzenTextBox Disabled=true Value="@(peserta.PekerjaanPasanganText)" style="width: 100%;" />
+                            }
                         </div>
                     </div>
 
@@ -435,7 +443,7 @@
     </div>
 </div>
 
-<LayananDetailReport pelayanan="pelayanan" peserta="peserta"/>
+<LayananDetailReport pelayanan="pelayanan" peserta="peserta" />
 
 
 @code {

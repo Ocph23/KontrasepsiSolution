@@ -11,6 +11,8 @@
 
         public Pendidikan Pendidikan { get; set; }
         public Pekerjaan Pekerjaan{ get; set; }
+        public string? PekerjaanText{ get; set; }
+        public string? PekerjaanPasanganText { get; set; }
 
         public DateTime? TanggalLahir { get; set; } = DateTime.Now.AddYears(-17);
 
