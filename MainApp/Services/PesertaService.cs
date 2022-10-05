@@ -48,6 +48,7 @@ namespace MainApp.Services
                 if (response.IsSuccessStatusCode)
                 {
                     var result = JsonSerializer.Deserialize<Peserta>(stringData, Helper.JsonOptions);
+                    Preferences.Set("peserta", stringData);
                     return result;
                 }
                 else

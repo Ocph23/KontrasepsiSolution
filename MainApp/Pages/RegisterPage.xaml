@@ -93,7 +93,7 @@
                         SelectedItem="{Binding JKNSelected, Mode=TwoWay}"></Picker>
             </Frame>
 
-            <Label Text="Alamat S"></Label>
+            <Label Text="Alamat "></Label>
             <Frame Margin="0" Padding="10,2"  >
                 <Editor WidthRequest="270" HeightRequest="100" HorizontalOptions="StartAndExpand" Text="{Binding Model.Alamat}"></Editor>
             </Frame>

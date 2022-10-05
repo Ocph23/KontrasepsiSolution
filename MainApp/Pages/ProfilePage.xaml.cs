@@ -109,10 +109,16 @@ public partial class ProfilePageViewModel:ViewModelBase
 
 
     [RelayCommand]
-    Task Save()
+    async Task Save()
     {
-        PekerjaanPasanganIndex = (int)Model.PekerjaanPasangan;
-
-        return Task.CompletedTask;
+        try
+        {
+           var result = await Peserta.PuAsync(Model.Id, Model);
+           await Application.Current.MainPage.DisplayAlert("Success", "Tersimpan !", "OK");
+        }
+        catch (Exception ex)
+        {
+            await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
+        }
     }
 }
